@@ -1,0 +1,6 @@
+spring:
+  profiles:
+    active: oauth2, dev
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
