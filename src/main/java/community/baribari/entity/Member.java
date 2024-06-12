@@ -15,7 +15,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-public class Member implements UserDetails {
+public class Member {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,40 +33,4 @@ public class Member implements UserDetails {
         return this;
     }
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        Collection<GrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(new SimpleGrantedAuthority(role.name()));
-        return authorities;
-    }
-
-    @Override
-    public String getPassword() {
-        return password;
-    }
-
-    @Override
-    public String getUsername() {
-        return email;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }
 }

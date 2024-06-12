@@ -1,9 +1,11 @@
 package community.baribari.controller;
 
+import community.baribari.config.PrincipalDetail;
 import community.baribari.dto.sign.LoginDto;
 import community.baribari.dto.sign.SignUpDto;
 import community.baribari.service.SignService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,7 +20,13 @@ public class MainController {
 
 
     @GetMapping(value = {"/", ""})
-    public String main(){
+    public String main(Model model, Authentication authentication){
+        if (authentication != null) {
+            PrincipalDetail principalDetail = (PrincipalDetail) authentication.getPrincipal();
+            System.out.println(principalDetail);
+            model.addAttribute("auth", principalDetail);
+        }else
+            model.addAttribute("auth", null);
         return "home";
     }
 
@@ -27,11 +35,6 @@ public class MainController {
         model.addAttribute("login", new LoginDto());
         return "sign/login";
     }
-
-//    @PostMapping("/login.do")
-//    public String login(@ModelAttribute LoginDto login, Model model){
-//        return "redirect:/";
-//    }
 
     @GetMapping("/signup")
     public String signup(Model model){
