@@ -1,4 +1,4 @@
-package community.baribari.config;
+package community.baribari.config.oauth2;
 
 import community.baribari.entity.Member;
 import community.baribari.repository.MemberRepository;

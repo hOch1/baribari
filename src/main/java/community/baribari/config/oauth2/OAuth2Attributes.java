@@ -1,11 +1,10 @@
-package community.baribari.config;
+package community.baribari.config.oauth2;
 
 import community.baribari.entity.Member;
 import community.baribari.entity.Role;
 import lombok.Builder;
 import lombok.Getter;
 
-import java.util.HashMap;
 import java.util.Map;
 
 @Builder
@@ -20,10 +19,8 @@ public class OAuth2Attributes {
     public static OAuth2Attributes of(String registrationId, String userNameAttributeName, Map<String, Object> attributes) {
         if (registrationId.equals("naver"))
             return ofNaver("id", attributes);
-        else if (registrationId.equals("kakao"))
-            return ofKakao("id", attributes);
-        else
-            return ofGoogle(userNameAttributeName, attributes);
+
+        return ofKakao("id", attributes);
     }
 
     private static OAuth2Attributes ofNaver(String userNameAttributeName, Map<String, Object> attributes) {
@@ -40,21 +37,13 @@ public class OAuth2Attributes {
     private static OAuth2Attributes ofKakao(String userNameAttributeName, Map<String, Object> attributes) {
         Map<String, Object> account = (Map<String, Object>) attributes.get("kakao_account");
         Map<String, Object> profile = (Map<String, Object>) account.get("profile");
+        System.out.println(attributes);
 
         return OAuth2Attributes.builder()
                 .name((String) profile.get("nickname"))
                 .email((String) account.get("email"))
                 .attributes(account)
-                .nameAttributeKey(userNameAttributeName)
-                .build();
-    }
-
-    private static OAuth2Attributes ofGoogle(String userNameAttributeName, Map<String, Object> attributes) {
-        return OAuth2Attributes.builder()
-                .name((String) attributes.get("name"))
-                .email((String) attributes.get("email"))
-                .attributes(attributes)
-                .nameAttributeKey(userNameAttributeName)
+                .nameAttributeKey((String) attributes.get("id"))
                 .build();
     }
 
