@@ -1,27 +1,38 @@
 <nav class="navbar navbar-expand-lg bg-body-tertiary" th:fragment="top_nav">
-    <div class="container-fluid" style="margin: 0 200px;">
-        <a class="navbar-brand" href="#">바리바리</a>
+    <div class="container ps-2 pe-2">
+        <a class="navbar-brand" href="/">바리바리</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarText">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="/">Home</a>
+                    <a class="nav-link" href="#">공지사항</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Features</a>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="communityDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        커뮤니티
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="communityDropdown">
+                        <li><a class="dropdown-item" href="#">자유 게시판</a></li>
+                        <li><a class="dropdown-item" href="#">질문 게시판</a></li>
+                    </ul>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Pricing</a>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="bariDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        바리
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="bariDropdown">
+                        <li><a class="dropdown-item" href="/bari/recruit">바리 모집</a></li>
+                        <li><a class="dropdown-item" href="/bari/review">바리 후기</a></li>
+                    </ul>
                 </li>
             </ul>
-            <span class="navbar-text" th:if="${#authentication.getName().equals('anonymousUser')}">
-                <a href="/login">로그인</a>
+            <span class="navbar-text" sec:authorize="isAnonymous()">
+                <a class="nav-link" href="/login">로그인</a>
             </span>
-            <span class="navbar-text" th:if="${!#authentication.getName().equals('anonymousUser')}">
-                <i class="bi bi-person-circle" style="font-size: 2rem;"></i>
-                <p th:text="${#authentication.getName()}"></p>
+            <span class="navbar-text" sec:authorize="isAuthenticated()">
+                <a class="nav-link" href="/logout">로그아웃</a>
             </span>
         </div>
     </div>
