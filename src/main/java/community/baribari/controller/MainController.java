@@ -20,8 +20,7 @@ public class MainController {
 
 
     @GetMapping(value = {"/", ""})
-    public String main(@AuthenticationPrincipal PrincipalDetail principalDetail){
-        System.out.println(principalDetail);
+    public String main(){
         return "home";
     }
 
