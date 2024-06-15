@@ -23,11 +23,14 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
 
-    - name: set up application.yml
-      run: echo "${{ secrets.APPLICATION }}" > src/main/resources/application.yml
+    - name: set up application-dev.yml
+      run: echo "${{ secrets.APPLICATION_DEV }}" > src/main/resources/application-dev.yml
+
+    - name: set up application-oauth2.yml
+      run: echo "${{ secrets.APPLICATION_OAUTH2 }}" > src/main/resources/application-oauth2.yml
 
     - name: build gradle
-      run: ./gradlew build -x test
+      run: ./gradlew clean build
       
     - name: login docker
       run: echo "${{ secrets.DOCKER_HUB_TOKEN }}" | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
