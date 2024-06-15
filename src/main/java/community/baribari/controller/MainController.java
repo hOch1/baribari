@@ -20,13 +20,7 @@ public class MainController {
 
 
     @GetMapping(value = {"/", ""})
-    public String main(Model model, Authentication authentication){
-        if (authentication != null) {
-            PrincipalDetail principalDetail = (PrincipalDetail) authentication.getPrincipal();
-            System.out.println(principalDetail);
-            model.addAttribute("auth", principalDetail);
-        }else
-            model.addAttribute("auth", null);
+    public String main(){
         return "home";
     }
 
