@@ -4,6 +4,7 @@ import community.baribari.config.PrincipalDetail;
 import community.baribari.entity.Member;
 import community.baribari.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
 
     private final MemberRepository memberRepository;
@@ -30,13 +32,17 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 
         Member member = saveOrUpdate(attributes);
 
+        log.info("{}님이 로그인 하였습니다. ID : {}",member.getName(), member.getId());
         return new PrincipalDetail(member, attributes.getAttributes());
     }
 
     private Member saveOrUpdate(OAuth2Attributes attributes) {
         Member member = memberRepository.findByEmail(attributes.getEmail())
                 .map(entity -> entity.update(attributes.getName()))
-                .orElse(attributes.toEntity());
+                .orElseGet( () -> {
+                    log.info("{} 님이 회원가입 했습니다.", attributes.getName());
+                    return attributes.toEntity();
+                });
 
         return memberRepository.save(member);
     }

@@ -15,6 +15,7 @@ public class Member {
     private Long id;
 
     private String name;
+    private String nickname;
     private String email;
     private String password;
 
@@ -25,4 +26,10 @@ public class Member {
         this.name = name;
         return this;
     }
+
+    public Member updateNickname(String nickname){
+        this.nickname = nickname;
+        return this;
+    }
+
 }

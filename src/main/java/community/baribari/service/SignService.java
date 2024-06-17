@@ -1,5 +1,6 @@
 package community.baribari.service;
 
+import community.baribari.config.PrincipalDetail;
 import community.baribari.dto.sign.SignUpDto;
 import community.baribari.entity.Member;
 import community.baribari.repository.MemberRepository;
@@ -24,5 +25,16 @@ public class SignService {
         Member singUpMember = memberRepository.save(member);
 
         log.info("{}님이 회원가입 했습니다", singUpMember.getName());
+    }
+
+    @Transactional
+    public void setNickname(String nickname, PrincipalDetail principalDetail) {
+        if (memberRepository.existsByNickname(nickname))
+            throw new IllegalArgumentException("닉네임이 중복 됩니다.");
+
+
+        Member member = principalDetail.getMember().updateNickname(nickname);
+        memberRepository.save(member);
+        log.info("{}님이 닉네임을 {}으로 설정했습니다.", member.getName(), nickname);
     }
 }
