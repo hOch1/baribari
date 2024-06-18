@@ -13,5 +13,10 @@ public class MainController {
         return "home";
     }
 
+    @GetMapping("/write")
+    public String write(){
+        return "board/write";
+    }
+
 
 }
