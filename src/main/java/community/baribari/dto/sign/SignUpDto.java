@@ -1,7 +1,7 @@
 package community.baribari.dto.sign;
 
-import community.baribari.entity.Member;
-import community.baribari.entity.Role;
+import community.baribari.entity.member.Member;
+import community.baribari.entity.member.Role;
 import lombok.Data;
 import org.springframework.security.crypto.password.PasswordEncoder;
 

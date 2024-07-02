@@ -15,7 +15,7 @@ public class MainController {
 
     @GetMapping("/write")
     public String write(){
-        return "board/write";
+        return "board-free-write";
     }
 
 

@@ -2,7 +2,7 @@ package community.baribari.service;
 
 import community.baribari.config.PrincipalDetail;
 import community.baribari.dto.sign.SignUpDto;
-import community.baribari.entity.Member;
+import community.baribari.entity.member.Member;
 import community.baribari.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

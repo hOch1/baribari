@@ -24,14 +24,14 @@
         <div th:replace="~{layout/sidebar :: sidebar}"></div>
         <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
             <div class="pt-3">
-                <form action="/bari/write.do" method="post">
+                <form action="/board-free/write.do" method="post" th:object="${write}">
                     <div class="form-group mb-3">
                         <label for="title">Title</label>
-                        <input type="text" class="form-control" placeholder="Enter title" id="title" name="title">
+                        <input type="text" class="form-control" placeholder="Enter title" id="title" th:field="*{title}">
                     </div>
                     <div class="form-group mb-3">
                         <label for="summernote">Content</label>
-                        <textarea class="form-control" id="summernote" name="content"></textarea>
+                        <textarea class="form-control" id="summernote" th:field="*{content}"></textarea>
                     </div>
                     <button type="submit" id="btn-save" class="btn btn-primary">글쓰기완료</button>
                 </form>

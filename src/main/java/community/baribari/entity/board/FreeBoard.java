@@ -1,7 +1,7 @@
-package community.baribari.entity.bari;
+package community.baribari.entity.board;
 
 import community.baribari.config.PrincipalDetail;
-import community.baribari.dto.bari.BariRecruitDto;
+import community.baribari.dto.board.FreeBoardDto;
 import community.baribari.entity.member.Member;
 import jakarta.persistence.*;
 import lombok.*;
@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
-public class BariRecruit {
+public class FreeBoard {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,20 +37,16 @@ public class BariRecruit {
     @ManyToOne(fetch = FetchType.LAZY)
     private Member member;
 
-    @Enumerated(EnumType.STRING)
-    @Builder.Default
-    private BariStatus status = BariStatus.RECRUITING;
-
-    public BariRecruit updateViewCount() {
-        this.viewCount++;
-        return this;
-    }
-
-    public static BariRecruit toEntity(BariRecruitDto bariRecruitDto, PrincipalDetail principalDetail){
-        return BariRecruit.builder()
-                .title(bariRecruitDto.getTitle())
-                .content(bariRecruitDto.getContent())
+    public static FreeBoard toEntity(FreeBoardDto freeBoardDto, PrincipalDetail principalDetail) {
+        return FreeBoard.builder()
+                .title(freeBoardDto.getTitle())
+                .content(freeBoardDto.getContent())
                 .member(principalDetail.getMember())
                 .build();
+    }
+
+    public FreeBoard updateViewCount() {
+        this.viewCount++;
+        return this;
     }
 }

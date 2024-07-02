@@ -1,7 +1,7 @@
 package community.baribari.config.oauth2;
 
 import community.baribari.config.PrincipalDetail;
-import community.baribari.entity.Member;
+import community.baribari.entity.member.Member;
 import community.baribari.repository.MemberRepository;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

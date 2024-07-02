@@ -1,4 +1,4 @@
-package community.baribari.entity;
+package community.baribari.entity.member;
 
 import jakarta.persistence.*;
 import lombok.*;

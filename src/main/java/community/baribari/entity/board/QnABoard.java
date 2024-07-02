@@ -1,19 +1,22 @@
-package community.baribari.entity.bari;
+package community.baribari.entity.board;
 
 import community.baribari.config.PrincipalDetail;
-import community.baribari.dto.bari.BariRecruitDto;
+import community.baribari.dto.bari.BariReviewDto;
+import community.baribari.dto.board.QnABoardDto;
+import community.baribari.entity.bari.BariReview;
 import community.baribari.entity.member.Member;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
-public class BariRecruit {
+public class QnABoard {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,19 +40,18 @@ public class BariRecruit {
     @ManyToOne(fetch = FetchType.LAZY)
     private Member member;
 
-    @Enumerated(EnumType.STRING)
-    @Builder.Default
-    private BariStatus status = BariStatus.RECRUITING;
+    @OneToMany(mappedBy = "qnaBoard")
+    private List<Answer> answers;
 
-    public BariRecruit updateViewCount() {
+    public QnABoard updateViewCount() {
         this.viewCount++;
         return this;
     }
 
-    public static BariRecruit toEntity(BariRecruitDto bariRecruitDto, PrincipalDetail principalDetail){
-        return BariRecruit.builder()
-                .title(bariRecruitDto.getTitle())
-                .content(bariRecruitDto.getContent())
+    public static QnABoard toEntity(QnABoardDto qnABoardDto, PrincipalDetail principalDetail){
+        return QnABoard.builder()
+                .title(qnABoardDto.getTitle())
+                .content(qnABoardDto.getContent())
                 .member(principalDetail.getMember())
                 .build();
     }

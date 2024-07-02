@@ -1,7 +1,7 @@
 package community.baribari.config.oauth2;
 
-import community.baribari.entity.Member;
-import community.baribari.entity.Role;
+import community.baribari.entity.member.Member;
+import community.baribari.entity.member.Role;
 import lombok.Builder;
 import lombok.Getter;
 

@@ -10,6 +10,49 @@
 <body>
 <div th:replace="~{layout/nav :: nav}"></div>
 
+<div class="container-fluid">
+    <div class="row">
+        <div th:replace="~{layout/sidebar :: sidebar}"></div>
+        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+            <div class="pt-3">
+                <h1 class="mb-4">게시판</h1>
+                <div class="card">
+                    <div class="card-header">
+                        <a href="/bari-recruit/write" class="btn btn-primary">새 글 작성</a>
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-hover">
+                            <thead>
+                            <tr>
+                                <th scope="col">번호</th>
+                                <th scope="col">제목</th>
+                                <th scope="col">작성자</th>
+                                <th scope="col">작성일</th>
+                                <th scope="col">추천수</th>
+                                <th scope="col">조회수</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="bariRecruit : ${bariRecruits}">
+                                <th scope="row">1</th>
+                                <td>
+                                    <a th:href="@{/bari-recruit/detail/{id}(id=${bariRecruit.id})}" th:text="${bariRecruit.title}"></a>
+                                </td>
+                                <td th:text="${bariRecruit.writer}"></td>
+                                <td th:text="${bariRecruit.createdAt}"></td>
+                                <td th:text="${bariRecruit.starCount}"></td>
+                                <td th:text="${bariRecruit.viewCount}"></td>
+                            </tr>
+                            <!-- 반복되는 게시글 항목 -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+</div>
 <div th:replace="~{layout/footer :: footer}"></div>
 </body>
 </html>

@@ -1,0 +1,54 @@
+package community.baribari.service.board;
+
+import community.baribari.config.PrincipalDetail;
+import community.baribari.dto.board.FreeBoardDto;
+import community.baribari.dto.board.QnABoardDto;
+import community.baribari.entity.board.QnABoard;
+import community.baribari.repository.QnABoardRepository;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
+
+
+@RequiredArgsConstructor
+@Service
+@Slf4j
+@Transactional(readOnly = true)
+public class QnABoardService {
+
+    private final QnABoardRepository qnABoardRepository;
+
+
+    @Transactional
+    public void save(QnABoardDto qnABoardDto, PrincipalDetail principalDetail){
+        QnABoard qnABoard = QnABoard.toEntity(qnABoardDto, principalDetail);
+        QnABoard save = qnABoardRepository.save(qnABoard);
+
+        log.info("{}님이 자유게시물을 등록했습니다. ID : {}", principalDetail.getMember().getNickname(), save.getId());
+    }
+
+    public List<QnABoardDto> list(){
+        List<QnABoard> qnABoards = qnABoardRepository.findAll();
+        List<QnABoardDto> dtos = new ArrayList<>();
+
+        for (QnABoard qnABoard : qnABoards)
+            dtos.add(QnABoardDto.toDto(qnABoard));
+
+        return dtos;
+    }
+
+    public QnABoardDto detail(Long id) {
+        QnABoard qnABoard = qnABoardRepository.findById(id).orElse(null);
+        return QnABoardDto.toDto(qnABoard);
+    }
+
+    @Transactional
+    public void viewCountUp(Long id) {
+        QnABoard qnABoard = qnABoardRepository.findById(id).orElse(null);
+        qnABoardRepository.save(qnABoard.updateViewCount());
+    }
+}

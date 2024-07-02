@@ -1,6 +1,6 @@
 package community.baribari.config;
 
-import community.baribari.entity.Member;
+import community.baribari.entity.member.Member;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
