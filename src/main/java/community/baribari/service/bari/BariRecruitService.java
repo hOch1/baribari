@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional(readOnly = true)
@@ -34,6 +35,12 @@ public class BariRecruitService {
         Page<BariRecruit> recruits = bariRecruitRepository.findAllByOrderByCreatedAtDesc(pageable);
 
         return recruits.map(BariRecruitDto::toDto);
+    }
+
+    public List<BariRecruitDto> mainList(){
+        List<BariRecruit> recruits = bariRecruitRepository.findTop3ByOrderByCreatedAtDesc();
+
+        return recruits.stream().map(BariRecruitDto::toDto).toList();
     }
 
     public BariRecruitDto detail(Long id){

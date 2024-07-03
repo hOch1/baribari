@@ -14,6 +14,7 @@
             integrity="sha256-y2bkXLA0VKwUx5hwbBKnaboRThcu7YOFyuYarJbCnoQ=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.20/dist/summernote-lite.min.js"
             integrity="sha256-5slxYrL5Ct3mhMAp/dgnb5JSnTYMtkr4dHby34N10qw=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
 <div th:replace="~{layout/nav :: nav}"></div>
@@ -25,6 +26,16 @@
         <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
             <div class="pt-3">
                 <form action="/bari-recruit/write.do" method="post" th:object="${write}">
+                    <div class="form-group mb-3">
+                        <label for="region">지역</label>
+                        <select class="form-control" id="region" th:field="*{region}">
+                            <option value="">지역 선택</option>
+                            <option th:each="region : ${T(community.baribari.entity.bari.BariRegion).values()}"
+                                    th:value="${region.getName()}"
+                                    th:text="${region.getName()}">지역 선택</option>
+                        </select>
+                    </div>
+
                     <div class="form-group mb-3">
                         <label for="title">제목</label>
                         <input type="text" class="form-control" placeholder="Enter title" id="title" th:field="*{title}">

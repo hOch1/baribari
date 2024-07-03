@@ -36,6 +36,12 @@ public class FreeBoardService {
         return freeBoards.map(FreeBoardDto::toDto);
     }
 
+    public List<FreeBoardDto> mainList(){
+        List<FreeBoard> freeBoards = freeBoardRepository.findTop3ByOrderByCreatedAtDesc();
+
+        return freeBoards.stream().map(FreeBoardDto::toDto).toList();
+    }
+
     public FreeBoardDto detail(Long id) {
         FreeBoard freeBoard = freeBoardRepository.findById(id).orElse(null);
         return FreeBoardDto.toDto(freeBoard);

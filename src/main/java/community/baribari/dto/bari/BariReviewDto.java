@@ -1,7 +1,9 @@
 package community.baribari.dto.bari;
 
 import community.baribari.entity.bari.BariRecruit;
+import community.baribari.entity.bari.BariRegion;
 import community.baribari.entity.bari.BariReview;
+import community.baribari.entity.bari.BariStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

@@ -39,6 +39,12 @@ public class QnABoardService {
         return qnABoards.map(QnABoardDto::toDto);
     }
 
+    public List<QnABoardDto> mainList(){
+        List<QnABoard> qnABoards = qnABoardRepository.findTop3ByOrderByCreatedAtDesc();
+
+        return qnABoards.stream().map(QnABoardDto::toDto).toList();
+    }
+
     public QnABoardDto detail(Long id) {
         QnABoard qnABoard = qnABoardRepository.findById(id).orElse(null);
         return QnABoardDto.toDto(qnABoard);

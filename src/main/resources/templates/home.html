@@ -6,17 +6,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <style>
-        main {
-            min-height: 80vh;
-        }
-        .sidebar {
-            height: 100vh;
-        }
-        footer {
-            margin-top: 20px;
-        }
-    </style>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body class="d-flex flex-column min-vh-100">
 <!-- Top Navigation -->
@@ -58,11 +48,11 @@
                             </div>
                             <ul class="list-group list-group-flush">
                                 <li class="list-group-item" th:each="freeBoard : ${freeBoards}">
-                                    <a th:href="@{/free-board/detail/{id}(id=${freeBoard.id})}" class="nav-link">자유게시판 1</a>
+                                    <a th:href="@{/free-board/detail/{id}(id=${freeBoard.id})}" th:text="${freeBoard.title}" class="nav-link">자유게시판 1</a>
                                 </li>
                             </ul>
                             <div class="card-footer text-center">
-                                <a href="/board-free" class="text-decoration-none nav-link">더보기</a>
+                                <a href="/free-board" class="text-decoration-none nav-link">더보기</a>
                             </div>
                         </div>
                     </div>
@@ -78,11 +68,11 @@
                             </div>
                             <ul class="list-group list-group-flush">
                                 <li class="list-group-item" th:each="qnaBoard : ${qnaBoards}">
-                                    <a th:href="@{/qna-board/detila/{id}(id=${qnaBoard.id})}" class="nav-link">질문게시판 1</a>
+                                    <a th:href="@{/qna-board/detila/{id}(id=${qnaBoard.id})}" th:text="${qnaBoard.title}" class="nav-link">질문게시판 1</a>
                                 </li>
                             </ul>
                             <div class="card-footer text-center">
-                                <a href="/board-qna" class="text-decoration-none nav-link">더보기</a>
+                                <a href="/qna-board" class="text-decoration-none nav-link">더보기</a>
                             </div>
                         </div>
                     </div>
@@ -95,7 +85,7 @@
                             </div>
                             <ul class="list-group list-group-flush">
                                 <li class="list-group-item" th:each="bariRecruit : ${bariRecruits}">
-                                    <a th:href="@{/bari-recruit/detail/{id}(id=${bariRecurit.id})}" class="nav-link">바리 모집 1</a>
+                                    <a th:href="@{/bari-recruit/detail/{id}(id=${bariRecruit.id})}" th:text="${bariRecruit.title}" class="nav-link">바리 모집 1</a>
                                 </li>
                             </ul>
                             <div class="card-footer text-center">
@@ -112,7 +102,7 @@
                             </div>
                             <ul class="list-group list-group-flush">
                                 <li class="list-group-item" th:each="bariReview : ${bariReviews}">
-                                    <a th:href="@{/bari-review/detail/{id}(id=${bariReview.id})}" th:text="${review.title}" class="nav-link"></a>
+                                    <a th:href="@{/bari-review/detail/{id}(id=${bariReview.id})}" th:text="${bariReview.title}" class="nav-link"></a>
                                 </li>
                             </ul>
                             <div class="card-footer text-center">

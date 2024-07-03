@@ -41,16 +41,23 @@ public class BariRecruit {
     @Builder.Default
     private BariStatus status = BariStatus.RECRUITING;
 
+    @Enumerated(EnumType.STRING)
+    private BariRegion region;
+
     public BariRecruit updateViewCount() {
         this.viewCount++;
         return this;
     }
 
     public static BariRecruit toEntity(BariRecruitDto bariRecruitDto, PrincipalDetail principalDetail){
+        BariRegion region = BariRegion.fromDisplayName(bariRecruitDto.getRegion());
+        bariRecruitDto.setTitle("["+region.getName()+"] "+bariRecruitDto.getTitle());
+
         return BariRecruit.builder()
                 .title(bariRecruitDto.getTitle())
                 .content(bariRecruitDto.getContent())
                 .member(principalDetail.getMember())
+                .region(region)
                 .build();
     }
 }

@@ -1,20 +1,10 @@
-.nav-custom {
-    margin-left: 30px;
-    margin-right: 30px;
-}
 
-/* 네비게이션 바의 높이를 조절 */
-.navbar {
-    height: 120px; /* 원하는 높이로 값 조절 */
+main {
+    min-height: 80vh;
 }
-
-/* 네비게이션 바 내부 요소들의 높이도 조절 */
-.navbar-brand, .nav-link, .navbar-text {
-    line-height: 120px; /* 네비게이션 바의 높이와 일치시킴 */
+.sidebar {
+    height: 100vh;
 }
-
-/* 드롭다운 메뉴의 위치 조정 */
-.nav-item.dropdown .dropdown-menu {
-    top: 120px; /* 네비게이션 바의 높이에 맞춰 값 조절 */
+footer {
+    margin-top: 20px;
 }
-

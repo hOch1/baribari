@@ -11,6 +11,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 
 @Service
 @RequiredArgsConstructor
@@ -32,6 +34,12 @@ public class BariReviewService {
         Page<BariReview> reviews = bariReviewRepository.findAllByOrderByCreatedAtDesc(pageable);
 
         return reviews.map(BariReviewDto::toDto);
+    }
+
+    public List<BariReviewDto> mainList(){
+        List<BariReview> reviews = bariReviewRepository.findTop3ByOrderByCreatedAtDesc();
+
+        return reviews.stream().map(BariReviewDto::toDto).toList();
     }
 
     public BariReviewDto detail(Long id){
