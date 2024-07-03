@@ -7,6 +7,8 @@ import community.baribari.entity.board.QnABoard;
 import community.baribari.repository.QnABoardRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,14 +33,10 @@ public class QnABoardService {
         log.info("{}님이 자유게시물을 등록했습니다. ID : {}", principalDetail.getMember().getNickname(), save.getId());
     }
 
-    public List<QnABoardDto> list(){
-        List<QnABoard> qnABoards = qnABoardRepository.findAll();
-        List<QnABoardDto> dtos = new ArrayList<>();
+    public Page<QnABoardDto> list(Pageable pageable){
+        Page<QnABoard> qnABoards = qnABoardRepository.findAllByOrderByCreatedAtDesc(pageable);
 
-        for (QnABoard qnABoard : qnABoards)
-            dtos.add(QnABoardDto.toDto(qnABoard));
-
-        return dtos;
+        return qnABoards.map(QnABoardDto::toDto);
     }
 
     public QnABoardDto detail(Long id) {

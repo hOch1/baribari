@@ -6,6 +6,8 @@ import community.baribari.entity.board.FreeBoard;
 import community.baribari.repository.FreeBoardRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,14 +30,10 @@ public class FreeBoardService {
         log.info("{}님이 자유게시물을 등록했습니다. ID : {}", principalDetail.getMember().getNickname(), save.getId());
     }
 
-    public List<FreeBoardDto> list(){
-        List<FreeBoard> freeBoards = freeBoardRepository.findAll();
-        List<FreeBoardDto> dtos = new ArrayList<>();
+    public Page<FreeBoardDto> list(Pageable pageable){
+        Page<FreeBoard> freeBoards = freeBoardRepository.findAllByOrderByCreatedAtDesc(pageable);
 
-        for (FreeBoard freeBoard : freeBoards)
-            dtos.add(FreeBoardDto.toDto(freeBoard));
-
-        return dtos;
+        return freeBoards.map(FreeBoardDto::toDto);
     }
 
     public FreeBoardDto detail(Long id) {

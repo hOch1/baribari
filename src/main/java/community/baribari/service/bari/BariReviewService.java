@@ -1,17 +1,16 @@
 package community.baribari.service.bari;
 
 import community.baribari.config.PrincipalDetail;
-import community.baribari.dto.bari.BariRecruitDto;
 import community.baribari.dto.bari.BariReviewDto;
 import community.baribari.entity.bari.BariReview;
 import community.baribari.repository.BariReviewRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -29,14 +28,10 @@ public class BariReviewService {
         log.info("{}님이 바리 후기를 등록했습니다. ID : {}", principalDetail.getMember().getNickname(), save.getId());
     }
 
-    public List<BariReviewDto> list(){
-        List<BariReview> reviews = bariReviewRepository.findAll();
-        List<BariReviewDto> dtos = new ArrayList<>();
+    public Page<BariReviewDto> list(Pageable pageable){
+        Page<BariReview> reviews = bariReviewRepository.findAllByOrderByCreatedAtDesc(pageable);
 
-        for (BariReview review : reviews)
-            dtos.add(BariReviewDto.toDto(review));
-
-        return dtos;
+        return reviews.map(BariReviewDto::toDto);
     }
 
     public BariReviewDto detail(Long id){

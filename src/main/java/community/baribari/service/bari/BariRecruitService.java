@@ -6,6 +6,8 @@ import community.baribari.entity.bari.BariRecruit;
 import community.baribari.repository.BariRecruitRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,14 +30,10 @@ public class BariRecruitService {
         log.info("{}님이 바리 모집을 등록했습니다. ID : {}", principalDetail.getMember().getNickname(), save.getId());
     }
 
-    public List<BariRecruitDto> list(){
-        List<BariRecruit> recruits = bariRecruitRepository.findAll();
-        List<BariRecruitDto> dtos = new ArrayList<>();
+    public Page<BariRecruitDto> list(Pageable pageable){
+        Page<BariRecruit> recruits = bariRecruitRepository.findAllByOrderByCreatedAtDesc(pageable);
 
-        for (BariRecruit recruit : recruits)
-            dtos.add(BariRecruitDto.toDto(recruit));
-
-        return dtos;
+        return recruits.map(BariRecruitDto::toDto);
     }
 
     public BariRecruitDto detail(Long id){

@@ -33,19 +33,36 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr th:each="bariRecruit : ${bariRecruits}">
-                                <th scope="row">1</th>
+                            <tr th:each="bariRecruit, iterStat : ${bariRecruits}">
+                                <th scope="row" th:text="${totalElements - (currentPage ?: 0) * 10 - iterStat.index}"></th>
                                 <td>
                                     <a th:href="@{/bari-recruit/detail/{id}(id=${bariRecruit.id})}" th:text="${bariRecruit.title}"></a>
                                 </td>
                                 <td th:text="${bariRecruit.writer}"></td>
-                                <td th:text="${bariRecruit.createdAt}"></td>
+                                <td th:text="${#temporals.format(bariRecruit.createdAt, 'yyyy-MM-dd HH:mm')}"></td>
                                 <td th:text="${bariRecruit.starCount}"></td>
                                 <td th:text="${bariRecruit.viewCount}"></td>
                             </tr>
                             <!-- 반복되는 게시글 항목 -->
                             </tbody>
                         </table>
+                        <nav aria-label="Page navigation">
+                            <ul class="pagination">
+                                <li class="page-item" th:classappend="${currentPage == 0} ? 'disabled'">
+                                    <a class="page-link" th:href="@{/bari-recruit(page=${currentPage - 1}, size=${boardPage != null ? boardPage.size : 10})}" aria-label="Previous">
+                                        <span aria-hidden="true">&laquo;</span>
+                                    </a>
+                                </li>
+                                <li class="page-item" th:each="i : ${#numbers.sequence(0, totalPages - 1)}" th:classappend="${i == currentPage} ? 'active'">
+                                    <a class="page-link" th:href="@{/bari-recruit(page=${i}, size=${boardPage != null ? boardPage.size : 10})}" th:text="${i + 1}">1</a>
+                                </li>
+                                <li class="page-item" th:classappend="${currentPage == totalPages - 1} ? 'disabled'">
+                                    <a class="page-link" th:href="@{/bari-recruit(page=${currentPage + 1}, size=${boardPage != null ? boardPage.size : 10})}" aria-label="Next">
+                                        <span aria-hidden="true">&raquo;</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
                     </div>
                 </div>
             </div>

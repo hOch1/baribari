@@ -4,12 +4,12 @@ import community.baribari.config.PrincipalDetail;
 import community.baribari.dto.board.FreeBoardDto;
 import community.baribari.service.board.FreeBoardService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequiredArgsConstructor
@@ -19,8 +19,15 @@ public class FreeBoardController {
     private final FreeBoardService freeBoardService;
 
     @GetMapping(value = {"", "/"})
-    public String index(Model model){
-        model.addAttribute("freeBoards", freeBoardService.list());
+    public String index(Model model,
+                        @RequestParam(defaultValue = "0") int page){
+
+        Page<FreeBoardDto> list = freeBoardService.list(PageRequest.of(page, 10));
+
+        model.addAttribute("freeBoards", list);
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", list.getTotalPages());
+        model.addAttribute("totalElements", list.getTotalElements());
         return "board/free-board";
     }
 
@@ -31,7 +38,8 @@ public class FreeBoardController {
     }
 
     @PostMapping("/write.do")
-    public String write(FreeBoardDto freeBoardDto, PrincipalDetail principalDetail){
+    public String write(FreeBoardDto freeBoardDto,
+                        @AuthenticationPrincipal PrincipalDetail principalDetail){
         freeBoardService.save(freeBoardDto, principalDetail);
         return "redirect:/free-board";
     }

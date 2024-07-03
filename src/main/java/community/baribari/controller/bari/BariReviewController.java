@@ -1,10 +1,11 @@
 package community.baribari.controller.bari;
 
 import community.baribari.config.PrincipalDetail;
-import community.baribari.dto.bari.BariRecruitDto;
 import community.baribari.dto.bari.BariReviewDto;
 import community.baribari.service.bari.BariReviewService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,8 +19,15 @@ public class BariReviewController {
     private final BariReviewService bariReviewService;
 
     @GetMapping(value = {"", "/"})
-    public String index(Model model) {
-        model.addAttribute("bariReviews", bariReviewService.list());
+    public String index(Model model,
+                        @RequestParam(defaultValue = "0") int page) {
+
+        Page<BariReviewDto> list = bariReviewService.list(PageRequest.of(page, 10));
+
+        model.addAttribute("bariReviews", list);
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", list.getTotalPages());
+        model.addAttribute("totalElements", list.getTotalElements());
         return "bari/bari-review";
     }
 

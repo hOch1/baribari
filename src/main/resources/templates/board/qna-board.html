@@ -33,16 +33,33 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr th:each="qnaBoard : ${qnaBoards}">
-                                <th scope="row">1</th>
+                            <tr th:each="qnaBoard, iterStat : ${qnaBoards}">
+                                <th scope="row" th:text="${totalElements - (currentPage ?: 0) * 10 - iterStat.index}"></th>
                                 <td><a th:href="@{/qna-board/detail/{id}(id=${qnaBoard.id})}" th:text="${qnaBoard.title}"></a></td>
                                 <td th:text="${qnaBoard.writer}"></td>
-                                <td th:text="${qnaBoard.createdAt}"></td>
+                                <td th:text="${#temporals.format(qnaBoard.createdAt, 'yyyy-MM-dd HH:mm')}"></td>
                                 <td th:text="${qnaBoard.starCount}"></td>
                                 <td th:text="${qnaBoard.viewCount}"></td>
                             </tr>
                             </tbody>
                         </table>
+                        <nav aria-label="Page navigation">
+                            <ul class="pagination">
+                                <li class="page-item" th:classappend="${currentPage == 0} ? 'disabled'">
+                                    <a class="page-link" th:href="@{/qnd-board(page=${currentPage - 1}, size=${boardPage != null ? boardPage.size : 10})}" aria-label="Previous">
+                                        <span aria-hidden="true">&laquo;</span>
+                                    </a>
+                                </li>
+                                <li class="page-item" th:each="i : ${#numbers.sequence(0, totalPages - 1)}" th:classappend="${i == currentPage} ? 'active'">
+                                    <a class="page-link" th:href="@{/qna-board(page=${i}, size=${boardPage != null ? boardPage.size : 10})}" th:text="${i + 1}">1</a>
+                                </li>
+                                <li class="page-item" th:classappend="${currentPage == totalPages - 1} ? 'disabled'">
+                                    <a class="page-link" th:href="@{/qna-board(page=${currentPage + 1}, size=${boardPage != null ? boardPage.size : 10})}" aria-label="Next">
+                                        <span aria-hidden="true">&raquo;</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
                     </div>
                 </div>
             </div>

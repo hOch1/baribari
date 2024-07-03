@@ -4,6 +4,8 @@ import community.baribari.config.PrincipalDetail;
 import community.baribari.dto.bari.BariRecruitDto;
 import community.baribari.service.bari.BariRecruitService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,8 +19,14 @@ public class BariRecruitController {
     private final BariRecruitService bariRecruitService;
 
     @GetMapping(value = {"", "/"})
-    public String recruit(Model model) {
-        model.addAttribute("bariRecruits", bariRecruitService.list());
+    public String recruit(Model model,
+                          @RequestParam(defaultValue = "0") int page) {
+
+        Page<BariRecruitDto> list = bariRecruitService.list(PageRequest.of(page, 10));
+        model.addAttribute("bariRecruits", list);
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", list.getTotalPages());
+        model.addAttribute("totalElements", list.getTotalElements());
         return "bari/bari-recruit";
     }
 

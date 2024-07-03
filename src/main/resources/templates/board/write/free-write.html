@@ -24,7 +24,7 @@
         <div th:replace="~{layout/sidebar :: sidebar}"></div>
         <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
             <div class="pt-3">
-                <form action="/board-free/write.do" method="post" th:object="${write}">
+                <form action="/free-board/write.do" method="post" th:object="${write}">
                     <div class="form-group mb-3">
                         <label for="title">Title</label>
                         <input type="text" class="form-control" placeholder="Enter title" id="title" th:field="*{title}">

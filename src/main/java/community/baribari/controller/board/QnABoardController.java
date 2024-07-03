@@ -4,12 +4,12 @@ import community.baribari.config.PrincipalDetail;
 import community.baribari.dto.board.QnABoardDto;
 import community.baribari.service.board.QnABoardService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequiredArgsConstructor
@@ -19,8 +19,15 @@ public class QnABoardController {
     private final QnABoardService qnABoardService;
 
     @GetMapping(value = {"", "/"})
-    public String index(Model model){
-        model.addAttribute("qnaBoards", qnABoardService.list());
+    public String index(Model model,
+                        @RequestParam(defaultValue = "0") int page){
+
+        Page<QnABoardDto> list = qnABoardService.list(PageRequest.of(page, 10));
+
+        model.addAttribute("qnaBoards", list);
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", list.getTotalPages());
+        model.addAttribute("totalElements", list.getTotalElements());
         return "board/qna-board";
     }
 
@@ -31,7 +38,8 @@ public class QnABoardController {
     }
 
     @PostMapping("/write.do")
-    public String write(QnABoardDto qnABoardDto, PrincipalDetail principalDetail){
+    public String write(QnABoardDto qnABoardDto,
+                        @AuthenticationPrincipal PrincipalDetail principalDetail){
         qnABoardService.save(qnABoardDto, principalDetail);
         return "redirect:/qna-board";
     }

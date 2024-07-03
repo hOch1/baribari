@@ -33,18 +33,35 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr th:each="bariReview : ${bariReviews}">
-                                <th scope="row">1</th>
+                            <tr th:each="bariReview, iterStat : ${bariReviews}">
+                                <th scope="row" th:text="${totalElements - (currentPage ?: 0) * 10 - iterStat.index}"></th>
                                 <td>
                                     <a th:href="@{/bari-review/detail/{id}(id=${bariReview.id})}" th:text="${bariReview.title}"></a>
                                 </td>
                                 <td th:text="${bariReview.writer}"></td>
-                                <td th:text="${bariReview.createdAt}"></td>
+                                <td th:text="${#temporals.format(bariReview.createdAt, 'yyyy-MM-dd HH:mm')}"></td>
                                 <td th:text="${bariReview.starCount}"></td>
                                 <td th:text="${bariReview.viewCount}"></td>
                             </tr>
                             </tbody>
                         </table>
+                        <nav aria-label="Page navigation">
+                            <ul class="pagination">
+                                <li class="page-item" th:classappend="${currentPage == 0} ? 'disabled'">
+                                    <a class="page-link" th:href="@{/bari-review(page=${currentPage - 1}, size=${boardPage != null ? boardPage.size : 10})}" aria-label="Previous">
+                                        <span aria-hidden="true">&laquo;</span>
+                                    </a>
+                                </li>
+                                <li class="page-item" th:each="i : ${#numbers.sequence(0, totalPages - 1)}" th:classappend="${i == currentPage} ? 'active'">
+                                    <a class="page-link" th:href="@{/bari-review(page=${i}, size=${boardPage != null ? boardPage.size : 10})}" th:text="${i + 1}">1</a>
+                                </li>
+                                <li class="page-item" th:classappend="${currentPage == totalPages - 1} ? 'disabled'">
+                                    <a class="page-link" th:href="@{/bari-review(page=${currentPage + 1}, size=${boardPage != null ? boardPage.size : 10})}" aria-label="Next">
+                                        <span aria-hidden="true">&raquo;</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
                     </div>
                 </div>
             </div>
@@ -52,7 +69,6 @@
         </main>
     </div>
 </div>
-
 
 <div th:replace="~{layout/footer :: footer}"></div>
 </body>
