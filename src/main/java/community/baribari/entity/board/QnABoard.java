@@ -1,14 +1,14 @@
 package community.baribari.entity.board;
 
 import community.baribari.config.PrincipalDetail;
-import community.baribari.dto.bari.BariReviewDto;
 import community.baribari.dto.board.QnABoardDto;
-import community.baribari.entity.bari.BariReview;
 import community.baribari.entity.member.Member;
+import community.baribari.entity.star.QnABoardStar;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -31,8 +31,8 @@ public class QnABoard {
     @Builder.Default
     private Long viewCount = 0L;
 
-    @Builder.Default
-    private Long starCount = 0L;
+    @OneToMany(mappedBy = "qnaBoard")
+    private List<QnABoardStar> stars = new ArrayList<>();
 
     @Builder.Default
     private LocalDateTime createdAt = LocalDateTime.now();

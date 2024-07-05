@@ -1,4 +1,4 @@
-package community.baribari.repository;
+package community.baribari.repository.board;
 
 import community.baribari.entity.bari.BariRecruit;
 import org.springframework.data.domain.Page;

@@ -39,7 +39,8 @@ public class SecurityConfig {
                         .requestMatchers("/bari-recruit/write", "/bari-recruit/write",
                                 "/free-board/write", "/qna-board/write",
                                 "/bari-recruit/write.do", "/bari-recruit/write.do",
-                                "/free-board/write.do", "/qna-board/write.do").authenticated()
+                                "/free-board/write.do", "/qna-board/write.do",
+                                "/qna-board/answer/**").authenticated()
                         .anyRequest().permitAll()
                 )
                 .oauth2Login(oauth2 -> oauth2

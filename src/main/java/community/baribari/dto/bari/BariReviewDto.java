@@ -32,7 +32,7 @@ public class BariReviewDto {
                 .content(bariReview.getContent())
                 .createdAt(bariReview.getCreatedAt())
                 .writer(bariReview.getMember().getNickname())
-                .starCount(bariReview.getStarCount())
+                .starCount((long) bariReview.getStars().size())
                 .viewCount(bariReview.getViewCount())
                 .build();
     }

@@ -8,3 +8,37 @@ main {
 footer {
     margin-top: 20px;
 }
+
+.content-container {
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+.post-header {
+    margin-bottom: 20px;
+}
+.post-title {
+    font-size: 2.5rem;
+    font-weight: bold;
+}
+.post-meta {
+    font-size: 0.9rem;
+    color: #6c757d;
+}
+.post-content {
+    margin-top: 20px;
+}
+
+.answer-container {
+    margin-top: 40px;
+}
+.modal-body .form-group {
+    margin-bottom: 15px;
+}
+
+.recommend-btn {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}

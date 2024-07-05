@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Builder
 @Data
@@ -22,6 +23,20 @@ public class QnABoardDto {
     private LocalDateTime createdAt;
     private Long viewCount;
     private Long starCount;
+    private List<AnswerDto> answers;
+
+    public static QnABoardDto toDto(QnABoard qnABoard, List<AnswerDto> answers) {
+        return QnABoardDto.builder()
+                .id(qnABoard.getId())
+                .title(qnABoard.getTitle())
+                .content(qnABoard.getContent())
+                .writer(qnABoard.getMember().getNickname())
+                .createdAt(qnABoard.getCreatedAt())
+                .viewCount(qnABoard.getViewCount())
+                .starCount((long) qnABoard.getStars().size())
+                .answers(answers)
+                .build();
+    }
 
     public static QnABoardDto toDto(QnABoard qnABoard) {
         return QnABoardDto.builder()
@@ -31,7 +46,7 @@ public class QnABoardDto {
                 .writer(qnABoard.getMember().getNickname())
                 .createdAt(qnABoard.getCreatedAt())
                 .viewCount(qnABoard.getViewCount())
-                .starCount(qnABoard.getStarCount())
+                .starCount((long) qnABoard.getStars().size())
                 .build();
     }
 }

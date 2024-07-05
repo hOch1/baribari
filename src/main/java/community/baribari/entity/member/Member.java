@@ -22,6 +22,8 @@ public class Member {
     @Enumerated(EnumType.STRING)
     private Role role;
 
+    
+
     public Member update(String name){
         this.name = name;
         return this;

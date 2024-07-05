@@ -50,4 +50,11 @@ public class BariReviewController {
         model.addAttribute("bariReview", bariReviewService.detail(id));
         return "bari/detail/bari-review-detail";
     }
+
+    @PostMapping("/star/{id}")
+    public String boardStar (@PathVariable Long id,
+                             @AuthenticationPrincipal PrincipalDetail principalDetail){
+        bariReviewService.starCountUp(id, principalDetail);
+        return "redirect:/bari-review/detail/" + id;
+    }
 }

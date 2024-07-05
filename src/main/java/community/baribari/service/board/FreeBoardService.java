@@ -3,7 +3,11 @@ package community.baribari.service.board;
 import community.baribari.config.PrincipalDetail;
 import community.baribari.dto.board.FreeBoardDto;
 import community.baribari.entity.board.FreeBoard;
-import community.baribari.repository.FreeBoardRepository;
+import community.baribari.entity.board.QnABoard;
+import community.baribari.entity.star.FreeBoardStar;
+import community.baribari.entity.star.QnABoardStar;
+import community.baribari.repository.board.FreeBoardRepository;
+import community.baribari.repository.star.FreeBoardStarRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -11,7 +15,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -21,6 +24,7 @@ import java.util.List;
 public class FreeBoardService {
 
     private final FreeBoardRepository freeBoardRepository;
+    private final FreeBoardStarRepository freeBoardStarRepository;
 
     @Transactional
     public void save(FreeBoardDto freeBoardDto, PrincipalDetail principalDetail){
@@ -51,5 +55,20 @@ public class FreeBoardService {
     public void viewCountUp(Long id) {
         FreeBoard freeBoard = freeBoardRepository.findById(id).orElse(null);
         freeBoardRepository.save(freeBoard.updateViewCount());
+    }
+
+    @Transactional
+    public void starCountUp(Long id, PrincipalDetail principalDetail) {
+
+        if (freeBoardStarRepository.existsByMemberId(principalDetail.getMember().getId()))
+            throw new IllegalArgumentException("이미 추천한 게시물");
+
+        FreeBoard freeBoard = freeBoardRepository.findById(id).orElse(null);
+        FreeBoardStar freeBoardStar = FreeBoardStar.builder()
+                .member(principalDetail.getMember())
+                .freeBoard(freeBoard)
+                .build();
+
+        freeBoardStarRepository.save(freeBoardStar);
     }
 }

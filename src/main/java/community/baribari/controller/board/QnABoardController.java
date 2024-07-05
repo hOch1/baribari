@@ -1,6 +1,7 @@
 package community.baribari.controller.board;
 
 import community.baribari.config.PrincipalDetail;
+import community.baribari.dto.board.AnswerDto;
 import community.baribari.dto.board.QnABoardDto;
 import community.baribari.service.board.QnABoardService;
 import lombok.RequiredArgsConstructor;
@@ -49,5 +50,21 @@ public class QnABoardController {
         qnABoardService.viewCountUp(id);
         model.addAttribute("qnaBoard", qnABoardService.detail(id));
         return "board/detail/qna-detail";
+    }
+
+    @PostMapping("/answer/{questionId}/write.do")
+    public String answerWrite(@PathVariable Long questionId,
+                              AnswerDto answerDto,
+                              @AuthenticationPrincipal PrincipalDetail principalDetail){
+        qnABoardService.writeAnswer(questionId, principalDetail, answerDto);
+
+        return "redirect:/qna-board/detail/" + questionId;
+    }
+
+    @PostMapping("/star/{id}")
+    public String boardStar (@PathVariable Long id,
+                             @AuthenticationPrincipal PrincipalDetail principalDetail){
+        qnABoardService.starCountUp(id, principalDetail);
+        return "redirect:/qna-board/detail/" + id;
     }
 }

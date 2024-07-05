@@ -1,10 +1,14 @@
 package community.baribari.service.board;
 
 import community.baribari.config.PrincipalDetail;
-import community.baribari.dto.board.FreeBoardDto;
+import community.baribari.dto.board.AnswerDto;
 import community.baribari.dto.board.QnABoardDto;
+import community.baribari.entity.board.Answer;
 import community.baribari.entity.board.QnABoard;
-import community.baribari.repository.QnABoardRepository;
+import community.baribari.entity.star.QnABoardStar;
+import community.baribari.repository.board.AnswerRepository;
+import community.baribari.repository.board.QnABoardRepository;
+import community.baribari.repository.star.QnABoardStarRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -12,7 +16,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -23,6 +26,8 @@ import java.util.List;
 public class QnABoardService {
 
     private final QnABoardRepository qnABoardRepository;
+    private final AnswerRepository answerRepository;
+    private final QnABoardStarRepository qnABoardStarRepository;
 
 
     @Transactional
@@ -47,12 +52,40 @@ public class QnABoardService {
 
     public QnABoardDto detail(Long id) {
         QnABoard qnABoard = qnABoardRepository.findById(id).orElse(null);
-        return QnABoardDto.toDto(qnABoard);
+        List<AnswerDto> answers = answerRepository.findByQnaBoardId(id)
+                .stream()
+                .map(AnswerDto::toDto)
+                .toList();
+
+        return QnABoardDto.toDto(qnABoard, answers);
     }
 
     @Transactional
     public void viewCountUp(Long id) {
         QnABoard qnABoard = qnABoardRepository.findById(id).orElse(null);
         qnABoardRepository.save(qnABoard.updateViewCount());
+    }
+
+    @Transactional
+    public void writeAnswer(Long questionId, PrincipalDetail principalDetail, AnswerDto answerDto) {
+        QnABoard qnABoard = qnABoardRepository.findById(questionId).orElse(null);
+        Answer answer = Answer.toEntity(answerDto, principalDetail.getMember(), qnABoard);
+
+        answerRepository.save(answer);
+    }
+
+    @Transactional
+    public void starCountUp(Long id, PrincipalDetail principalDetail) {
+
+        if (qnABoardStarRepository.existsByMemberId(principalDetail.getMember().getId()))
+            throw new IllegalArgumentException("이미 추천한 게시물");
+
+        QnABoard qnABoard = qnABoardRepository.findById(id).orElse(null);
+        QnABoardStar qnABoardStar = QnABoardStar.builder()
+                .member(principalDetail.getMember())
+                .qnaBoard(qnABoard)
+                .build();
+
+        qnABoardStarRepository.save(qnABoardStar);
     }
 }

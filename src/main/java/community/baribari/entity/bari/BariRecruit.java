@@ -3,10 +3,13 @@ package community.baribari.entity.bari;
 import community.baribari.config.PrincipalDetail;
 import community.baribari.dto.bari.BariRecruitDto;
 import community.baribari.entity.member.Member;
+import community.baribari.entity.star.BariRecruitStar;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -28,8 +31,8 @@ public class BariRecruit {
     @Builder.Default
     private Long viewCount = 0L;
 
-    @Builder.Default
-    private Long starCount = 0L;
+    @OneToMany(mappedBy = "bariRecruit")
+    private List<BariRecruitStar> stars = new ArrayList<>();
 
     @Builder.Default
     private LocalDateTime createdAt = LocalDateTime.now();

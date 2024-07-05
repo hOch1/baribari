@@ -1,9 +1,6 @@
 package community.baribari.dto.bari;
 
 import community.baribari.entity.bari.BariRecruit;
-import community.baribari.entity.bari.BariRegion;
-import community.baribari.entity.bari.BariReview;
-import community.baribari.entity.bari.BariStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -34,7 +31,7 @@ public class BariRecruitDto {
                 .content(bariRecruit.getContent())
                 .createdAt(bariRecruit.getCreatedAt())
                 .writer(bariRecruit.getMember().getNickname())
-                .starCount(bariRecruit.getStarCount())
+                .starCount((long) bariRecruit.getStars().size())
                 .viewCount(bariRecruit.getViewCount())
                 .status(bariRecruit.getStatus().getName())
                 .region(bariRecruit.getRegion().getName())

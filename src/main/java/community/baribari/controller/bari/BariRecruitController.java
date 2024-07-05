@@ -50,4 +50,11 @@ public class BariRecruitController {
         return "bari/detail/bari-recruit-detail";
     }
 
+    @PostMapping("/star/{id}")
+    public String boardStar (@PathVariable Long id,
+                             @AuthenticationPrincipal PrincipalDetail principalDetail){
+        bariRecruitService.starCountUp(id, principalDetail);
+        return "redirect:/bari-recruit/detail/" + id;
+    }
+
 }

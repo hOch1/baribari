@@ -30,7 +30,7 @@ public class FreeBoardDto {
                 .writer(freeBoard.getMember().getNickname())
                 .createdAt(freeBoard.getCreatedAt())
                 .viewCount(freeBoard.getViewCount())
-                .starCount(freeBoard.getStarCount())
+                .starCount((long) freeBoard.getStars().size())
                 .build();
     }
 }

@@ -1,4 +1,4 @@
-package community.baribari.repository;
+package community.baribari.repository.board;
 
 import community.baribari.entity.board.QnABoard;
 import org.springframework.data.domain.Page;

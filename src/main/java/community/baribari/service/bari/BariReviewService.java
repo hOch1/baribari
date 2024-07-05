@@ -3,7 +3,11 @@ package community.baribari.service.bari;
 import community.baribari.config.PrincipalDetail;
 import community.baribari.dto.bari.BariReviewDto;
 import community.baribari.entity.bari.BariReview;
-import community.baribari.repository.BariReviewRepository;
+import community.baribari.entity.board.FreeBoard;
+import community.baribari.entity.star.BariReviewStar;
+import community.baribari.entity.star.FreeBoardStar;
+import community.baribari.repository.board.BariReviewRepository;
+import community.baribari.repository.star.BariReviewStarRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -21,6 +25,7 @@ import java.util.List;
 public class BariReviewService {
 
     private final BariReviewRepository bariReviewRepository;
+    private final BariReviewStarRepository bariReviewStarRepository;
 
     @Transactional
     public void save(BariReviewDto bariReviewDto, PrincipalDetail principalDetail){
@@ -51,5 +56,20 @@ public class BariReviewService {
     public void viewCountUp(Long id) {
         BariReview review = bariReviewRepository.findById(id).get();
         bariReviewRepository.save(review.updateViewCount());
+    }
+
+    @Transactional
+    public void starCountUp(Long id, PrincipalDetail principalDetail) {
+
+        if (bariReviewStarRepository.existsByMemberId(principalDetail.getMember().getId()))
+            throw new IllegalArgumentException("이미 추천한 게시물");
+
+        BariReview bariReview = bariReviewRepository.findById(id).orElse(null);
+        BariReviewStar bariReviewStar = BariReviewStar.builder()
+                .member(principalDetail.getMember())
+                .bariReview(bariReview)
+                .build();
+
+        bariReviewStarRepository.save(bariReviewStar);
     }
 }

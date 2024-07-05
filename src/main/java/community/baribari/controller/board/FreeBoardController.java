@@ -50,4 +50,12 @@ public class FreeBoardController {
         model.addAttribute("freeBoard", freeBoardService.detail(id));
         return "board/detail/free-detail";
     }
+
+    @PostMapping("/star/{id}")
+    public String star(@PathVariable Long id,
+                       @AuthenticationPrincipal PrincipalDetail principalDetail){
+        freeBoardService.starCountUp(id, principalDetail);
+
+        return "redirect:/free-board/detail/" + id;
+    }
 }
