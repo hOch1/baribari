@@ -38,7 +38,7 @@ public class FreeBoardController {
     }
 
     @PostMapping("/write.do")
-    public String write(FreeBoardDto freeBoardDto,
+    public String write(@ModelAttribute FreeBoardDto freeBoardDto,
                         @AuthenticationPrincipal PrincipalDetail principalDetail){
         freeBoardService.save(freeBoardDto, principalDetail);
         return "redirect:/free-board";

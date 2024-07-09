@@ -1,4 +1,4 @@
-package community.baribari.entity.bari;
+package community.baribari.entity.board;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

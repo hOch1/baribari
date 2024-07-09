@@ -1,5 +1,6 @@
 package community.baribari.repository.board;
 
+import community.baribari.entity.board.BariRecruit;
 import community.baribari.entity.board.FreeBoard;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -11,6 +12,6 @@ public interface FreeBoardRepository extends JpaRepository<FreeBoard, Long> {
 
     List<FreeBoard> findTop3ByOrderByCreatedAtDesc();
 
-
     Page<FreeBoard> findAllByOrderByCreatedAtDesc(Pageable pageable);
+
 }

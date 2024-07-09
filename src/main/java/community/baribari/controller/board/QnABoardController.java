@@ -39,7 +39,7 @@ public class QnABoardController {
     }
 
     @PostMapping("/write.do")
-    public String write(QnABoardDto qnABoardDto,
+    public String write(@ModelAttribute QnABoardDto qnABoardDto,
                         @AuthenticationPrincipal PrincipalDetail principalDetail){
         qnABoardService.save(qnABoardDto, principalDetail);
         return "redirect:/qna-board";

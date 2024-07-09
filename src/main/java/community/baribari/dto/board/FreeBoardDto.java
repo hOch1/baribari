@@ -1,6 +1,7 @@
 package community.baribari.dto.board;
 
-import community.baribari.entity.board.FreeBoard;
+import community.baribari.entity.board.Board;
+import community.baribari.entity.board.Category;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -21,16 +22,18 @@ public class FreeBoardDto {
     private LocalDateTime createdAt;
     private Long viewCount;
     private Long starCount;
+    private Category category;
 
-    public static FreeBoardDto toDto(FreeBoard freeBoard) {
+    public static FreeBoardDto toDto(Board board) {
         return FreeBoardDto.builder()
-                .id(freeBoard.getId())
-                .title(freeBoard.getTitle())
-                .content(freeBoard.getContent())
-                .writer(freeBoard.getMember().getNickname())
-                .createdAt(freeBoard.getCreatedAt())
-                .viewCount(freeBoard.getViewCount())
-                .starCount((long) freeBoard.getStars().size())
+                .id(board.getId())
+                .title(board.getTitle())
+                .content(board.getContent())
+                .writer(board.getMember().getNickname())
+                .createdAt(board.getCreatedAt())
+                .viewCount(board.getViewCount())
+                .starCount((long) board.getStars().size())
+                .category(board.getCategory())
                 .build();
     }
 }

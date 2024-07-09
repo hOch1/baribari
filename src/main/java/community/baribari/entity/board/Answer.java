@@ -2,9 +2,10 @@ package community.baribari.entity.board;
 
 import community.baribari.dto.board.AnswerDto;
 import community.baribari.entity.member.Member;
-import community.baribari.entity.star.AnswerStar;
+import community.baribari.entity.star.Star;
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -14,25 +15,8 @@ import java.util.List;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Builder
-public class Answer {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @Lob
-    @Column(columnDefinition = "LONGTEXT")
-    private String content;
-
-    @OneToMany(mappedBy = "answer")
-    private List<AnswerStar> stars = new ArrayList<>();
-
-    @Builder.Default
-    private LocalDateTime createdAt = LocalDateTime.now();
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Member member;
+@SuperBuilder
+public class Answer extends Board{
 
     @ManyToOne(fetch = FetchType.LAZY)
     private QnABoard qnaBoard;

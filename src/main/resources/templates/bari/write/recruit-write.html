@@ -30,7 +30,7 @@
                         <label for="region">지역</label>
                         <select class="form-control" id="region" th:field="*{region}">
                             <option value="">지역 선택</option>
-                            <option th:each="region : ${T(community.baribari.entity.bari.BariRegion).values()}"
+                            <option th:each="region : ${T(community.baribari.entity.board.BariRegion).values()}"
                                     th:value="${region.getName()}"
                                     th:text="${region.getName()}">지역 선택</option>
                         </select>

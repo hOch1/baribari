@@ -3,11 +3,9 @@ package community.baribari.service.board;
 import community.baribari.config.PrincipalDetail;
 import community.baribari.dto.board.FreeBoardDto;
 import community.baribari.entity.board.FreeBoard;
-import community.baribari.entity.board.QnABoard;
-import community.baribari.entity.star.FreeBoardStar;
-import community.baribari.entity.star.QnABoardStar;
+import community.baribari.entity.star.Star;
 import community.baribari.repository.board.FreeBoardRepository;
-import community.baribari.repository.star.FreeBoardStarRepository;
+import community.baribari.repository.star.StarRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -24,7 +22,7 @@ import java.util.List;
 public class FreeBoardService {
 
     private final FreeBoardRepository freeBoardRepository;
-    private final FreeBoardStarRepository freeBoardStarRepository;
+    private final StarRepository starRepository;
 
     @Transactional
     public void save(FreeBoardDto freeBoardDto, PrincipalDetail principalDetail){
@@ -54,21 +52,22 @@ public class FreeBoardService {
     @Transactional
     public void viewCountUp(Long id) {
         FreeBoard freeBoard = freeBoardRepository.findById(id).orElse(null);
-        freeBoardRepository.save(freeBoard.updateViewCount());
+        freeBoard.updateViewCount();
+        freeBoardRepository.save(freeBoard);
     }
 
     @Transactional
     public void starCountUp(Long id, PrincipalDetail principalDetail) {
 
-        if (freeBoardStarRepository.existsByMemberId(principalDetail.getMember().getId()))
+        if (starRepository.existsByMemberIdAndBoardId(principalDetail.getMember().getId(), id))
             throw new IllegalArgumentException("이미 추천한 게시물");
 
         FreeBoard freeBoard = freeBoardRepository.findById(id).orElse(null);
-        FreeBoardStar freeBoardStar = FreeBoardStar.builder()
+        Star star = Star.builder()
                 .member(principalDetail.getMember())
-                .freeBoard(freeBoard)
+                .board(freeBoard)
                 .build();
 
-        freeBoardStarRepository.save(freeBoardStar);
+        starRepository.save(star);
     }
 }

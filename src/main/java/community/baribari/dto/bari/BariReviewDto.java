@@ -1,9 +1,7 @@
 package community.baribari.dto.bari;
 
-import community.baribari.entity.bari.BariRecruit;
-import community.baribari.entity.bari.BariRegion;
-import community.baribari.entity.bari.BariReview;
-import community.baribari.entity.bari.BariStatus;
+import community.baribari.entity.board.Board;
+import community.baribari.entity.board.Category;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -24,16 +22,18 @@ public class BariReviewDto {
     private String writer;
     private Long starCount;
     private Long viewCount;
+    private Category category;
 
-    public static BariReviewDto toDto(BariReview bariReview) {
+    public static BariReviewDto toDto(Board board) {
         return BariReviewDto.builder()
-                .id(bariReview.getId())
-                .title(bariReview.getTitle())
-                .content(bariReview.getContent())
-                .createdAt(bariReview.getCreatedAt())
-                .writer(bariReview.getMember().getNickname())
-                .starCount((long) bariReview.getStars().size())
-                .viewCount(bariReview.getViewCount())
+                .id(board.getId())
+                .title(board.getTitle())
+                .content(board.getContent())
+                .createdAt(board.getCreatedAt())
+                .writer(board.getMember().getNickname())
+                .starCount((long) board.getStars().size())
+                .viewCount(board.getViewCount())
+                .category(board.getCategory())
                 .build();
     }
 }

@@ -37,9 +37,9 @@ public class BariRecruitController {
     }
 
     @PostMapping("/write.do")
-    public String write(@ModelAttribute BariRecruitDto recruitDto,
+    public String write(@ModelAttribute BariRecruitDto bariRecruitDto,
                         @AuthenticationPrincipal PrincipalDetail principalDetail){
-        bariRecruitService.save(recruitDto, principalDetail);
+        bariRecruitService.save(bariRecruitDto, principalDetail);
         return "redirect:/bari-recruit";
     }
 

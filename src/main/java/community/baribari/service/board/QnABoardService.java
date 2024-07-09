@@ -5,10 +5,10 @@ import community.baribari.dto.board.AnswerDto;
 import community.baribari.dto.board.QnABoardDto;
 import community.baribari.entity.board.Answer;
 import community.baribari.entity.board.QnABoard;
-import community.baribari.entity.star.QnABoardStar;
+import community.baribari.entity.star.Star;
 import community.baribari.repository.board.AnswerRepository;
 import community.baribari.repository.board.QnABoardRepository;
-import community.baribari.repository.star.QnABoardStarRepository;
+import community.baribari.repository.star.StarRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -26,22 +26,19 @@ import java.util.List;
 public class QnABoardService {
 
     private final QnABoardRepository qnABoardRepository;
+    private final StarRepository starRepository;
     private final AnswerRepository answerRepository;
-    private final QnABoardStarRepository qnABoardStarRepository;
-
-
-    @Transactional
-    public void save(QnABoardDto qnABoardDto, PrincipalDetail principalDetail){
-        QnABoard qnABoard = QnABoard.toEntity(qnABoardDto, principalDetail);
-        QnABoard save = qnABoardRepository.save(qnABoard);
-
-        log.info("{}님이 자유게시물을 등록했습니다. ID : {}", principalDetail.getMember().getNickname(), save.getId());
-    }
 
     public Page<QnABoardDto> list(Pageable pageable){
         Page<QnABoard> qnABoards = qnABoardRepository.findAllByOrderByCreatedAtDesc(pageable);
 
         return qnABoards.map(QnABoardDto::toDto);
+    }
+
+    @Transactional
+    public void save(QnABoardDto qnABoardDto, PrincipalDetail principalDetail) {
+        QnABoard qnABoard = QnABoard.toEntity(qnABoardDto, principalDetail);
+        qnABoardRepository.save(qnABoard);
     }
 
     public List<QnABoardDto> mainList(){
@@ -61,12 +58,6 @@ public class QnABoardService {
     }
 
     @Transactional
-    public void viewCountUp(Long id) {
-        QnABoard qnABoard = qnABoardRepository.findById(id).orElse(null);
-        qnABoardRepository.save(qnABoard.updateViewCount());
-    }
-
-    @Transactional
     public void writeAnswer(Long questionId, PrincipalDetail principalDetail, AnswerDto answerDto) {
         QnABoard qnABoard = qnABoardRepository.findById(questionId).orElse(null);
         Answer answer = Answer.toEntity(answerDto, principalDetail.getMember(), qnABoard);
@@ -75,17 +66,24 @@ public class QnABoardService {
     }
 
     @Transactional
+    public void viewCountUp(Long id) {
+        QnABoard qnABoard = qnABoardRepository.findById(id).orElse(null);
+        qnABoard.updateViewCount();
+        qnABoardRepository.save(qnABoard);
+    }
+
+    @Transactional
     public void starCountUp(Long id, PrincipalDetail principalDetail) {
 
-        if (qnABoardStarRepository.existsByMemberId(principalDetail.getMember().getId()))
+        if (starRepository.existsByMemberIdAndBoardId(principalDetail.getMember().getId(), id))
             throw new IllegalArgumentException("이미 추천한 게시물");
 
         QnABoard qnABoard = qnABoardRepository.findById(id).orElse(null);
-        QnABoardStar qnABoardStar = QnABoardStar.builder()
+        Star star = Star.builder()
                 .member(principalDetail.getMember())
-                .qnaBoard(qnABoard)
+                .board(qnABoard)
                 .build();
 
-        qnABoardStarRepository.save(qnABoardStar);
+        starRepository.save(star);
     }
 }

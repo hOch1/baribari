@@ -2,12 +2,11 @@ package community.baribari.service.bari;
 
 import community.baribari.config.PrincipalDetail;
 import community.baribari.dto.bari.BariReviewDto;
-import community.baribari.entity.bari.BariReview;
-import community.baribari.entity.board.FreeBoard;
-import community.baribari.entity.star.BariReviewStar;
-import community.baribari.entity.star.FreeBoardStar;
+import community.baribari.entity.board.BariReview;
+import community.baribari.entity.board.Board;
+import community.baribari.entity.star.Star;
 import community.baribari.repository.board.BariReviewRepository;
-import community.baribari.repository.star.BariReviewStarRepository;
+import community.baribari.repository.star.StarRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -25,7 +24,7 @@ import java.util.List;
 public class BariReviewService {
 
     private final BariReviewRepository bariReviewRepository;
-    private final BariReviewStarRepository bariReviewStarRepository;
+    private final StarRepository starRepository;
 
     @Transactional
     public void save(BariReviewDto bariReviewDto, PrincipalDetail principalDetail){
@@ -48,28 +47,29 @@ public class BariReviewService {
     }
 
     public BariReviewDto detail(Long id){
-        BariReview bariReview =  bariReviewRepository.findById(id).get();
+        Board bariReview =  bariReviewRepository.findById(id).get();
         return BariReviewDto.toDto(bariReview);
     }
 
     @Transactional
     public void viewCountUp(Long id) {
         BariReview review = bariReviewRepository.findById(id).get();
-        bariReviewRepository.save(review.updateViewCount());
+        review.updateViewCount();
+        bariReviewRepository.save(review);
     }
 
     @Transactional
     public void starCountUp(Long id, PrincipalDetail principalDetail) {
 
-        if (bariReviewStarRepository.existsByMemberId(principalDetail.getMember().getId()))
+        if (starRepository.existsByMemberIdAndBoardId(principalDetail.getMember().getId(), id))
             throw new IllegalArgumentException("이미 추천한 게시물");
 
         BariReview bariReview = bariReviewRepository.findById(id).orElse(null);
-        BariReviewStar bariReviewStar = BariReviewStar.builder()
+        Star bariReviewStar = Star.builder()
                 .member(principalDetail.getMember())
-                .bariReview(bariReview)
+                .board(bariReview)
                 .build();
 
-        bariReviewStarRepository.save(bariReviewStar);
+        starRepository.save(bariReviewStar);
     }
 }

@@ -1,6 +1,8 @@
 package community.baribari.dto.board;
 
-import community.baribari.entity.board.FreeBoard;
+import community.baribari.config.PrincipalDetail;
+import community.baribari.entity.board.Board;
+import community.baribari.entity.board.Category;
 import community.baribari.entity.board.QnABoard;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,6 +25,7 @@ public class QnABoardDto {
     private LocalDateTime createdAt;
     private Long viewCount;
     private Long starCount;
+    private Category category;
     private List<AnswerDto> answers;
 
     public static QnABoardDto toDto(QnABoard qnABoard, List<AnswerDto> answers) {
@@ -34,6 +37,7 @@ public class QnABoardDto {
                 .createdAt(qnABoard.getCreatedAt())
                 .viewCount(qnABoard.getViewCount())
                 .starCount((long) qnABoard.getStars().size())
+                .category(qnABoard.getCategory())
                 .answers(answers)
                 .build();
     }
@@ -47,6 +51,7 @@ public class QnABoardDto {
                 .createdAt(qnABoard.getCreatedAt())
                 .viewCount(qnABoard.getViewCount())
                 .starCount((long) qnABoard.getStars().size())
+                .category(qnABoard.getCategory())
                 .build();
     }
 }

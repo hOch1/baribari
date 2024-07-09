@@ -1,6 +1,6 @@
 package community.baribari.repository.board;
 
-import community.baribari.entity.bari.BariRecruit;
+import community.baribari.entity.board.BariRecruit;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
