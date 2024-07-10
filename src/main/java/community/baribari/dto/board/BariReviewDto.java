@@ -1,4 +1,4 @@
-package community.baribari.dto.bari;
+package community.baribari.dto.board;
 
 import community.baribari.entity.board.Board;
 import community.baribari.entity.board.Category;

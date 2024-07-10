@@ -1,7 +1,7 @@
-package community.baribari.service.bari;
+package community.baribari.service.board;
 
 import community.baribari.config.PrincipalDetail;
-import community.baribari.dto.bari.BariRecruitDto;
+import community.baribari.dto.board.BariRecruitDto;
 import community.baribari.entity.board.BariRecruit;
 import community.baribari.entity.star.Star;
 import community.baribari.repository.board.BariRecruitRepository;

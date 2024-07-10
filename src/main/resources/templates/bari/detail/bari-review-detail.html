@@ -39,6 +39,40 @@
                         </button>
                     </form>
                 </div>
+                <!-- 댓글 폼 추가 -->
+                <div class="comment-section mt-5">
+                    <h5>댓글</h5>
+                    <form th:action="@{/comment/bari-review/{id}/write.do(id=${bariReview.id})}" th:method="post" th:object="${comment}">
+                        <div class="mb-3">
+                            <label for="commentContent" class="form-label">댓글 내용</label>
+                            <textarea class="form-control" id="commentContent" th:field="*{content}" rows="3" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">댓글 작성</button>
+                    </form>
+                </div>
+
+                <div class="comment-list mt-4">
+                    <h5>댓글 리스트</h5>
+                    <div th:each="comment : ${comments}">
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <p class="card-text" th:text="${comment.content}"></p>
+                                <p class="card-text">
+                                    <small class="text-muted">작성자: <span th:text="${comment.writer}"></span> | <span th:text="${#temporals.format(comment.createdAt, 'yyyy-MM-dd HH:mm')}"></span></small>
+                                </p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <form th:action="@{/comment/star/bari-review/{boardId}/{id}(id=${comment.id}, boardId=${bariReview.id})}" th:method="post">
+                                        <button type="submit" class="btn btn-outline-primary btn-sm">
+                                            <i class="bi bi-hand-thumbs-up"></i> 추천
+                                        </button>
+                                    </form>
+                                    <small>추천수: <span th:text="${comment.starCount}"></span></small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </main>
     </div>

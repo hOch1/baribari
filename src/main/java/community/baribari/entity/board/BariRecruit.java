@@ -1,8 +1,7 @@
 package community.baribari.entity.board;
 
 import community.baribari.config.PrincipalDetail;
-import community.baribari.dto.bari.BariRecruitDto;
-import community.baribari.entity.member.Member;
+import community.baribari.dto.board.BariRecruitDto;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;

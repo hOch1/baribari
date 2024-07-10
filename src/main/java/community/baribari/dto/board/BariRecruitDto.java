@@ -1,4 +1,4 @@
-package community.baribari.dto.bari;
+package community.baribari.dto.board;
 
 import community.baribari.entity.board.BariRecruit;
 import lombok.AllArgsConstructor;

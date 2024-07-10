@@ -1,7 +1,7 @@
 package community.baribari.controller;
 
-import community.baribari.service.bari.BariRecruitService;
-import community.baribari.service.bari.BariReviewService;
+import community.baribari.service.board.BariRecruitService;
+import community.baribari.service.board.BariReviewService;
 import community.baribari.service.board.FreeBoardService;
 import community.baribari.service.board.QnABoardService;
 import lombok.RequiredArgsConstructor;

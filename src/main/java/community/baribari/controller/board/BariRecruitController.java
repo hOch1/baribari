@@ -1,8 +1,10 @@
-package community.baribari.controller.bari;
+package community.baribari.controller.board;
 
 import community.baribari.config.PrincipalDetail;
-import community.baribari.dto.bari.BariRecruitDto;
-import community.baribari.service.bari.BariRecruitService;
+import community.baribari.dto.board.BariRecruitDto;
+import community.baribari.dto.comment.CommentDto;
+import community.baribari.service.board.BariRecruitService;
+import community.baribari.service.comment.CommentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 public class BariRecruitController {
 
     private final BariRecruitService bariRecruitService;
+    private final CommentService commentService;
 
     @GetMapping(value = {"", "/"})
     public String recruit(Model model,
@@ -47,6 +50,8 @@ public class BariRecruitController {
     public String detail(@PathVariable Long id, Model model){
         bariRecruitService.viewCountUp(id);
         model.addAttribute("bariRecruit", bariRecruitService.detail(id));
+        model.addAttribute("comments", commentService.list(id));
+        model.addAttribute("comment", new CommentDto());
         return "bari/detail/bari-recruit-detail";
     }
 

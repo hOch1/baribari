@@ -1,8 +1,10 @@
-package community.baribari.controller.bari;
+package community.baribari.controller.board;
 
 import community.baribari.config.PrincipalDetail;
-import community.baribari.dto.bari.BariReviewDto;
-import community.baribari.service.bari.BariReviewService;
+import community.baribari.dto.board.BariReviewDto;
+import community.baribari.dto.comment.CommentDto;
+import community.baribari.service.board.BariReviewService;
+import community.baribari.service.comment.CommentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 public class BariReviewController {
 
     private final BariReviewService bariReviewService;
+    private final CommentService commentService;
 
     @GetMapping(value = {"", "/"})
     public String index(Model model,
@@ -48,6 +51,8 @@ public class BariReviewController {
     public String detail(@PathVariable Long id, Model model) {
         bariReviewService.viewCountUp(id);
         model.addAttribute("bariReview", bariReviewService.detail(id));
+        model.addAttribute("comments", commentService.list(id));
+        model.addAttribute("comment", new CommentDto());
         return "bari/detail/bari-review-detail";
     }
 

@@ -1,8 +1,7 @@
 package community.baribari.entity.board;
 
 import community.baribari.config.PrincipalDetail;
-import community.baribari.dto.bari.BariReviewDto;
-import community.baribari.dto.board.FreeBoardDto;
+import community.baribari.dto.board.BariReviewDto;
 import jakarta.persistence.Entity;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
@@ -20,5 +19,4 @@ public class BariReview extends Board{
                 .member(principalDetail.getMember())
                 .build();
     }
-
 }

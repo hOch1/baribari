@@ -1,6 +1,7 @@
 package community.baribari.entity.board;
 
 
+import community.baribari.entity.comment.Comment;
 import community.baribari.entity.member.Member;
 import community.baribari.entity.star.Star;
 import jakarta.persistence.*;
@@ -44,6 +45,11 @@ public abstract class Board {
 
     @Enumerated(EnumType.STRING)
     private Category category;
+
+    @OneToMany(mappedBy = "board")
+    @Builder.Default
+    private List<Comment> comments = new ArrayList<>();
+
 
     public void updateViewCount() {
         this.viewCount++;

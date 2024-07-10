@@ -1,7 +1,7 @@
-package community.baribari.service.bari;
+package community.baribari.service.board;
 
 import community.baribari.config.PrincipalDetail;
-import community.baribari.dto.bari.BariReviewDto;
+import community.baribari.dto.board.BariReviewDto;
 import community.baribari.entity.board.BariReview;
 import community.baribari.entity.board.Board;
 import community.baribari.entity.star.Star;
