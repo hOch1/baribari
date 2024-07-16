@@ -2,6 +2,12 @@
 main {
     min-height: 80vh;
 }
+.me-max{
+    margin-right: 8rem;
+}
+.search-button{
+    min-width: 50px;
+}
 .sidebar {
     height: 100vh;
 }
