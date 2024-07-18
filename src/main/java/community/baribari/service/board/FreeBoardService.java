@@ -3,9 +3,7 @@ package community.baribari.service.board;
 import community.baribari.config.PrincipalDetail;
 import community.baribari.dto.board.FreeBoardDto;
 import community.baribari.entity.board.FreeBoard;
-import community.baribari.entity.star.Star;
 import community.baribari.repository.board.FreeBoardRepository;
-import community.baribari.repository.star.StarRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -22,7 +20,6 @@ import java.util.List;
 public class FreeBoardService {
 
     private final FreeBoardRepository freeBoardRepository;
-    private final StarRepository starRepository;
 
     @Transactional
     public void save(FreeBoardDto freeBoardDto, PrincipalDetail principalDetail){
@@ -45,29 +42,19 @@ public class FreeBoardService {
     }
 
     public FreeBoardDto detail(Long id) {
-        FreeBoard freeBoard = freeBoardRepository.findById(id).orElse(null);
+        FreeBoard freeBoard = freeBoardRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("게시물을 찾을 수 없습니다."));
+
         return FreeBoardDto.toDto(freeBoard);
     }
 
     @Transactional
     public void viewCountUp(Long id) {
-        FreeBoard freeBoard = freeBoardRepository.findById(id).orElse(null);
+        FreeBoard freeBoard = freeBoardRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("게시물을 찾을 수 없습니다."));
+
         freeBoard.updateViewCount();
         freeBoardRepository.save(freeBoard);
     }
 
-    @Transactional
-    public void starCountUp(Long id, PrincipalDetail principalDetail) {
-
-        if (starRepository.existsByMemberIdAndBoardId(principalDetail.getMember().getId(), id))
-            throw new IllegalArgumentException("이미 추천한 게시물");
-
-        FreeBoard freeBoard = freeBoardRepository.findById(id).orElse(null);
-        Star star = Star.builder()
-                .member(principalDetail.getMember())
-                .board(freeBoard)
-                .build();
-
-        starRepository.save(star);
-    }
 }

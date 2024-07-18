@@ -1,7 +1,5 @@
 package community.baribari.dto.board;
 
-import community.baribari.config.PrincipalDetail;
-import community.baribari.entity.board.Board;
 import community.baribari.entity.board.Category;
 import community.baribari.entity.board.QnABoard;
 import lombok.AllArgsConstructor;
@@ -36,7 +34,7 @@ public class QnABoardDto {
                 .writer(qnABoard.getMember().getNickname())
                 .createdAt(qnABoard.getCreatedAt())
                 .viewCount(qnABoard.getViewCount())
-                .starCount((long) qnABoard.getStars().size())
+                .starCount((long) qnABoard.getBoardStars().size())
                 .category(qnABoard.getCategory())
                 .answers(answers)
                 .build();
@@ -50,7 +48,7 @@ public class QnABoardDto {
                 .writer(qnABoard.getMember().getNickname())
                 .createdAt(qnABoard.getCreatedAt())
                 .viewCount(qnABoard.getViewCount())
-                .starCount((long) qnABoard.getStars().size())
+                .starCount((long) qnABoard.getBoardStars().size())
                 .category(qnABoard.getCategory())
                 .build();
     }

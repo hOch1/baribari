@@ -31,7 +31,7 @@ public class BariReviewDto {
                 .content(board.getContent())
                 .createdAt(board.getCreatedAt())
                 .writer(board.getMember().getNickname())
-                .starCount((long) board.getStars().size())
+                .starCount((long) board.getBoardStars().size())
                 .viewCount(board.getViewCount())
                 .category(board.getCategory())
                 .build();

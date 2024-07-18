@@ -3,7 +3,7 @@ package community.baribari.entity.board;
 
 import community.baribari.entity.comment.Comment;
 import community.baribari.entity.member.Member;
-import community.baribari.entity.star.Star;
+import community.baribari.entity.star.BoardStar;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
@@ -35,7 +35,7 @@ public abstract class Board {
 
     @OneToMany(mappedBy = "board")
     @Builder.Default
-    private List<Star> stars = new ArrayList<>();
+    private List<BoardStar> boardStars = new ArrayList<>();
 
     @Builder.Default
     private LocalDateTime createdAt = LocalDateTime.now();
@@ -61,7 +61,7 @@ public abstract class Board {
         this.member = member;
         this.category = category;
         this.viewCount = 0L;
-        this.stars = new ArrayList<>();
+        this.boardStars = new ArrayList<>();
         this.createdAt = LocalDateTime.now();
     }
 }

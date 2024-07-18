@@ -3,9 +3,8 @@ package community.baribari.service.board;
 import community.baribari.config.PrincipalDetail;
 import community.baribari.dto.board.BariRecruitDto;
 import community.baribari.entity.board.BariRecruit;
-import community.baribari.entity.star.Star;
+import community.baribari.exception.BoardNotFoundException;
 import community.baribari.repository.board.BariRecruitRepository;
-import community.baribari.repository.star.StarRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -22,7 +21,6 @@ import java.util.List;
 public class BariRecruitService {
 
     private final BariRecruitRepository bariRecruitRepository;
-    private final StarRepository starRepository;
 
     @Transactional
     public void save(BariRecruitDto boardDto, PrincipalDetail principalDetail){
@@ -45,29 +43,14 @@ public class BariRecruitService {
     }
 
     public BariRecruitDto detail(Long id){
-        BariRecruit bariRecruit = bariRecruitRepository.findById(id).orElse(null);
+        BariRecruit bariRecruit = bariRecruitRepository.findById(id).orElseThrow(BoardNotFoundException::new);
         return BariRecruitDto.toDto(bariRecruit);
     }
 
     @Transactional
     public void viewCountUp(Long id) {
-        BariRecruit bariRecruit = bariRecruitRepository.findById(id).get();
+        BariRecruit bariRecruit = bariRecruitRepository.findById(id).orElseThrow(BoardNotFoundException::new);
         bariRecruit.updateViewCount();
         bariRecruitRepository.save(bariRecruit);
-    }
-
-    @Transactional
-    public void starCountUp(Long id, PrincipalDetail principalDetail) {
-
-        if (starRepository.existsByMemberIdAndBoardId(principalDetail.getMember().getId(), id))
-            throw new IllegalArgumentException("이미 추천한 게시물");
-
-        BariRecruit bariRecruit = bariRecruitRepository.findById(id).orElse(null);
-        Star bariRecruitStar = Star.builder()
-                .member(principalDetail.getMember())
-                .board(bariRecruit)
-                .build();
-
-        starRepository.save(bariRecruitStar);
     }
 }

@@ -24,16 +24,10 @@
     </div>
   </div>
 </div>
+
 <script th:inline="javascript">
-  var message = /*[[${message}]]*/ null;
-
-  if (message) {
-    showAlert(message);
-  }
-
-  function showAlert(message) {
-    alert(message);
-  }
+  let message = /*[[${message}]]*/ null;
 </script>
+<script th:src="@{/js/message.js}"></script>
 </body>
 </html>

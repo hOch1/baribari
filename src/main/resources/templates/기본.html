@@ -22,5 +22,9 @@
 
 
 <div th:replace="~{layout/footer :: footer}"></div>
+<script th:inline="javascript">
+    let message = /*[[${message}]]*/ null;
+</script>
+<script th:src="@{/js/message.js}"></script>
 </body>
 </html>

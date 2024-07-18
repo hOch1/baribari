@@ -4,10 +4,9 @@ import community.baribari.config.PrincipalDetail;
 import community.baribari.dto.comment.CommentDto;
 import community.baribari.entity.board.Board;
 import community.baribari.entity.comment.Comment;
-import community.baribari.entity.star.CommentStar;
+import community.baribari.exception.BoardNotFoundException;
 import community.baribari.repository.board.BoardRepository;
 import community.baribari.repository.board.CommentRepository;
-import community.baribari.repository.star.CommentStarRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -23,11 +22,11 @@ public class CommentService {
 
     private final BoardRepository boardRepository;
     private final CommentRepository commentRepository;
-    private final CommentStarRepository commentStarRepository;
 
     @Transactional
     public void addComment(CommentDto commentDto, PrincipalDetail principalDetail, Long boardId){
-        Board board = boardRepository.findById(boardId).get();
+        Board board = boardRepository.findById(boardId).orElseThrow(BoardNotFoundException::new);
+
         Comment comment = Comment.toEntity(commentDto, principalDetail, board);
         Comment save = commentRepository.save(comment);
 
@@ -38,21 +37,5 @@ public class CommentService {
         List<Comment> comments = commentRepository.findByBoardId(boardId);
 
         return comments.stream().map(CommentDto::toDto).toList();
-    }
-
-
-    @Transactional
-    public void starCountUp(Long id, PrincipalDetail principalDetail) {
-
-        if (commentStarRepository.existsByMemberIdAndCommentId(principalDetail.getMember().getId(), id))
-            throw new IllegalArgumentException("이미 추천한 게시물");
-
-        Comment comment = commentRepository.findById(id).get();
-        CommentStar star = CommentStar.builder()
-                .comment(comment)
-                .member(principalDetail.getMember())
-                .build();
-
-        commentStarRepository.save(star);
     }
 }

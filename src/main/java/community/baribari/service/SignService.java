@@ -21,6 +21,9 @@ public class SignService {
 
     @Transactional
     public void signup(SignUpDto signUpDto) {
+        if (memberRepository.existsByNickname(signUpDto.getNickname()))
+            throw new IllegalArgumentException("닉네임이 중복 됩니다.");
+
         Member member = signUpDto.toEntity(passwordEncoder);
         Member singUpMember = memberRepository.save(member);
 
@@ -32,9 +35,9 @@ public class SignService {
         if (memberRepository.existsByNickname(nickname))
             throw new IllegalArgumentException("닉네임이 중복 됩니다.");
 
-
         Member member = principalDetail.getMember().updateNickname(nickname);
         memberRepository.save(member);
+
         log.info("{}님이 닉네임을 {}으로 설정했습니다.", member.getName(), nickname);
     }
 }

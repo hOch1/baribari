@@ -1,9 +1,9 @@
 package community.baribari.repository.star;
 
 
-import community.baribari.entity.star.Star;
+import community.baribari.entity.star.BoardStar;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface StarRepository extends JpaRepository<Star, Long> {
+public interface BoardStarRepository extends JpaRepository<BoardStar, Long> {
     boolean existsByMemberIdAndBoardId(Long memberId, Long boardId);
 }

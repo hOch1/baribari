@@ -2,12 +2,10 @@ package community.baribari.entity.board;
 
 import community.baribari.config.PrincipalDetail;
 import community.baribari.dto.board.QnABoardDto;
-import community.baribari.entity.star.Star;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity

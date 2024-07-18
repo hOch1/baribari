@@ -31,7 +31,7 @@ public class BariRecruitDto {
                 .content(bariRecruit.getContent())
                 .createdAt(bariRecruit.getCreatedAt())
                 .writer(bariRecruit.getMember().getNickname())
-                .starCount((long) bariRecruit.getStars().size())
+                .starCount((long) bariRecruit.getBoardStars().size())
                 .viewCount(bariRecruit.getViewCount())
                 .status(bariRecruit.getStatus().getName())
                 .region(bariRecruit.getRegion().getName())

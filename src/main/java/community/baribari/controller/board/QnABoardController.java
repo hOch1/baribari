@@ -3,6 +3,7 @@ package community.baribari.controller.board;
 import community.baribari.config.PrincipalDetail;
 import community.baribari.dto.board.AnswerDto;
 import community.baribari.dto.board.QnABoardDto;
+import community.baribari.exception.BoardNotFoundException;
 import community.baribari.service.board.QnABoardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -11,6 +12,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequiredArgsConstructor
@@ -46,25 +48,29 @@ public class QnABoardController {
     }
 
     @GetMapping("/detail/{id}")
-    public String detail(@PathVariable Long id, Model model){
-        qnABoardService.viewCountUp(id);
-        model.addAttribute("qnaBoard", qnABoardService.detail(id));
+    public String detail(@PathVariable Long id, Model model, RedirectAttributes redirectAttributes){
+        try {
+            qnABoardService.viewCountUp(id);
+            model.addAttribute("qnaBoard", qnABoardService.detail(id));
+        } catch (BoardNotFoundException e){
+            redirectAttributes.addFlashAttribute("message", e.getMessage());
+            return "redirect:/qna-board/";
+        }
         return "board/detail/qna-detail";
     }
 
     @PostMapping("/answer/{questionId}/write.do")
     public String answerWrite(@PathVariable Long questionId,
                               AnswerDto answerDto,
-                              @AuthenticationPrincipal PrincipalDetail principalDetail){
-        qnABoardService.writeAnswer(questionId, principalDetail, answerDto);
+                              @AuthenticationPrincipal PrincipalDetail principalDetail,
+                              RedirectAttributes redirectAttributes){
+        try {
+            qnABoardService.writeAnswer(questionId, principalDetail, answerDto);
+        } catch (BoardNotFoundException e){
+            redirectAttributes.addFlashAttribute("message", e.getMessage());
+            return "redirect:/qna-board/";
+        }
 
         return "redirect:/qna-board/detail/" + questionId;
-    }
-
-    @PostMapping("/star/{id}")
-    public String boardStar (@PathVariable Long id,
-                             @AuthenticationPrincipal PrincipalDetail principalDetail){
-        qnABoardService.starCountUp(id, principalDetail);
-        return "redirect:/qna-board/detail/" + id;
     }
 }

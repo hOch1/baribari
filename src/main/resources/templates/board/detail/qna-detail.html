@@ -15,7 +15,7 @@
     <div class="row">
         <div th:replace="~{layout/sidebar :: sidebar}"></div>
         <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-            <div class="content-container mt-4">
+            <div class="content-container mt-4 me-max">
                 <div class="post-header">
                     <h1 class="post-title" th:text="${qnaBoard.title}"></h1>
                     <div class="post-meta">
@@ -31,7 +31,8 @@
                 <div class="post-content" th:utext="${qnaBoard.content}"></div>
                 <hr>
                 <div class="recommend-btn">
-                    <form th:action="@{/qna-board/star/{id}(id=${qnaBoard.id})}" th:method="post">
+                    <form th:action="@{/board/star/add/{id}(id=${qnaBoard.id})}" th:method="post">
+                        <input type="hidden" name="boardName" value="qna-board">
                         <button type="submit" class="btn btn-outline-primary">
                             <i class="bi bi-hand-thumbs-up"></i> 추천
                         </button>
@@ -85,5 +86,9 @@
     </div>
 </div>
 <div th:replace="~{layout/footer :: footer}"></div>
+<script th:inline="javascript">
+    let message = /*[[${message}]]*/ null;
+</script>
+<script th:src="@{/js/message.js}"></script>
 </body>
 </html>

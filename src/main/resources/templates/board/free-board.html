@@ -15,8 +15,8 @@
     <div class="row">
         <div th:replace="~{layout/sidebar :: sidebar}"></div>
         <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-            <div class="pt-3">
-                <h1 class="mb-4">게시판</h1>
+            <div class="pt-3 me-max">
+                <h1 class="mb-4">자유 게시판</h1>
                 <div class="card">
                     <div class="card-header">
                         <a href="/free-board/write" class="btn btn-primary">새 글 작성</a>
@@ -70,5 +70,9 @@
     </div>
 </div>
 <div th:replace="~{layout/footer :: footer}"></div>
+<script th:inline="javascript">
+    let message = /*[[${message}]]*/ null;
+</script>
+<script th:src="@{/js/message.js}"></script>
 </body>
 </html>

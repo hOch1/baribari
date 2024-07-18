@@ -17,6 +17,7 @@ public class SignUpDto {
         return Member.builder()
                 .name(name)
                 .email(email)
+                .nickname(nickname)
                 .password(passwordEncoder.encode(password))
                 .role(Role.ROLE_MEMBER)
                 .build();

@@ -3,6 +3,7 @@ package community.baribari.controller.board;
 import community.baribari.config.PrincipalDetail;
 import community.baribari.dto.board.BariRecruitDto;
 import community.baribari.dto.comment.CommentDto;
+import community.baribari.exception.BoardNotFoundException;
 import community.baribari.service.board.BariRecruitService;
 import community.baribari.service.comment.CommentService;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +13,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/bari-recruit")
@@ -47,19 +49,16 @@ public class BariRecruitController {
     }
 
     @GetMapping("/detail/{id}")
-    public String detail(@PathVariable Long id, Model model){
-        bariRecruitService.viewCountUp(id);
-        model.addAttribute("bariRecruit", bariRecruitService.detail(id));
-        model.addAttribute("comments", commentService.list(id));
-        model.addAttribute("comment", new CommentDto());
+    public String detail(@PathVariable Long id, Model model, RedirectAttributes redirectAttributes){
+        try {
+            bariRecruitService.viewCountUp(id);
+            model.addAttribute("bariRecruit", bariRecruitService.detail(id));
+            model.addAttribute("comments", commentService.list(id));
+            model.addAttribute("comment", new CommentDto());
+        }catch (BoardNotFoundException e){
+            redirectAttributes.addFlashAttribute("message", e.getMessage());
+            return "redirect:/bari-recruit";
+        }
         return "bari/detail/bari-recruit-detail";
     }
-
-    @PostMapping("/star/{id}")
-    public String boardStar (@PathVariable Long id,
-                             @AuthenticationPrincipal PrincipalDetail principalDetail){
-        bariRecruitService.starCountUp(id, principalDetail);
-        return "redirect:/bari-recruit/detail/" + id;
-    }
-
 }

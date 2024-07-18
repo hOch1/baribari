@@ -1,9 +1,6 @@
 package community.baribari.dto.board;
 
 import community.baribari.entity.board.Answer;
-import community.baribari.entity.board.QnABoard;
-import community.baribari.entity.member.Member;
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -28,7 +25,7 @@ public class AnswerDto {
         return AnswerDto.builder()
                 .id(answer.getId())
                 .content(answer.getContent())
-                .starCount((long) answer.getStars().size())
+                .starCount((long) answer.getBoardStars().size())
                 .createdAt(answer.getCreatedAt())
                 .writer(answer.getMember().getNickname())
                 .questionId(answer.getQnaBoard().getId())

@@ -1,7 +1,6 @@
 package community.baribari.controller.sign;
 
 import community.baribari.config.PrincipalDetail;
-import community.baribari.dto.sign.LoginDto;
 import community.baribari.dto.sign.SignUpDto;
 import community.baribari.service.SignService;
 import lombok.RequiredArgsConstructor;
@@ -32,9 +31,15 @@ public class SignController {
     }
 
     @PostMapping("/signup.do")
-    public String signup(@ModelAttribute SignUpDto signUpDto){
-        signService.signup(signUpDto);
-        return "redirect:/login";
+    public String signup(@ModelAttribute SignUpDto signUpDto,
+                         RedirectAttributes redirectAttributes){
+        try {
+            signService.signup(signUpDto);
+            return "redirect:/login";
+        }catch (Exception e){
+            redirectAttributes.addFlashAttribute("message", e.getMessage());
+            return "redirect:/signup";
+        }
     }
 
     @GetMapping("/set-nickname")
