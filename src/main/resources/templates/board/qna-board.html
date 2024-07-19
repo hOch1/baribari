@@ -37,11 +37,13 @@
                             <tr th:each="qnaBoard, iterStat : ${qnaBoards}">
                                 <th scope="row" th:text="${totalElements - (currentPage ?: 0) * 10 - iterStat.index}"></th>
                                 <td>
-                                    <a class="nav-link" th:href="@{/qna-board/detail/{id}(id=${qnaBoard.id})}" th:text="${qnaBoard.title}"></a>
-                                    <span class="text-danger small ms-2"
-                                          th:if="${qnaBoard.answers != null and #lists.size(qnaBoard.answers) > 0}"
-                                          th:text="${#lists.size(qnaBoard.answers)}">
-                                    </span>
+                                    <div  style="display: flex; align-items: center;">
+                                        <a class="nav-link" th:href="@{/qna-board/detail/{id}(id=${qnaBoard.id})}" th:text="${qnaBoard.title}"></a>
+                                        <span class="text-danger small ms-2"
+                                              th:if="${qnaBoard.answers != null and #lists.size(qnaBoard.answers) > 0}"
+                                              th:text="${#lists.size(qnaBoard.answers)}">
+                                        </span>
+                                    </div>
                                 </td>
                                 <td th:text="${qnaBoard.writer}"></td>
                                 <td th:text="${#temporals.format(qnaBoard.createdAt, 'yyyy-MM-dd HH:mm')}"></td>

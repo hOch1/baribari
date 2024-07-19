@@ -43,7 +43,7 @@
                 </div>
             </div>
 
-            <div class="answer-container" th:if="${!qnaBoard.answers.isEmpty()}">
+            <div class="answer-container me-max" th:if="${!qnaBoard.answers.isEmpty()}">
                 <h3>답변 내역</h3>
                 <div th:each="answer : ${qnaBoard.answers}">
                     <div class="card mb-3">

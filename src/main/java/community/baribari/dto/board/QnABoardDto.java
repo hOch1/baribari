@@ -50,6 +50,7 @@ public class QnABoardDto {
                 .viewCount(qnABoard.getViewCount())
                 .starCount((long) qnABoard.getBoardStars().size())
                 .category(qnABoard.getCategory())
+                .answers(qnABoard.getAnswers().stream().map(AnswerDto::toDto).toList())
                 .build();
     }
 }
