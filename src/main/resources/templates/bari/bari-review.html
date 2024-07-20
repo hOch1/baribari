@@ -39,7 +39,7 @@
                                 <td>
                                     <a class="nav-link" th:href="@{/bari-review/detail/{id}(id=${bariReview.id})}" th:text="${bariReview.title}"></a>
                                 </td>
-                                <td th:text="${bariReview.writer}"></td>
+                                <td th:text="${bariReview.member.nickname}"></td>
                                 <td th:text="${#temporals.format(bariReview.createdAt, 'yyyy-MM-dd HH:mm')}"></td>
                                 <td th:text="${bariReview.starCount}"></td>
                                 <td th:text="${bariReview.viewCount}"></td>

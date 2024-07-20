@@ -1,5 +1,6 @@
 package community.baribari.dto.board;
 
+import community.baribari.dto.MemberDto;
 import community.baribari.entity.board.Board;
 import community.baribari.entity.board.Category;
 import lombok.AllArgsConstructor;
@@ -18,7 +19,7 @@ public class FreeBoardDto {
     private Long id;
     private String title;
     private String content;
-    private String writer;
+    private MemberDto member;
     private LocalDateTime createdAt;
     private Long viewCount;
     private Long starCount;
@@ -29,7 +30,7 @@ public class FreeBoardDto {
                 .id(board.getId())
                 .title(board.getTitle())
                 .content(board.getContent())
-                .writer(board.getMember().getNickname())
+                .member(MemberDto.toDto(board.getMember()))
                 .createdAt(board.getCreatedAt())
                 .viewCount(board.getViewCount())
                 .starCount((long) board.getBoardStars().size())

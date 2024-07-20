@@ -27,8 +27,8 @@ public class BariReviewService {
     @Transactional
     public void save(BariReviewDto bariReviewDto, PrincipalDetail principalDetail){
         BariReview review = BariReview.toEntity(bariReviewDto, principalDetail);
-
         BariReview save = bariReviewRepository.save(review);
+
         log.info("{}님이 바리 후기를 등록했습니다. ID : {}", principalDetail.getMember().getNickname(), save.getId());
     }
 

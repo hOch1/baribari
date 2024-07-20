@@ -63,4 +63,21 @@ public class FreeBoardController {
         }
         return "board/detail/free-detail";
     }
+
+    @GetMapping("/update/{id}")
+    public String update(@PathVariable Long id, Model model){
+        model.addAttribute("board", freeBoardService.detail(id));
+        return "board/update/free-update";
+    }
+
+    @PostMapping("/update.do")
+    public String update(@ModelAttribute FreeBoardDto freeBoardDto){
+        freeBoardService.update(freeBoardDto);
+        return "redirect:/free-board/detail/"+freeBoardDto.getId();
+    }
+
+    @PostMapping("/delete/{id}")
+    public String delete(@PathVariable Long id){
+        return "redirect:/free-board";
+    }
 }

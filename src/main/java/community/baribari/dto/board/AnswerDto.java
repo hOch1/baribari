@@ -1,5 +1,6 @@
 package community.baribari.dto.board;
 
+import community.baribari.dto.MemberDto;
 import community.baribari.entity.board.Answer;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,7 +19,7 @@ public class AnswerDto {
     private String content;
     private Long starCount;
     private LocalDateTime createdAt;
-    private String writer;
+    private MemberDto member;
     private Long questionId;
 
     public static AnswerDto toDto(Answer answer){
@@ -27,7 +28,7 @@ public class AnswerDto {
                 .content(answer.getContent())
                 .starCount((long) answer.getBoardStars().size())
                 .createdAt(answer.getCreatedAt())
-                .writer(answer.getMember().getNickname())
+                .member(MemberDto.toDto(answer.getMember()))
                 .questionId(answer.getQnaBoard().getId())
                 .build();
     }

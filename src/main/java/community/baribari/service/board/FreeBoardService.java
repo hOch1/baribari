@@ -3,6 +3,7 @@ package community.baribari.service.board;
 import community.baribari.config.PrincipalDetail;
 import community.baribari.dto.board.FreeBoardDto;
 import community.baribari.entity.board.FreeBoard;
+import community.baribari.exception.BoardNotFoundException;
 import community.baribari.repository.board.FreeBoardRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -57,4 +58,12 @@ public class FreeBoardService {
         freeBoardRepository.save(freeBoard);
     }
 
+    @Transactional
+    public void update(FreeBoardDto freeBoardDto) {
+        FreeBoard freeBoard = freeBoardRepository.findById(freeBoardDto.getId())
+                .orElseThrow(BoardNotFoundException::new);
+
+        freeBoardRepository.save(freeBoard);
+
+    }
 }

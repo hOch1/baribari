@@ -37,7 +37,7 @@
                             <tr th:each="freeBoard, iterStat : ${freeBoards}">
                                 <th scope="row" th:text="${totalElements - (currentPage ?: 0) * 10 - iterStat.index}"></th>
                                 <td><a class="nav-link" th:href="@{/free-board/detail/{id}(id=${freeBoard.id})}" th:text="${freeBoard.title}"></a></td>
-                                <td th:text="${freeBoard.writer}"></td>
+                                <td th:text="${freeBoard.member.nickname}"></td>
                                 <td th:text="${#temporals.format(freeBoard.createdAt, 'yyyy-MM-dd HH:mm')}"></td>
                                 <td th:text="${freeBoard.starCount}"></td>
                                 <td th:text="${freeBoard.viewCount}"></td>

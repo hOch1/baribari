@@ -1,5 +1,6 @@
 package community.baribari.dto.board;
 
+import community.baribari.dto.MemberDto;
 import community.baribari.entity.board.BariRecruit;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,7 +19,7 @@ public class BariRecruitDto {
     private String title;
     private String content;
     private LocalDateTime createdAt;
-    private String writer;
+    private MemberDto member;
     private Long starCount;
     private Long viewCount;
     private String status;
@@ -30,7 +31,7 @@ public class BariRecruitDto {
                 .title(bariRecruit.getTitle())
                 .content(bariRecruit.getContent())
                 .createdAt(bariRecruit.getCreatedAt())
-                .writer(bariRecruit.getMember().getNickname())
+                .member(MemberDto.toDto(bariRecruit.getMember()))
                 .starCount((long) bariRecruit.getBoardStars().size())
                 .viewCount(bariRecruit.getViewCount())
                 .status(bariRecruit.getStatus().getName())

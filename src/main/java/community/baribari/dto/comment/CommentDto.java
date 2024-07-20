@@ -1,5 +1,6 @@
 package community.baribari.dto.comment;
 
+import community.baribari.dto.MemberDto;
 import community.baribari.entity.comment.Comment;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -19,7 +20,7 @@ public class CommentDto {
     private String content;
     private Long starCount;
     private LocalDateTime createdAt;
-    private String writer;
+    private MemberDto member;
     private Long boardId;
 
     public static CommentDto toDto(Comment comment) {
@@ -28,7 +29,7 @@ public class CommentDto {
                 .content(comment.getContent())
                 .starCount((long) comment.getStars().size())
                 .createdAt(comment.getCreatedAt())
-                .writer(comment.getMember().getNickname())
+                .member(MemberDto.toDto(comment.getMember()))
                 .boardId(comment.getBoard().getId())
                 .build();
     }

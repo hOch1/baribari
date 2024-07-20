@@ -1,5 +1,6 @@
 package community.baribari.dto.board;
 
+import community.baribari.dto.MemberDto;
 import community.baribari.entity.board.Category;
 import community.baribari.entity.board.QnABoard;
 import lombok.AllArgsConstructor;
@@ -19,7 +20,7 @@ public class QnABoardDto {
     private Long id;
     private String title;
     private String content;
-    private String writer;
+    private MemberDto member;
     private LocalDateTime createdAt;
     private Long viewCount;
     private Long starCount;
@@ -31,7 +32,7 @@ public class QnABoardDto {
                 .id(qnABoard.getId())
                 .title(qnABoard.getTitle())
                 .content(qnABoard.getContent())
-                .writer(qnABoard.getMember().getNickname())
+                .member(MemberDto.toDto(qnABoard.getMember()))
                 .createdAt(qnABoard.getCreatedAt())
                 .viewCount(qnABoard.getViewCount())
                 .starCount((long) qnABoard.getBoardStars().size())
@@ -45,7 +46,7 @@ public class QnABoardDto {
                 .id(qnABoard.getId())
                 .title(qnABoard.getTitle())
                 .content(qnABoard.getContent())
-                .writer(qnABoard.getMember().getNickname())
+                .member(MemberDto.toDto(qnABoard.getMember()))
                 .createdAt(qnABoard.getCreatedAt())
                 .viewCount(qnABoard.getViewCount())
                 .starCount((long) qnABoard.getBoardStars().size())

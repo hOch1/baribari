@@ -32,7 +32,6 @@ public class PrincipalDetail implements UserDetails, OAuth2User {
         return member.getEmail();
     }
 
-
     @Override
     public Map<String, Object> getAttributes() {
         return attributes;

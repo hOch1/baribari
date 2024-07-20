@@ -45,7 +45,7 @@
                                         </span>
                                     </div>
                                 </td>
-                                <td th:text="${qnaBoard.writer}"></td>
+                                <td th:text="${qnaBoard.member.nickname}"></td>
                                 <td th:text="${#temporals.format(qnaBoard.createdAt, 'yyyy-MM-dd HH:mm')}"></td>
                                 <td th:text="${qnaBoard.starCount}"></td>
                                 <td th:text="${qnaBoard.viewCount}"></td>
