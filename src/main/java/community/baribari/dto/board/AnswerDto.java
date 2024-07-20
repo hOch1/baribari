@@ -26,7 +26,7 @@ public class AnswerDto {
         return AnswerDto.builder()
                 .id(answer.getId())
                 .content(answer.getContent())
-                .starCount((long) answer.getBoardStars().size())
+                .starCount((long) answer.getAnswerStars().size())
                 .createdAt(answer.getCreatedAt())
                 .member(MemberDto.toDto(answer.getMember()))
                 .questionId(answer.getQnaBoard().getId())

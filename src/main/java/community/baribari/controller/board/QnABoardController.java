@@ -1,9 +1,8 @@
 package community.baribari.controller.board;
 
 import community.baribari.config.PrincipalDetail;
-import community.baribari.dto.board.AnswerDto;
-import community.baribari.dto.board.BariRecruitDto;
 import community.baribari.dto.board.QnABoardDto;
+import community.baribari.entity.board.Category;
 import community.baribari.exception.BoardNotFoundException;
 import community.baribari.service.board.QnABoardService;
 import lombok.RequiredArgsConstructor;
@@ -26,7 +25,7 @@ public class QnABoardController {
     public String index(Model model,
                         @RequestParam(defaultValue = "0") int page){
 
-        Page<QnABoardDto> list = qnABoardService.list(PageRequest.of(page, 10));
+        Page<QnABoardDto> list = qnABoardService.list(Category.QNA, PageRequest.of(page, 10));
 
         model.addAttribute("qnaBoards", list);
         model.addAttribute("currentPage", page);
@@ -58,21 +57,6 @@ public class QnABoardController {
             return "redirect:/qna-board/";
         }
         return "board/detail/qna-detail";
-    }
-
-    @PostMapping("/answer/{questionId}/write.do")
-    public String answerWrite(@PathVariable Long questionId,
-                              AnswerDto answerDto,
-                              @AuthenticationPrincipal PrincipalDetail principalDetail,
-                              RedirectAttributes redirectAttributes){
-        try {
-            qnABoardService.writeAnswer(questionId, principalDetail, answerDto);
-        } catch (BoardNotFoundException e){
-            redirectAttributes.addFlashAttribute("message", e.getMessage());
-            return "redirect:/qna-board/";
-        }
-
-        return "redirect:/qna-board/detail/" + questionId;
     }
 
     @GetMapping("/update/{id}")

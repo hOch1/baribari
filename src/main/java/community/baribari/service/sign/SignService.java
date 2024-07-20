@@ -1,4 +1,4 @@
-package community.baribari.service;
+package community.baribari.service.sign;
 
 import community.baribari.config.PrincipalDetail;
 import community.baribari.dto.sign.SignUpDto;

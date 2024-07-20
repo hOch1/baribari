@@ -2,7 +2,7 @@ package community.baribari.controller.sign;
 
 import community.baribari.config.PrincipalDetail;
 import community.baribari.dto.sign.SignUpDto;
-import community.baribari.service.SignService;
+import community.baribari.service.sign.SignService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;

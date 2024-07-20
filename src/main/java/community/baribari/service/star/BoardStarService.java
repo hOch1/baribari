@@ -17,7 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Slf4j
 public class BoardStarService {
 
-    private final BoardRepository boardRepository;
+    private final BoardRepository<Board> boardRepository;
     private final BoardStarRepository boardStarRepository;
 
     @Transactional

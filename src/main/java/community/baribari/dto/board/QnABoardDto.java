@@ -1,30 +1,22 @@
 package community.baribari.dto.board;
 
 import community.baribari.dto.MemberDto;
-import community.baribari.entity.board.Category;
 import community.baribari.entity.board.QnABoard;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
-@Builder
-@Data
+@EqualsAndHashCode(callSuper = true)
+@SuperBuilder
 @AllArgsConstructor
 @NoArgsConstructor
-public class QnABoardDto {
+@Data
+public class QnABoardDto extends BoardDto{
 
-    private Long id;
-    private String title;
-    private String content;
-    private MemberDto member;
-    private LocalDateTime createdAt;
-    private Long viewCount;
-    private Long starCount;
-    private Category category;
     private List<AnswerDto> answers;
 
     public static QnABoardDto toDto(QnABoard qnABoard, List<AnswerDto> answers) {

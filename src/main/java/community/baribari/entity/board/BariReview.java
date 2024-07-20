@@ -13,6 +13,7 @@ public class BariReview extends Board{
 
     public static BariReview toEntity(BariReviewDto bariReviewDto, PrincipalDetail principalDetail){
         return BariReview.builder()
+                .id(bariReviewDto.getId())
                 .title(bariReviewDto.getTitle())
                 .content(bariReviewDto.getContent())
                 .category(Category.REVIEW)

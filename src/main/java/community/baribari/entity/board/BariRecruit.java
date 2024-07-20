@@ -25,6 +25,7 @@ public class BariRecruit extends Board {
         bariRecruitDto.setTitle("["+region.getName()+"] "+bariRecruitDto.getTitle());
 
         return BariRecruit.builder()
+                .id(bariRecruitDto.getId())
                 .title(bariRecruitDto.getTitle())
                 .content(bariRecruitDto.getContent())
                 .member(principalDetail.getMember())

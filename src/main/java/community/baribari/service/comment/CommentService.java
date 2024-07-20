@@ -20,7 +20,7 @@ import java.util.List;
 @Slf4j
 public class CommentService {
 
-    private final BoardRepository boardRepository;
+    private final BoardRepository<Board> boardRepository;
     private final CommentRepository commentRepository;
 
     @Transactional

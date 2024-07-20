@@ -1,40 +1,25 @@
 package community.baribari.dto.board;
 
 import community.baribari.dto.MemberDto;
-import community.baribari.entity.board.Board;
-import community.baribari.entity.board.Category;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import community.baribari.entity.board.BariReview;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
 
-import java.time.LocalDateTime;
 
-@Data
+@SuperBuilder
 @AllArgsConstructor
-@NoArgsConstructor
-@Builder
-public class BariReviewDto {
+public class BariReviewDto extends BoardDto {
 
-    private Long id;
-    private String title;
-    private String content;
-    private LocalDateTime createdAt;
-    private MemberDto member;
-    private Long starCount;
-    private Long viewCount;
-    private Category category;
-
-    public static BariReviewDto toDto(Board board) {
+    public static BariReviewDto toDto(BariReview bariReview) {
         return BariReviewDto.builder()
-                .id(board.getId())
-                .title(board.getTitle())
-                .content(board.getContent())
-                .createdAt(board.getCreatedAt())
-                .member(MemberDto.toDto(board.getMember()))
-                .starCount((long) board.getBoardStars().size())
-                .viewCount(board.getViewCount())
-                .category(board.getCategory())
+                .id(bariReview.getId())
+                .title(bariReview.getTitle())
+                .content(bariReview.getContent())
+                .createdAt(bariReview.getCreatedAt())
+                .member(MemberDto.toDto(bariReview.getMember()))
+                .starCount((long) bariReview.getBoardStars().size())
+                .viewCount(bariReview.getViewCount())
+                .category(bariReview.getCategory())
                 .build();
     }
 }

@@ -3,66 +3,36 @@ package community.baribari.service.board;
 import community.baribari.config.PrincipalDetail;
 import community.baribari.dto.board.FreeBoardDto;
 import community.baribari.entity.board.FreeBoard;
-import community.baribari.exception.BoardNotFoundException;
-import community.baribari.repository.board.FreeBoardRepository;
-import lombok.RequiredArgsConstructor;
+import community.baribari.repository.board.BoardRepository;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 
 @Service
-@RequiredArgsConstructor
-@Transactional(readOnly = true)
 @Slf4j
-public class FreeBoardService {
+public class FreeBoardService extends BoardService<FreeBoard, FreeBoardDto>{
 
-    private final FreeBoardRepository freeBoardRepository;
-
-    @Transactional
-    public void save(FreeBoardDto freeBoardDto, PrincipalDetail principalDetail){
-        FreeBoard freeBoard = FreeBoard.toEntity(freeBoardDto, principalDetail);
-        FreeBoard save = freeBoardRepository.save(freeBoard);
-
-        log.info("{}님이 자유게시물을 등록했습니다. ID : {}", principalDetail.getMember().getNickname(), save.getId());
+    public FreeBoardService(BoardRepository<FreeBoard> boardRepository) {
+        super(boardRepository);
     }
 
-    public Page<FreeBoardDto> list(Pageable pageable){
-        Page<FreeBoard> freeBoards = freeBoardRepository.findAllByOrderByCreatedAtDesc(pageable);
-
-        return freeBoards.map(FreeBoardDto::toDto);
+    @Override
+    protected FreeBoard toEntity(FreeBoardDto dto, PrincipalDetail principalDetail) {
+        return FreeBoard.toEntity(dto, principalDetail);
     }
 
-    public List<FreeBoardDto> mainList(){
-        List<FreeBoard> freeBoards = freeBoardRepository.findTop3ByOrderByCreatedAtDesc();
-
-        return freeBoards.stream().map(FreeBoardDto::toDto).toList();
+    @Override
+    protected void updateBoard(FreeBoard board, FreeBoardDto dto) {
+        board.update(dto);
     }
 
-    public FreeBoardDto detail(Long id) {
-        FreeBoard freeBoard = freeBoardRepository.findById(id).orElseThrow(BoardNotFoundException::new);
-
-        return FreeBoardDto.toDto(freeBoard);
+    @Override
+    protected FreeBoardDto toDto(FreeBoard entity) {
+        return FreeBoardDto.toDto(entity);
     }
 
-    @Transactional
-    public void viewCountUp(Long id) {
-        FreeBoard freeBoard = freeBoardRepository.findById(id).orElseThrow(BoardNotFoundException::new);
-
-        freeBoard.updateViewCount();
-        freeBoardRepository.save(freeBoard);
-    }
-
-    @Transactional
-    public void update(FreeBoardDto freeBoardDto) {
-        FreeBoard freeBoard = freeBoardRepository.findById(freeBoardDto.getId()).orElseThrow(BoardNotFoundException::new);
-
-        freeBoard.update(freeBoardDto);
-        freeBoardRepository.save(freeBoard);
-
-        log.info("{}님이 게시물 {}을 수정하였습니다.", freeBoard.getMember().getId(), freeBoard.getId());
+    @Override
+    protected String getBoardTypeName() {
+        return "자유 게시판";
     }
 }

@@ -3,6 +3,7 @@ package community.baribari.controller.board;
 import community.baribari.config.PrincipalDetail;
 import community.baribari.dto.board.FreeBoardDto;
 import community.baribari.dto.comment.CommentDto;
+import community.baribari.entity.board.Category;
 import community.baribari.exception.BoardNotFoundException;
 import community.baribari.service.comment.CommentService;
 import community.baribari.service.board.FreeBoardService;
@@ -27,7 +28,7 @@ public class FreeBoardController {
     public String index(Model model,
                         @RequestParam(defaultValue = "0") int page){
 
-        Page<FreeBoardDto> list = freeBoardService.list(PageRequest.of(page, 10));
+        Page<FreeBoardDto> list = freeBoardService.list(Category.FREE, PageRequest.of(page, 10));
 
         model.addAttribute("freeBoards", list);
         model.addAttribute("currentPage", page);

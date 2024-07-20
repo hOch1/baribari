@@ -20,6 +20,7 @@ public class QnABoard extends Board{
 
     public static QnABoard toEntity(QnABoardDto qnABoardDto, PrincipalDetail principalDetail) {
         return QnABoard.builder()
+                .id(qnABoardDto.getId())
                 .title(qnABoardDto.getTitle())
                 .content(qnABoardDto.getContent())
                 .member(principalDetail.getMember())

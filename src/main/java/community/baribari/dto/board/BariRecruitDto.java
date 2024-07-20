@@ -3,25 +3,19 @@ package community.baribari.dto.board;
 import community.baribari.dto.MemberDto;
 import community.baribari.entity.board.BariRecruit;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
-import java.time.LocalDateTime;
 
-@Data
+@EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
-public class BariRecruitDto {
+@SuperBuilder
+@Data
+public class BariRecruitDto extends BoardDto{
 
-    private Long id;
-    private String title;
-    private String content;
-    private LocalDateTime createdAt;
-    private MemberDto member;
-    private Long starCount;
-    private Long viewCount;
     private String status;
     private String region;
 

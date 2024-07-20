@@ -2,28 +2,12 @@ package community.baribari.dto.board;
 
 import community.baribari.dto.MemberDto;
 import community.baribari.entity.board.Board;
-import community.baribari.entity.board.Category;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
-import java.time.LocalDateTime;
-
-@Data
-@Builder
+@SuperBuilder
 @AllArgsConstructor
-@NoArgsConstructor
-public class FreeBoardDto {
-
-    private Long id;
-    private String title;
-    private String content;
-    private MemberDto member;
-    private LocalDateTime createdAt;
-    private Long viewCount;
-    private Long starCount;
-    private Category category;
+public class FreeBoardDto extends BoardDto{
 
     public static FreeBoardDto toDto(Board board) {
         return FreeBoardDto.builder()

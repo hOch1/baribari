@@ -1,9 +1,9 @@
 package community.baribari.controller.board;
 
 import community.baribari.config.PrincipalDetail;
-import community.baribari.dto.board.BariRecruitDto;
 import community.baribari.dto.board.BariReviewDto;
 import community.baribari.dto.comment.CommentDto;
+import community.baribari.entity.board.Category;
 import community.baribari.exception.BoardNotFoundException;
 import community.baribari.service.board.BariReviewService;
 import community.baribari.service.comment.CommentService;
@@ -28,7 +28,7 @@ public class BariReviewController {
     public String index(Model model,
                         @RequestParam(defaultValue = "0") int page) {
 
-        Page<BariReviewDto> list = bariReviewService.list(PageRequest.of(page, 10));
+        Page<BariReviewDto> list = bariReviewService.list(Category.REVIEW, PageRequest.of(page, 10));
 
         model.addAttribute("bariReviews", list);
         model.addAttribute("currentPage", page);

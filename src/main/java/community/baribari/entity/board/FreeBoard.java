@@ -13,6 +13,7 @@ public class FreeBoard extends Board{
 
     public static FreeBoard toEntity(FreeBoardDto freeBoardDto, PrincipalDetail principalDetail){
         return FreeBoard.builder()
+                .id(freeBoardDto.getId())
                 .title(freeBoardDto.getTitle())
                 .content(freeBoardDto.getContent())
                 .category(Category.FREE)

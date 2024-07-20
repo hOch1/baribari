@@ -2,8 +2,8 @@ package community.baribari.controller.board;
 
 import community.baribari.config.PrincipalDetail;
 import community.baribari.dto.board.BariRecruitDto;
-import community.baribari.dto.board.FreeBoardDto;
 import community.baribari.dto.comment.CommentDto;
+import community.baribari.entity.board.Category;
 import community.baribari.exception.BoardNotFoundException;
 import community.baribari.service.board.BariRecruitService;
 import community.baribari.service.comment.CommentService;
@@ -28,7 +28,7 @@ public class BariRecruitController {
     public String recruit(Model model,
                           @RequestParam(defaultValue = "0") int page) {
 
-        Page<BariRecruitDto> list = bariRecruitService.list(PageRequest.of(page, 10));
+        Page<BariRecruitDto> list = bariRecruitService.list(Category.RECRUIT, PageRequest.of(page, 10));
         model.addAttribute("bariRecruits", list);
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", list.getTotalPages());
