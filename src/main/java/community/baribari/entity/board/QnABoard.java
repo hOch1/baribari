@@ -26,4 +26,8 @@ public class QnABoard extends Board{
                 .category(Category.QNA)
                 .build();
     }
+
+    public void update(QnABoardDto qnABoardDto) {
+        this.update(qnABoardDto.getTitle(), qnABoardDto.getContent());
+    }
 }

@@ -3,6 +3,7 @@ package community.baribari.service.board;
 import community.baribari.config.PrincipalDetail;
 import community.baribari.dto.board.BariRecruitDto;
 import community.baribari.entity.board.BariRecruit;
+import community.baribari.entity.board.FreeBoard;
 import community.baribari.exception.BoardNotFoundException;
 import community.baribari.repository.board.BariRecruitRepository;
 import lombok.RequiredArgsConstructor;
@@ -52,5 +53,16 @@ public class BariRecruitService {
         BariRecruit bariRecruit = bariRecruitRepository.findById(id).orElseThrow(BoardNotFoundException::new);
         bariRecruit.updateViewCount();
         bariRecruitRepository.save(bariRecruit);
+    }
+
+    @Transactional
+    public void update(BariRecruitDto bariRecruitDto) {
+        BariRecruit bariRecruit = bariRecruitRepository.findById(bariRecruitDto.getId())
+                .orElseThrow(BoardNotFoundException::new);
+
+        bariRecruit.update(bariRecruitDto);
+        bariRecruitRepository.save(bariRecruit);
+        log.info("{}님이 게시물 {}을 수정하였습니다.", bariRecruit.getMember().getId(), bariRecruit.getId());
+
     }
 }

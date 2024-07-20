@@ -19,4 +19,8 @@ public class FreeBoard extends Board{
                 .member(principalDetail.getMember())
                 .build();
     }
+
+    public void update(FreeBoardDto freeBoardDto) {
+        this.update(freeBoardDto.getTitle(), freeBoardDto.getContent());
+    }
 }

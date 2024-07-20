@@ -2,8 +2,10 @@ package community.baribari.service.board;
 
 import community.baribari.config.PrincipalDetail;
 import community.baribari.dto.board.BariReviewDto;
+import community.baribari.dto.board.FreeBoardDto;
 import community.baribari.entity.board.BariReview;
 import community.baribari.entity.board.Board;
+import community.baribari.entity.board.FreeBoard;
 import community.baribari.exception.BoardNotFoundException;
 import community.baribari.repository.board.BariReviewRepository;
 import lombok.RequiredArgsConstructor;
@@ -55,6 +57,18 @@ public class BariReviewService {
         BariReview review = bariReviewRepository.findById(id).orElseThrow(BoardNotFoundException::new);
         review.updateViewCount();
         bariReviewRepository.save(review);
+    }
+
+    @Transactional
+    public void update(BariReviewDto bariReviewDto) {
+        BariReview bariReview = bariReviewRepository.findById(bariReviewDto.getId())
+                .orElseThrow(BoardNotFoundException::new);
+
+        bariReview.update(bariReviewDto);
+        bariReviewRepository.save(bariReview);
+
+        log.info("{}님이 게시물 {}을 수정하였습니다.", bariReview.getMember().getId(), bariReview.getId());
+
     }
 
 }

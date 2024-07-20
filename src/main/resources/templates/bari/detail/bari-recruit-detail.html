@@ -27,11 +27,11 @@
                             | 추천수: <span th:text="${bariRecruit.starCount}"></span>
                             <div th:if="${#authentication != null and #authentication.name == bariRecruit.member.email}">
                                 <!-- 수정 버튼 -->
-                                <a th:href="@{/free-board/update/{id}(id=${bariRecruit.id})}" class="btn btn-outline-secondary btn-sm">
+                                <a th:href="@{/bari-recruit/update/{id}(id=${bariRecruit.id})}" class="btn btn-outline-secondary btn-sm">
                                     <i class="bi bi-pencil"></i> 수정
                                 </a>
                                 <!-- 삭제 버튼 -->
-                                <form th:action="@{/free-board/delete/{id}(id=${bariRecruit.id})}" th:method="post" style="display: inline;">
+                                <form th:action="@{/bari-recruit/delete/{id}(id=${bariRecruit.id})}" th:method="post" style="display: inline;">
                                     <button type="submit" class="btn btn-outline-danger btn-sm">
                                         <i class="bi bi-trash"></i> 삭제
                                     </button>
@@ -62,7 +62,7 @@
                         <button type="submit" class="btn btn-primary">댓글 작성</button>
                     </form>
                 </div>
-                <div class="comment-list mt-4">
+                <div class="comment-list mt-4" th:if="${!comments.isEmpty()}">
                     <h5>댓글 리스트</h5>
                     <div th:each="comment : ${comments}">
                         <div class="card mb-3">

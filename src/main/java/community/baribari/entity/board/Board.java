@@ -55,6 +55,11 @@ public abstract class Board {
         this.viewCount++;
     }
 
+    public void update(String title, String content){
+        this.title = title;
+        this.content = content;
+    }
+
     protected Board(String title, String content, Member member, Category category) {
         this.title = title;
         this.content = content;

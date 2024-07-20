@@ -43,16 +43,14 @@ public class FreeBoardService {
     }
 
     public FreeBoardDto detail(Long id) {
-        FreeBoard freeBoard = freeBoardRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("게시물을 찾을 수 없습니다."));
+        FreeBoard freeBoard = freeBoardRepository.findById(id).orElseThrow(BoardNotFoundException::new);
 
         return FreeBoardDto.toDto(freeBoard);
     }
 
     @Transactional
     public void viewCountUp(Long id) {
-        FreeBoard freeBoard = freeBoardRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("게시물을 찾을 수 없습니다."));
+        FreeBoard freeBoard = freeBoardRepository.findById(id).orElseThrow(BoardNotFoundException::new);
 
         freeBoard.updateViewCount();
         freeBoardRepository.save(freeBoard);
@@ -60,10 +58,11 @@ public class FreeBoardService {
 
     @Transactional
     public void update(FreeBoardDto freeBoardDto) {
-        FreeBoard freeBoard = freeBoardRepository.findById(freeBoardDto.getId())
-                .orElseThrow(BoardNotFoundException::new);
+        FreeBoard freeBoard = freeBoardRepository.findById(freeBoardDto.getId()).orElseThrow(BoardNotFoundException::new);
 
+        freeBoard.update(freeBoardDto);
         freeBoardRepository.save(freeBoard);
 
+        log.info("{}님이 게시물 {}을 수정하였습니다.", freeBoard.getMember().getId(), freeBoard.getId());
     }
 }

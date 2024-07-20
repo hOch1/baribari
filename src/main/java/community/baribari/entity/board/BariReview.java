@@ -19,4 +19,8 @@ public class BariReview extends Board{
                 .member(principalDetail.getMember())
                 .build();
     }
+
+    public void update(BariReviewDto bariReviewDto) {
+        this.update(bariReviewDto.getTitle(), bariReviewDto.getContent());
+    }
 }

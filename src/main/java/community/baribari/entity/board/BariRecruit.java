@@ -34,4 +34,11 @@ public class BariRecruit extends Board {
                 .build();
     }
 
+    public void update(BariRecruitDto bariRecruitDto) {
+        BariRegion region = BariRegion.fromDisplayName(bariRecruitDto.getRegion());
+        bariRecruitDto.setTitle("["+region.getName()+"] "+bariRecruitDto.getTitle());
+
+        this.region = region;
+        this.update(bariRecruitDto.getTitle(), bariRecruitDto.getContent());
+    }
 }

@@ -25,6 +25,7 @@ public class MemberDto {
     public static MemberDto toDto(Member member){
         return MemberDto.builder()
                 .id(member.getId())
+                .nickname(member.getNickname())
                 .name(member.getName())
                 .email(member.getEmail())
                 .role(member.getRole())

@@ -63,7 +63,7 @@
                     </form>
                 </div>
 
-                <div class="comment-list mt-4">
+                <div class="comment-list mt-4" th:if="${!comments.isEmpty()}">
                     <h5>댓글 리스트</h5>
                     <div th:each="comment : ${comments}">
                         <div class="card mb-3">

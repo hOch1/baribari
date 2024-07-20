@@ -26,11 +26,11 @@
                             | 추천수: <span th:text="${qnaBoard.starCount}"></span>
                             <div th:if="${#authentication != null and #authentication.name == qnaBoard.member.email}">
                                 <!-- 수정 버튼 -->
-                                <a th:href="@{/free-board/update/{id}(id=${qnaBoard.id})}" class="btn btn-outline-secondary btn-sm">
+                                <a th:href="@{/qna-board/update/{id}(id=${qnaBoard.id})}" class="btn btn-outline-secondary btn-sm">
                                     <i class="bi bi-pencil"></i> 수정
                                 </a>
                                 <!-- 삭제 버튼 -->
-                                <form th:action="@{/free-board/delete/{id}(id=${qnaBoard.id})}" th:method="post" style="display: inline;">
+                                <form th:action="@{/qna-board/delete/{id}(id=${qnaBoard.id})}" th:method="post" style="display: inline;">
                                     <button type="submit" class="btn btn-outline-danger btn-sm">
                                         <i class="bi bi-trash"></i> 삭제
                                     </button>

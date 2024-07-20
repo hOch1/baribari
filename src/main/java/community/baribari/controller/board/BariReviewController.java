@@ -1,6 +1,7 @@
 package community.baribari.controller.board;
 
 import community.baribari.config.PrincipalDetail;
+import community.baribari.dto.board.BariRecruitDto;
 import community.baribari.dto.board.BariReviewDto;
 import community.baribari.dto.comment.CommentDto;
 import community.baribari.exception.BoardNotFoundException;
@@ -61,5 +62,22 @@ public class BariReviewController {
             return "redirect:/bari-review";
         }
         return "bari/detail/bari-review-detail";
+    }
+
+    @GetMapping("/update/{id}")
+    public String update(@PathVariable Long id, Model model){
+        model.addAttribute("board", bariReviewService.detail(id));
+        return "bari/update/review-update";
+    }
+
+    @PostMapping("/update.do")
+    public String update(@ModelAttribute BariReviewDto bariReviewDto){
+        bariReviewService.update(bariReviewDto);
+        return "redirect:/bari-review/detail/"+bariReviewDto.getId();
+    }
+
+    @PostMapping("/delete/{id}")
+    public String delete(@PathVariable Long id){
+        return "redirect:/bari-review";
     }
 }

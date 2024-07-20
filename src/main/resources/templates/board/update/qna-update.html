@@ -20,7 +20,7 @@
         <div th:replace="~{layout/sidebar :: sidebar}"></div>
         <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
             <div class="pt-3 me-max">
-                <form action="/free-board/update.do" method="post" th:object="${board}">
+                <form action="/qna-board/update.do" method="post" th:object="${board}">
                     <input type="hidden" th:field="*{id}" th:value="${board.id}">
                     <div class="form-group mb-3">
                         <label for="title">제목</label>

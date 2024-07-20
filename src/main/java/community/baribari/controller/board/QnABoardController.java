@@ -2,6 +2,7 @@ package community.baribari.controller.board;
 
 import community.baribari.config.PrincipalDetail;
 import community.baribari.dto.board.AnswerDto;
+import community.baribari.dto.board.BariRecruitDto;
 import community.baribari.dto.board.QnABoardDto;
 import community.baribari.exception.BoardNotFoundException;
 import community.baribari.service.board.QnABoardService;
@@ -72,5 +73,22 @@ public class QnABoardController {
         }
 
         return "redirect:/qna-board/detail/" + questionId;
+    }
+
+    @GetMapping("/update/{id}")
+    public String update(@PathVariable Long id, Model model){
+        model.addAttribute("board", qnABoardService.detail(id));
+        return "board/update/qna-update";
+    }
+
+    @PostMapping("/update.do")
+    public String update(@ModelAttribute QnABoardDto qnABoardDto){
+        qnABoardService.update(qnABoardDto);
+        return "redirect:/qna-board/detail/"+qnABoardDto.getId();
+    }
+
+    @PostMapping("/delete/{id}")
+    public String delete(@PathVariable Long id){
+        return "redirect:/qna-board";
     }
 }
