@@ -72,13 +72,18 @@ public class FreeBoardController {
     }
 
     @PostMapping("/update.do")
-    public String update(@ModelAttribute FreeBoardDto freeBoardDto){
+    public String update(@ModelAttribute FreeBoardDto freeBoardDto,
+                         RedirectAttributes redirectAttributes){
         freeBoardService.update(freeBoardDto);
+        redirectAttributes.addFlashAttribute("message", "수정되었습니다.");
         return "redirect:/free-board/detail/"+freeBoardDto.getId();
     }
 
     @PostMapping("/delete/{id}")
-    public String delete(@PathVariable Long id){
+    public String delete(@PathVariable Long id,
+                         RedirectAttributes redirectAttributes){
+        freeBoardService.delete(id);
+        redirectAttributes.addFlashAttribute("message", "삭제되었습니다.");
         return "redirect:/free-board";
     }
 }

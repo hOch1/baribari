@@ -27,6 +27,9 @@ public class Answer{
     @Builder.Default
     private LocalDateTime createdAt = LocalDateTime.now();
 
+    @Builder.Default
+    private Boolean deleted = false;
+
     @ManyToOne(fetch = FetchType.LAZY)
     private Member member;
 

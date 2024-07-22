@@ -26,10 +26,14 @@ public class Comment {
     private String content;
 
     @OneToMany(mappedBy = "comment")
+    @Builder.Default
     private List<CommentStar> stars = new ArrayList<>();
 
     @Builder.Default
     private LocalDateTime createdAt = LocalDateTime.now();
+
+    @Builder.Default
+    private Boolean deleted = false;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Member member;
@@ -43,5 +47,10 @@ public class Comment {
                 .member(principalDetail.getMember())
                 .board(board)
                 .build();
+    }
+
+    public void delete(){
+        this.deleted = true;
+        this.content = "삭제된 댓글 입니다.";
     }
 }

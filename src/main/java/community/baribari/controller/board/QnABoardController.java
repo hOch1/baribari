@@ -66,13 +66,16 @@ public class QnABoardController {
     }
 
     @PostMapping("/update.do")
-    public String update(@ModelAttribute QnABoardDto qnABoardDto){
+    public String update(@ModelAttribute QnABoardDto qnABoardDto, RedirectAttributes redirectAttributes){
         qnABoardService.update(qnABoardDto);
+        redirectAttributes.addFlashAttribute("message", "수정되었습니다.");
         return "redirect:/qna-board/detail/"+qnABoardDto.getId();
     }
 
     @PostMapping("/delete/{id}")
-    public String delete(@PathVariable Long id){
+    public String delete(@PathVariable Long id, RedirectAttributes redirectAttributes){
+        qnABoardService.delete(id);
+        redirectAttributes.addFlashAttribute("message", "삭제되었습니다.");
         return "redirect:/qna-board";
     }
 }

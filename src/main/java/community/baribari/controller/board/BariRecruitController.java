@@ -70,13 +70,16 @@ public class BariRecruitController {
     }
 
     @PostMapping("/update.do")
-    public String update(@ModelAttribute BariRecruitDto bariRecruitDto){
+    public String update(@ModelAttribute BariRecruitDto bariRecruitDto, RedirectAttributes redirectAttributes){
         bariRecruitService.update(bariRecruitDto);
+        redirectAttributes.addFlashAttribute("message", "수정되었습니다.");
         return "redirect:/bari-recruit/detail/"+bariRecruitDto.getId();
     }
 
     @PostMapping("/delete/{id}")
-    public String delete(@PathVariable Long id){
+    public String delete(@PathVariable Long id, RedirectAttributes redirectAttributes){
+        bariRecruitService.delete(id);
+        redirectAttributes.addFlashAttribute("message", "삭제되었습니다.");
         return "redirect:/bari-recruit";
     }
 }

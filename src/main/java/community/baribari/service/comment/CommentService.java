@@ -5,6 +5,7 @@ import community.baribari.dto.comment.CommentDto;
 import community.baribari.entity.board.Board;
 import community.baribari.entity.comment.Comment;
 import community.baribari.exception.BoardNotFoundException;
+import community.baribari.exception.CommentNotFoundException;
 import community.baribari.repository.board.BoardRepository;
 import community.baribari.repository.board.CommentRepository;
 import lombok.RequiredArgsConstructor;
@@ -37,5 +38,12 @@ public class CommentService {
         List<Comment> comments = commentRepository.findByBoardId(boardId);
 
         return comments.stream().map(CommentDto::toDto).toList();
+    }
+
+    @Transactional
+    public void delete(Long id){
+        Comment comment = commentRepository.findById(id).orElseThrow(CommentNotFoundException::new);
+        comment.delete();
+        commentRepository.save(comment);
     }
 }

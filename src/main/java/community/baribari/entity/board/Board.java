@@ -40,6 +40,9 @@ public abstract class Board {
     @Builder.Default
     private LocalDateTime createdAt = LocalDateTime.now();
 
+    @Builder.Default
+    private Boolean deleted = false;
+
     @ManyToOne(fetch = FetchType.LAZY)
     private Member member;
 
@@ -68,5 +71,9 @@ public abstract class Board {
         this.viewCount = 0L;
         this.boardStars = new ArrayList<>();
         this.createdAt = LocalDateTime.now();
+    }
+
+    public void delete() {
+        this.deleted = true;
     }
 }

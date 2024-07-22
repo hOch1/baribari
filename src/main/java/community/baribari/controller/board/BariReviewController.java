@@ -71,13 +71,16 @@ public class BariReviewController {
     }
 
     @PostMapping("/update.do")
-    public String update(@ModelAttribute BariReviewDto bariReviewDto){
+    public String update(@ModelAttribute BariReviewDto bariReviewDto, RedirectAttributes redirectAttributes){
         bariReviewService.update(bariReviewDto);
+        redirectAttributes.addFlashAttribute("message", "수정되었습니다");
         return "redirect:/bari-review/detail/"+bariReviewDto.getId();
     }
 
     @PostMapping("/delete/{id}")
-    public String delete(@PathVariable Long id){
+    public String delete(@PathVariable Long id, RedirectAttributes redirectAttributes){
+        bariReviewService.delete(id);
+        redirectAttributes.addFlashAttribute("message", "삭제되었습니다.");
         return "redirect:/bari-review";
     }
 }

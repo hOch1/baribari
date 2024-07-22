@@ -19,10 +19,13 @@ public class Member {
     private String email;
     private String password;
 
+    @Builder.Default
+    private Boolean deleted = false;
+
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    
+
 
     public Member update(String name){
         this.name = name;

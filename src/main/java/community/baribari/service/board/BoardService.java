@@ -33,12 +33,12 @@ public abstract class BoardService<T extends Board, D extends BoardDto> {
     }
 
     public Page<D> list(Category category, Pageable pageable) {
-        Page<T> boards = boardRepository.findAllByCategoryOrderByCreatedAtDesc(category, pageable);
+        Page<T> boards = boardRepository.findAllByCategoryAndDeletedFalseOrderByCreatedAtDesc(category, pageable);
         return boards.map(this::toDto);
     }
 
     public List<D> mainList() {
-        List<T> boards = boardRepository.findTop3ByOrderByCreatedAtDesc();
+        List<T> boards = boardRepository.findTop3ByDeletedFalseOrderByCreatedAtDesc();
         return boards.stream().map(this::toDto).collect(Collectors.toList());
     }
 
@@ -63,6 +63,15 @@ public abstract class BoardService<T extends Board, D extends BoardDto> {
         T board = boardRepository.findById(id).orElseThrow(BoardNotFoundException::new);
         board.updateViewCount();
         boardRepository.save(board);
+    }
+
+    @Transactional
+    public void delete(Long id){
+        T board = boardRepository.findById(id).orElseThrow(BoardNotFoundException::new);
+        board.delete();
+        boardRepository.save(board);
+
+        log.info("{}님이 게시물 {}을 삭제했습니다.", board.getMember().getId(), board.getId());
     }
 
     protected abstract T toEntity(D dto, PrincipalDetail principalDetail);
