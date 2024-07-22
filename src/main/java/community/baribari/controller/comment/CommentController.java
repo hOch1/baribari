@@ -36,4 +36,17 @@ public class CommentController {
         return "redirect:/" + boardName + "/detail/" + boardId;
     }
 
+    @PostMapping("/{boardName}/{boardId}/{id}/delete")
+    public String delete(@PathVariable(value = "boardName") String boardName,
+                         @PathVariable(value = "boardId") Long boardId,
+                         @PathVariable(value = "id") Long id,
+                         RedirectAttributes redirectAttributes) {
+        try {
+            commentService.delete(id);
+        }catch (BoardNotFoundException e){
+            redirectAttributes.addFlashAttribute("message", e.getMessage());
+        }
+        return "redirect:/" + boardName + "/detail/" + boardId;
+    }
+
 }

@@ -1,9 +1,10 @@
-package community.baribari.service.board;
+package community.baribari.service.board.extend;
 
 import community.baribari.config.PrincipalDetail;
 import community.baribari.dto.board.QnABoardDto;
 import community.baribari.entity.board.QnABoard;
 import community.baribari.repository.board.BoardRepository;
+import community.baribari.service.board.BoardService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Slf4j
 @Transactional(readOnly = true)
-public class QnABoardService extends BoardService<QnABoard, QnABoardDto>{
+public class QnABoardService extends BoardService<QnABoard, QnABoardDto> {
 
     public QnABoardService(BoardRepository<QnABoard> boardRepository) {
         super(boardRepository);

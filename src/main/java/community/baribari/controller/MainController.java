@@ -1,10 +1,10 @@
 package community.baribari.controller;
 
 import community.baribari.entity.board.Category;
-import community.baribari.service.board.BariRecruitService;
-import community.baribari.service.board.BariReviewService;
-import community.baribari.service.board.FreeBoardService;
-import community.baribari.service.board.QnABoardService;
+import community.baribari.service.board.extend.BariRecruitService;
+import community.baribari.service.board.extend.BariReviewService;
+import community.baribari.service.board.extend.FreeBoardService;
+import community.baribari.service.board.extend.QnABoardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,6 +28,4 @@ public class MainController {
 
         return "home";
     }
-
-
 }

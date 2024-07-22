@@ -5,8 +5,9 @@ import community.baribari.dto.board.FreeBoardDto;
 import community.baribari.dto.comment.CommentDto;
 import community.baribari.entity.board.Category;
 import community.baribari.exception.BoardNotFoundException;
+import community.baribari.exception.IsDeletedException;
 import community.baribari.service.comment.CommentService;
-import community.baribari.service.board.FreeBoardService;
+import community.baribari.service.board.extend.FreeBoardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -55,10 +56,10 @@ public class FreeBoardController {
                          RedirectAttributes redirectAttributes){
         try {
             freeBoardService.viewCountUp(id);
-            model.addAttribute("freeBoard", freeBoardService.detail(id));
+            model.addAttribute("board", freeBoardService.detail(id));
             model.addAttribute("comments", commentService.list(id));
             model.addAttribute("comment", new CommentDto());
-        } catch (BoardNotFoundException e){
+        } catch (BoardNotFoundException | IsDeletedException e){
             redirectAttributes.addFlashAttribute("message", e.getMessage());
             return "redirect:/free-board/";
         }

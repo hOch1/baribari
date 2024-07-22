@@ -4,7 +4,8 @@ import community.baribari.config.PrincipalDetail;
 import community.baribari.dto.board.QnABoardDto;
 import community.baribari.entity.board.Category;
 import community.baribari.exception.BoardNotFoundException;
-import community.baribari.service.board.QnABoardService;
+import community.baribari.exception.IsDeletedException;
+import community.baribari.service.board.extend.QnABoardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -27,7 +28,7 @@ public class QnABoardController {
 
         Page<QnABoardDto> list = qnABoardService.list(Category.QNA, PageRequest.of(page, 10));
 
-        model.addAttribute("qnaBoards", list);
+        model.addAttribute("board", list);
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", list.getTotalPages());
         model.addAttribute("totalElements", list.getTotalElements());
@@ -52,7 +53,7 @@ public class QnABoardController {
         try {
             qnABoardService.viewCountUp(id);
             model.addAttribute("qnaBoard", qnABoardService.detail(id));
-        } catch (BoardNotFoundException e){
+        } catch (BoardNotFoundException | IsDeletedException e){
             redirectAttributes.addFlashAttribute("message", e.getMessage());
             return "redirect:/qna-board/";
         }

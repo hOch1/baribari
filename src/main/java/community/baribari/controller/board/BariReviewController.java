@@ -5,7 +5,8 @@ import community.baribari.dto.board.BariReviewDto;
 import community.baribari.dto.comment.CommentDto;
 import community.baribari.entity.board.Category;
 import community.baribari.exception.BoardNotFoundException;
-import community.baribari.service.board.BariReviewService;
+import community.baribari.exception.IsDeletedException;
+import community.baribari.service.board.extend.BariReviewService;
 import community.baribari.service.comment.CommentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -54,10 +55,10 @@ public class BariReviewController {
     public String detail(@PathVariable Long id, Model model, RedirectAttributes redirectAttributes) {
         try {
             bariReviewService.viewCountUp(id);
-            model.addAttribute("bariReview", bariReviewService.detail(id));
+            model.addAttribute("board", bariReviewService.detail(id));
             model.addAttribute("comments", commentService.list(id));
             model.addAttribute("comment", new CommentDto());
-        }catch (BoardNotFoundException e){
+        }catch (BoardNotFoundException | IsDeletedException e){
             redirectAttributes.addFlashAttribute("message", e.getMessage());
             return "redirect:/bari-review";
         }

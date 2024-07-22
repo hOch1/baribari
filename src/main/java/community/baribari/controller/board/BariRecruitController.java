@@ -5,7 +5,8 @@ import community.baribari.dto.board.BariRecruitDto;
 import community.baribari.dto.comment.CommentDto;
 import community.baribari.entity.board.Category;
 import community.baribari.exception.BoardNotFoundException;
-import community.baribari.service.board.BariRecruitService;
+import community.baribari.exception.IsDeletedException;
+import community.baribari.service.board.extend.BariRecruitService;
 import community.baribari.service.comment.CommentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -53,10 +54,10 @@ public class BariRecruitController {
     public String detail(@PathVariable Long id, Model model, RedirectAttributes redirectAttributes){
         try {
             bariRecruitService.viewCountUp(id);
-            model.addAttribute("bariRecruit", bariRecruitService.detail(id));
+            model.addAttribute("board", bariRecruitService.detail(id));
             model.addAttribute("comments", commentService.list(id));
             model.addAttribute("comment", new CommentDto());
-        }catch (BoardNotFoundException e){
+        }catch (BoardNotFoundException | IsDeletedException e){
             redirectAttributes.addFlashAttribute("message", e.getMessage());
             return "redirect:/bari-recruit";
         }

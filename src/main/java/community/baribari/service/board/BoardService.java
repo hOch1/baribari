@@ -5,6 +5,7 @@ import community.baribari.dto.board.BoardDto;
 import community.baribari.entity.board.Board;
 import community.baribari.entity.board.Category;
 import community.baribari.exception.BoardNotFoundException;
+import community.baribari.exception.IsDeletedException;
 import community.baribari.repository.board.BoardRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -44,6 +45,9 @@ public abstract class BoardService<T extends Board, D extends BoardDto> {
 
     public D detail(Long id) {
         T board = boardRepository.findById(id).orElseThrow(BoardNotFoundException::new);
+        if (board.getDeleted()) {
+            throw new IsDeletedException();
+        }
         return toDto(board);
     }
 
