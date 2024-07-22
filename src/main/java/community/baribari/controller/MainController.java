@@ -1,5 +1,6 @@
 package community.baribari.controller;
 
+import community.baribari.entity.board.Category;
 import community.baribari.service.board.BariRecruitService;
 import community.baribari.service.board.BariReviewService;
 import community.baribari.service.board.FreeBoardService;
@@ -20,10 +21,10 @@ public class MainController {
 
     @GetMapping(value = {"/", ""})
     public String main(Model model){
-        model.addAttribute("bariRecruits", bariRecruitService.mainList());
-        model.addAttribute("bariReviews", bariReviewService.mainList());
-        model.addAttribute("freeBoards", freeBoardService.mainList());
-        model.addAttribute("qnaBoards", qnABoardService.mainList());
+        model.addAttribute("bariRecruits", bariRecruitService.mainList(Category.RECRUIT));
+        model.addAttribute("bariReviews", bariReviewService.mainList(Category.REVIEW));
+        model.addAttribute("freeBoards", freeBoardService.mainList(Category.FREE));
+        model.addAttribute("qnaBoards", qnABoardService.mainList(Category.QNA));
 
         return "home";
     }

@@ -37,8 +37,8 @@ public abstract class BoardService<T extends Board, D extends BoardDto> {
         return boards.map(this::toDto);
     }
 
-    public List<D> mainList() {
-        List<T> boards = boardRepository.findTop3ByDeletedFalseOrderByCreatedAtDesc();
+    public List<D> mainList(Category category) {
+        List<T> boards = boardRepository.findTop3ByCategoryAndDeletedFalseOrderByCreatedAtDesc(category);
         return boards.stream().map(this::toDto).collect(Collectors.toList());
     }
 

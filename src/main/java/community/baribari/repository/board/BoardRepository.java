@@ -10,8 +10,7 @@ import java.util.List;
 
 public interface BoardRepository<T extends Board> extends JpaRepository<T, Long> {
 
-    List<T> findTop3ByDeletedFalseOrderByCreatedAtDesc();
-
+    List<T> findTop3ByCategoryAndDeletedFalseOrderByCreatedAtDesc(Category category);
 
     Page<T> findAllByCategoryAndDeletedFalseOrderByCreatedAtDesc(Category category, Pageable pageable);
 }
