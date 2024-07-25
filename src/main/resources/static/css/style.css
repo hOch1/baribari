@@ -48,3 +48,10 @@ footer {
     justify-content: center;
     margin-top: 20px;
 }
+
+.sidebar .nav-link {
+    color: black !important;
+}
+.sidebar .nav-link:hover {
+    color: #00000080 !important; /* 50% 투명도 */
+}
