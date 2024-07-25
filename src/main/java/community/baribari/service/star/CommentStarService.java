@@ -22,7 +22,7 @@ public class CommentStarService {
     private final CommentStarRepository commentStarRepository;
 
     @Transactional
-    public void starCountUp(Long id, PrincipalDetail principalDetail) {
+    public CommentStar starCountUp(Long id, PrincipalDetail principalDetail) {
         Comment comment = commentRepository.findById(id).orElseThrow(CommentNotFoundException::new);
 
         if (commentStarRepository.existsByMemberIdAndCommentId(principalDetail.getMember().getId(), id))
@@ -33,6 +33,6 @@ public class CommentStarService {
                 .member(principalDetail.getMember())
                 .build();
 
-        commentStarRepository.save(star);
+        return commentStarRepository.save(star);
     }
 }

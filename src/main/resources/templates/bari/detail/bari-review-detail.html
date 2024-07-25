@@ -75,5 +75,16 @@
     let message = /*[[${message}]]*/ null;
 </script>
 <script th:src="@{/js/message.js}"></script>
+<script th:inline="javascript">
+    function toggleReplyForm(button) {
+        var commentId = button.getAttribute('data-comment-id');
+        var form = document.getElementById('replyForm-' + commentId);
+        if (form.style.display === 'none' || form.style.display === '') {
+            form.style.display = 'block';
+        } else {
+            form.style.display = 'none';
+        }
+    }
+</script>
 </body>
 </html>

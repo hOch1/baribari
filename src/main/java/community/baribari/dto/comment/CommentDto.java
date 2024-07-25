@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @Builder
@@ -22,6 +23,8 @@ public class CommentDto {
     private LocalDateTime createdAt;
     private MemberDto member;
     private Long boardId;
+    private boolean deleted;
+    private List<CommentDto> children;
 
     public static CommentDto toDto(Comment comment) {
         return CommentDto.builder()
@@ -31,6 +34,8 @@ public class CommentDto {
                 .createdAt(comment.getCreatedAt())
                 .member(MemberDto.toDto(comment.getMember()))
                 .boardId(comment.getBoard().getId())
+                .deleted(comment.getDeleted())
+                .children(comment.getChildren().stream().map(CommentDto::toDto).toList())
                 .build();
     }
 }

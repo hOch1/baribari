@@ -1,6 +1,8 @@
 package community.baribari.controller.star;
 
 import community.baribari.config.PrincipalDetail;
+import community.baribari.entity.board.Category;
+import community.baribari.entity.star.CommentStar;
 import community.baribari.exception.BoardNotFoundException;
 import community.baribari.exception.CommentNotFoundException;
 import community.baribari.service.star.CommentStarService;
@@ -23,19 +25,27 @@ public class CommentStarController {
     @PostMapping("/add/{boardId}/{id}")
     public String star(@PathVariable(value = "id") Long id,
                        @PathVariable(value = "boardId") Long boardId,
-                       @RequestParam String boardName,
                        @AuthenticationPrincipal PrincipalDetail principalDetail,
                        RedirectAttributes redirectAttributes) {
-
         try {
-            commentStarService.starCountUp(id, principalDetail);
-        }catch (CommentNotFoundException e){
+            CommentStar star = commentStarService.starCountUp(id, principalDetail);
+            String boardName = getBoardName(star.getComment().getBoard().getCategory());
+            return "redirect:/"+boardName+"/detail/"+boardId;
+        }catch (CommentNotFoundException | IllegalArgumentException e){
             redirectAttributes.addFlashAttribute("message", e.getMessage());
-        }catch (IllegalArgumentException e){
-            redirectAttributes.addFlashAttribute("message", e.getMessage());
-            return "redirect:/"+boardName;
+            return "redirect:/";
         }
-
-        return "redirect:/"+boardName+"/detail/"+boardId;
     }
-}
+
+    public String getBoardName(Category category){
+        switch (category){
+            case FREE :
+                return "free-board";
+            case REVIEW :
+                return "bari-review";
+            case RECRUIT :
+                return "bari-recruit";
+            default:
+                return "/";
+        }
+    }}

@@ -35,15 +35,22 @@ public class CommentService {
     }
 
     public List<CommentDto> list(Long boardId){
-        List<Comment> comments = commentRepository.findByBoardId(boardId);
+        List<Comment> comments = commentRepository.findByBoardIdAndParentIsNull(boardId);
 
         return comments.stream().map(CommentDto::toDto).toList();
     }
 
     @Transactional
-    public void delete(Long id){
+    public Comment delete(Long id){
         Comment comment = commentRepository.findById(id).orElseThrow(CommentNotFoundException::new);
         comment.delete();
-        commentRepository.save(comment);
+        return commentRepository.save(comment);
+    }
+
+    @Transactional
+    public Comment addReply(CommentDto commentDto, Long commentId, PrincipalDetail principalDetail) {
+        Comment comment = commentRepository.findById(commentId).orElseThrow(CommentNotFoundException::new);
+        Comment reply = Comment.toEntity(commentDto, principalDetail, comment.getBoard(), comment);
+        return commentRepository.save(reply);
     }
 }

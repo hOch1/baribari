@@ -41,6 +41,12 @@ public class Comment {
     @ManyToOne(fetch = FetchType.LAZY)
     private Board board;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Comment parent;
+
+    @OneToMany(mappedBy = "parent")
+    private List<Comment> children = new ArrayList<>();
+
     public static Comment toEntity(CommentDto commentDto, PrincipalDetail principalDetail, Board board) {
         return Comment.builder()
                 .content(commentDto.getContent())
@@ -49,8 +55,16 @@ public class Comment {
                 .build();
     }
 
+    public static Comment toEntity(CommentDto commentDto, PrincipalDetail principalDetail, Board board, Comment comment) {
+        return Comment.builder()
+                .content(commentDto.getContent())
+                .member(principalDetail.getMember())
+                .board(board)
+                .parent(comment)
+                .build();
+    }
+
     public void delete(){
         this.deleted = true;
-        this.content = "삭제된 댓글 입니다.";
     }
 }

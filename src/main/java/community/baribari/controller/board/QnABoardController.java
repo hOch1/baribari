@@ -28,7 +28,7 @@ public class QnABoardController {
 
         Page<QnABoardDto> list = qnABoardService.list(Category.QNA, PageRequest.of(page, 10));
 
-        model.addAttribute("board", list);
+        model.addAttribute("qnaBoards", list);
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", list.getTotalPages());
         model.addAttribute("totalElements", list.getTotalElements());
