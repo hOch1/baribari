@@ -4,8 +4,7 @@ import community.baribari.config.PrincipalDetail;
 import community.baribari.dto.board.BariReviewDto;
 import community.baribari.dto.comment.CommentDto;
 import community.baribari.entity.board.Category;
-import community.baribari.exception.BoardNotFoundException;
-import community.baribari.exception.IsDeletedException;
+import community.baribari.exception.CustomException;
 import community.baribari.service.board.extend.BariReviewService;
 import community.baribari.service.comment.CommentService;
 import lombok.RequiredArgsConstructor;
@@ -58,7 +57,7 @@ public class BariReviewController {
             model.addAttribute("board", bariReviewService.detail(id));
             model.addAttribute("comments", commentService.list(id));
             model.addAttribute("comment", new CommentDto());
-        }catch (BoardNotFoundException | IsDeletedException e){
+        }catch (CustomException e){
             redirectAttributes.addFlashAttribute("message", e.getMessage());
             return "redirect:/bari-review";
         }

@@ -2,10 +2,10 @@ package community.baribari.controller.comment;
 
 import community.baribari.config.PrincipalDetail;
 import community.baribari.dto.comment.CommentDto;
-import community.baribari.entity.board.Category;
 import community.baribari.entity.comment.Comment;
-import community.baribari.exception.BoardNotFoundException;
+import community.baribari.exception.CustomException;
 import community.baribari.service.comment.CommentService;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -22,56 +22,46 @@ public class CommentController {
 
     private final CommentService commentService;
 
-    @PostMapping("/{boardName}/{boardId}/write.do")
+    @PostMapping("/{boardId}/writeComment.do")
     public String writeComment(@PathVariable(value = "boardId") Long boardId,
-                               @PathVariable(value = "boardName") String boardName,
                                @ModelAttribute CommentDto commentDto,
                                @AuthenticationPrincipal PrincipalDetail principalDetail,
-                               RedirectAttributes redirectAttributes) {
+                               RedirectAttributes redirectAttributes,
+                               HttpServletRequest request) {
 
         try {
             commentService.addComment(commentDto, principalDetail, boardId);
-        }catch (BoardNotFoundException e){
+        }catch (CustomException e){
             redirectAttributes.addFlashAttribute("message", e.getMessage());
         }
 
-        return "redirect:/" + boardName + "/detail/" + boardId;
+        String referer = request.getHeader("Referer");
+        return "redirect:"+referer;
     }
 
     @PostMapping("/delete/{id}")
     public String delete(@PathVariable(value = "id") Long id,
-                         RedirectAttributes redirectAttributes) {
+                         RedirectAttributes redirectAttributes,
+                         HttpServletRequest request) {
         try {
             Comment comment = commentService.delete(id);
             redirectAttributes.addFlashAttribute("message", " 삭제되었습니다.");
-            String boardName = getBoardName(comment.getBoard().getCategory());
-            return "redirect:/" + boardName + "/detail/" + comment.getBoard().getId();
-        }catch (BoardNotFoundException e){
+            String referer = request.getHeader("Referer");
+            return "redirect:"+referer;
+        }catch (CustomException e){
             redirectAttributes.addFlashAttribute("message", e.getMessage());
             return "redirect:/";
         }
     }
 
-    @PostMapping("/{commentId}/write.do")
+    @PostMapping("/{commentId}/writeReply.do")
     public String writeReply(@ModelAttribute CommentDto commentDto,
                              @PathVariable(value = "commentId") Long commentId,
-                             @AuthenticationPrincipal PrincipalDetail principalDetail){
-        Comment comment = commentService.addReply(commentDto, commentId, principalDetail);
-        String boardName = getBoardName(comment.getBoard().getCategory());
-        return "redirect:/" + boardName + "/detail/" + comment.getBoard().getId();
-    }
-
-    public String getBoardName(Category category){
-        switch (category){
-            case FREE :
-                return "free-board";
-            case REVIEW :
-                return "bari-review";
-            case RECRUIT :
-                return "bari-recruit";
-            default:
-                return "/";
-        }
+                             @AuthenticationPrincipal PrincipalDetail principalDetail,
+                             HttpServletRequest request){
+        commentService.addReply(commentDto, commentId, principalDetail);
+        String referer = request.getHeader("Referer");
+        return "redirect:"+referer;
     }
 
 }

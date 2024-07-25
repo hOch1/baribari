@@ -4,8 +4,8 @@ import community.baribari.config.PrincipalDetail;
 import community.baribari.dto.board.BoardDto;
 import community.baribari.entity.board.Board;
 import community.baribari.entity.board.Category;
-import community.baribari.exception.BoardNotFoundException;
-import community.baribari.exception.IsDeletedException;
+import community.baribari.exception.CustomException;
+import community.baribari.exception.ErrorCode;
 import community.baribari.repository.board.BoardRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -49,17 +49,17 @@ public abstract class BoardService<T extends Board, D extends BoardDto> {
     }
 
     public D detail(Long id) {
-        T board = boardRepository.findById(id).orElseThrow(BoardNotFoundException::new);
-        if (board.getDeleted()) {
-            throw new IsDeletedException();
-        }
+        T board = boardRepository.findById(id).orElseThrow(() -> new CustomException(ErrorCode.BOARD_NOT_FOUND));
+
+        if (board.getDeleted())
+            throw new CustomException(ErrorCode.DELETED_BOARD);
+
         return toDto(board);
     }
 
     @Transactional
     public void update(D boardDto) {
-        T board = boardRepository.findById(boardDto.getId())
-                .orElseThrow(BoardNotFoundException::new);
+        T board = boardRepository.findById(boardDto.getId()).orElseThrow(() -> new CustomException(ErrorCode.BOARD_NOT_FOUND));
 
         updateBoard(board, boardDto);
         boardRepository.save(board);
@@ -69,14 +69,14 @@ public abstract class BoardService<T extends Board, D extends BoardDto> {
 
     @Transactional
     public void viewCountUp(Long id) {
-        T board = boardRepository.findById(id).orElseThrow(BoardNotFoundException::new);
+        T board = boardRepository.findById(id).orElseThrow(() -> new CustomException(ErrorCode.BOARD_NOT_FOUND));
         board.updateViewCount();
         boardRepository.save(board);
     }
 
     @Transactional
     public void delete(Long id){
-        T board = boardRepository.findById(id).orElseThrow(BoardNotFoundException::new);
+        T board = boardRepository.findById(id).orElseThrow(() -> new CustomException(ErrorCode.BOARD_NOT_FOUND));
         board.delete();
         boardRepository.save(board);
 

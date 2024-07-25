@@ -3,8 +3,8 @@ package community.baribari.service.star;
 import community.baribari.config.PrincipalDetail;
 import community.baribari.entity.comment.Comment;
 import community.baribari.entity.star.CommentStar;
-import community.baribari.exception.BoardNotFoundException;
-import community.baribari.exception.CommentNotFoundException;
+import community.baribari.exception.CustomException;
+import community.baribari.exception.ErrorCode;
 import community.baribari.repository.board.CommentRepository;
 import community.baribari.repository.star.CommentStarRepository;
 import lombok.RequiredArgsConstructor;
@@ -23,10 +23,10 @@ public class CommentStarService {
 
     @Transactional
     public CommentStar starCountUp(Long id, PrincipalDetail principalDetail) {
-        Comment comment = commentRepository.findById(id).orElseThrow(CommentNotFoundException::new);
+        Comment comment = commentRepository.findById(id).orElseThrow(() -> new CustomException(ErrorCode.COMMENT_NOT_FOUND));
 
         if (commentStarRepository.existsByMemberIdAndCommentId(principalDetail.getMember().getId(), id))
-            throw new IllegalArgumentException("이미 추천한 댓글입니다.");
+            throw new CustomException(ErrorCode.ALREADY_STARRED_COMMENT);
 
         CommentStar star = CommentStar.builder()
                 .comment(comment)

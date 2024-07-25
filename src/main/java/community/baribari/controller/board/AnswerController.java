@@ -2,7 +2,7 @@ package community.baribari.controller.board;
 
 import community.baribari.config.PrincipalDetail;
 import community.baribari.dto.board.AnswerDto;
-import community.baribari.exception.BoardNotFoundException;
+import community.baribari.exception.CustomException;
 import community.baribari.service.board.AnswerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -26,7 +26,7 @@ public class AnswerController {
                               RedirectAttributes redirectAttributes){
         try {
             answerService.writeAnswer(questionId, principalDetail, answerDto);
-        } catch (BoardNotFoundException e){
+        } catch (CustomException e){
             redirectAttributes.addFlashAttribute("message", e.getMessage());
             return "redirect:/qna-board/";
         }

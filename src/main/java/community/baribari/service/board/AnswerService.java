@@ -4,7 +4,8 @@ import community.baribari.config.PrincipalDetail;
 import community.baribari.dto.board.AnswerDto;
 import community.baribari.entity.board.Answer;
 import community.baribari.entity.board.QnABoard;
-import community.baribari.exception.BoardNotFoundException;
+import community.baribari.exception.CustomException;
+import community.baribari.exception.ErrorCode;
 import community.baribari.repository.board.AnswerRepository;
 import community.baribari.repository.board.BoardRepository;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +24,7 @@ public class AnswerService  {
 
     @Transactional
     public void writeAnswer(Long questionId, PrincipalDetail principalDetail, AnswerDto answerDto) {
-        QnABoard qnABoard = boardRepository.findById(questionId).orElseThrow(BoardNotFoundException::new);
+        QnABoard qnABoard = boardRepository.findById(questionId).orElseThrow(() -> new CustomException(ErrorCode.BOARD_NOT_FOUND));
 
         Answer answer = Answer.toEntity(answerDto, principalDetail.getMember(), qnABoard);
 

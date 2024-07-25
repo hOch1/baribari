@@ -3,7 +3,8 @@ package community.baribari.service.star;
 import community.baribari.config.PrincipalDetail;
 import community.baribari.entity.board.Board;
 import community.baribari.entity.star.BoardStar;
-import community.baribari.exception.BoardNotFoundException;
+import community.baribari.exception.CustomException;
+import community.baribari.exception.ErrorCode;
 import community.baribari.repository.board.BoardRepository;
 import community.baribari.repository.star.BoardStarRepository;
 import lombok.RequiredArgsConstructor;
@@ -22,10 +23,10 @@ public class BoardStarService {
 
     @Transactional
     public void starCountUp(Long id, PrincipalDetail principalDetail) {
-        Board board = boardRepository.findById(id).orElseThrow(BoardNotFoundException::new);
+        Board board = boardRepository.findById(id).orElseThrow(() -> new CustomException(ErrorCode.BOARD_NOT_FOUND));
 
         if (boardStarRepository.existsByMemberIdAndBoardId(principalDetail.getMember().getId(), id))
-            throw new IllegalArgumentException("이미 추천한 게시물입니다.");
+            throw new CustomException(ErrorCode.ALREADY_STARRED_BOARD);
 
         BoardStar boardStar = BoardStar.builder()
                 .member(principalDetail.getMember())

@@ -3,6 +3,8 @@ package community.baribari.service.sign;
 import community.baribari.config.PrincipalDetail;
 import community.baribari.dto.sign.SignUpDto;
 import community.baribari.entity.member.Member;
+import community.baribari.exception.CustomException;
+import community.baribari.exception.ErrorCode;
 import community.baribari.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,7 +24,7 @@ public class SignService {
     @Transactional
     public void signup(SignUpDto signUpDto) {
         if (memberRepository.existsByNickname(signUpDto.getNickname()))
-            throw new IllegalArgumentException("닉네임이 중복 됩니다.");
+            throw new CustomException(ErrorCode.ALREADY_EXIST_NICKNAME);
 
         Member member = signUpDto.toEntity(passwordEncoder);
         Member singUpMember = memberRepository.save(member);
@@ -33,7 +35,7 @@ public class SignService {
     @Transactional
     public void setNickname(String nickname, PrincipalDetail principalDetail) {
         if (memberRepository.existsByNickname(nickname))
-            throw new IllegalArgumentException("닉네임이 중복 됩니다.");
+            throw new CustomException(ErrorCode.ALREADY_EXIST_NICKNAME);
 
         Member member = principalDetail.getMember().updateNickname(nickname);
         memberRepository.save(member);

@@ -2,6 +2,7 @@ package community.baribari.controller.sign;
 
 import community.baribari.config.PrincipalDetail;
 import community.baribari.dto.sign.SignUpDto;
+import community.baribari.exception.CustomException;
 import community.baribari.service.sign.SignService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -36,7 +37,7 @@ public class SignController {
         try {
             signService.signup(signUpDto);
             return "redirect:/login";
-        }catch (Exception e){
+        }catch (CustomException e){
             redirectAttributes.addFlashAttribute("message", e.getMessage());
             return "redirect:/signup";
         }
@@ -54,7 +55,7 @@ public class SignController {
         try {
             signService.setNickname(nickname, principalDetail);
             return "redirect:/";
-        }catch (Exception e){
+        }catch (CustomException e){
             redirectAttributes.addFlashAttribute("message", e.getMessage());
             return "redirect:/set-nickname";
         }

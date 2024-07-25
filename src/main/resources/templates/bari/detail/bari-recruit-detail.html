@@ -51,17 +51,6 @@
                         </button>
                     </form>
                 </div>
-                <!-- 댓글 폼 추가 -->
-                <div class="comment-section mt-5">
-                    <h5>댓글</h5>
-                    <form th:action="@{/comment/bari-recruit/{id}/write.do(id=${board.id})}" th:method="post" th:object="${comment}">
-                        <div class="mb-3">
-                            <label for="commentContent" class="form-label">댓글 내용</label>
-                            <textarea class="form-control" id="commentContent" th:field="*{content}" rows="3" required></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-primary">댓글 작성</button>
-                    </form>
-                </div>
 
                 <div th:replace="~{fragment/comment :: comment}"></div>
 

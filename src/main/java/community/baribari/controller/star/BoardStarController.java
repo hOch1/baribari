@@ -1,8 +1,9 @@
 package community.baribari.controller.star;
 
 import community.baribari.config.PrincipalDetail;
-import community.baribari.exception.BoardNotFoundException;
+import community.baribari.exception.CustomException;
 import community.baribari.service.star.BoardStarService;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -18,17 +19,15 @@ public class BoardStarController {
 
     @PostMapping("/add/{id}")
     public String boardStar (@PathVariable Long id,
-                             @RequestParam String boardName,
                              @AuthenticationPrincipal PrincipalDetail principalDetail,
-                             RedirectAttributes redirectAttributes){
+                             RedirectAttributes redirectAttributes,
+                             HttpServletRequest request){
         try {
             boardStarService.starCountUp(id, principalDetail);
-        }catch (IllegalArgumentException e){
+        }catch (CustomException e){
             redirectAttributes.addFlashAttribute("message", e.getMessage());
-        }catch (BoardNotFoundException e) {
-            redirectAttributes.addFlashAttribute("message", e.getMessage());
-            return "redirect:/"+boardName;
         }
-        return "redirect:/"+boardName+"/detail/" + id;
+        String referer = request.getHeader("Referer");
+        return "redirect:"+referer;
     }
 }

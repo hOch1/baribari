@@ -4,8 +4,7 @@ import community.baribari.config.PrincipalDetail;
 import community.baribari.dto.board.FreeBoardDto;
 import community.baribari.dto.comment.CommentDto;
 import community.baribari.entity.board.Category;
-import community.baribari.exception.BoardNotFoundException;
-import community.baribari.exception.IsDeletedException;
+import community.baribari.exception.CustomException;
 import community.baribari.service.comment.CommentService;
 import community.baribari.service.board.extend.FreeBoardService;
 import lombok.RequiredArgsConstructor;
@@ -59,7 +58,7 @@ public class FreeBoardController {
             model.addAttribute("board", freeBoardService.detail(id));
             model.addAttribute("comments", commentService.list(id));
             model.addAttribute("comment", new CommentDto());
-        } catch (BoardNotFoundException | IsDeletedException e){
+        } catch (CustomException e){
             redirectAttributes.addFlashAttribute("message", e.getMessage());
             return "redirect:/free-board/";
         }

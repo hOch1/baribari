@@ -1,96 +1,110 @@
-<div class="comment-list mt-4" th:if="${!comments.isEmpty()}" th:fragment="comment">
-  <h5>댓글 리스트</h5>
-  <div th:each="comment : ${comments}">
-    <div class="card mb-2" style="max-width: 100%; margin: auto; border-radius: 0.5rem;">
-      <div class="card-body" style="padding: 0.5rem; font-size: 0.8rem;">
-        <div th:if="${comment.deleted}">
-          <p class="card-text" style="font-size: 1rem; margin: 0;">삭제된 댓글입니다.</p>
-        </div>
-        <div th:unless="${comment.deleted}">
-          <p class="card-text" th:text="${comment.content}" style="font-size: 1rem; margin: 0; line-height: 1.4;"></p>
-          <p class="card-text" style="font-size: 0.7rem; margin: 0;">
-            <small class="text-muted">작성자: <span th:text="${comment.member.nickname}"></span> | <span th:text="${#temporals.format(comment.createdAt, 'yyyy-MM-dd HH:mm')}"></span></small>
-          </p>
-          <div class="d-flex justify-content-between align-items-center" style="font-size: 0.7rem;">
-            <div class="d-flex align-items-center">
-              <!-- 대댓글 작성 버튼 및 폼 -->
-              <button class="btn btn-outline-secondary btn-sm" style="border: none; background: none; padding: 0.2rem;" th:attr="data-comment-id=${comment.id}" onclick="toggleReplyForm(this)">대댓글 작성</button>
-            </div>
-            <div class="d-flex align-items-center">
-              <!-- 추천 버튼 -->
-              <form th:action="@{/comment/star/add/{boardId}/{id}(id=${comment.id}, boardId=${board.id})}" th:method="post" style="display:inline;">
-                <button type="submit" class="btn btn-outline-primary btn-sm" style="border: none; padding: 0.2rem 0.4rem; font-size: 0.7rem;">
-                  <i class="bi bi-hand-thumbs-up"></i> <span th:text="${comment.starCount}"></span>
-                </button>
-              </form>
-              <div th:if="${#authentication != null and #authentication.name == comment.member.email}" class="ms-2">
-                <!-- 수정 버튼 -->
-                <button class="btn btn-outline-secondary btn-sm" style="border: none; background: none; padding: 0.2rem;" onclick="editComment(${comment.id})">
-                  <i class="bi bi-pencil"></i>
-                </button>
-                <!-- 삭제 버튼 -->
-                <form th:action="@{/comment/delete/{id}(id=${comment.id})}" th:method="post" style="display: inline;">
-                  <button type="submit" class="btn btn-outline-danger btn-sm" style="border: none; background: none; padding: 0.2rem;">
-                    <i class="bi bi-trash"></i>
+<!-- 댓글 폼 추가 -->
+<div th:fragment="comment">
+  <div class="comment-section mt-5">
+    <h5>댓글</h5>
+    <form th:action="@{/comment/{id}/writeComment.do(id=${board.id})}" th:method="post" th:object="${comment}">
+      <div class="mb-3">
+        <label for="commentContent" class="form-label">댓글 내용</label>
+        <textarea class="form-control" id="commentContent" th:field="*{content}" rows="3" required></textarea>
+      </div>
+      <button type="submit" class="btn btn-primary">댓글 작성</button>
+    </form>
+  </div>
+
+  <div class="comment-list mt-4" th:if="${!comments.isEmpty()}">
+    <h5>댓글 리스트</h5>
+    <div th:each="comment : ${comments}">
+      <div class="card mb-2" style="max-width: 100%; margin: auto; border-radius: 0.5rem;">
+        <div class="card-body" style="padding: 0.5rem; font-size: 0.8rem;">
+          <div th:if="${comment.deleted}">
+            <p class="card-text" style="font-size: 1rem; margin: 0;">삭제된 댓글입니다.</p>
+          </div>
+          <div th:unless="${comment.deleted}">
+            <p class="card-text" th:text="${comment.content}" style="font-size: 1rem; margin: 0; line-height: 1.4;"></p>
+            <p class="card-text" style="font-size: 0.7rem; margin: 0;">
+              <small class="text-muted">작성자: <span th:text="${comment.member.nickname}"></span> | <span th:text="${#temporals.format(comment.createdAt, 'yyyy-MM-dd HH:mm')}"></span></small>
+            </p>
+            <div class="d-flex justify-content-between align-items-center" style="font-size: 0.7rem;">
+              <div class="d-flex align-items-center">
+                <!-- 대댓글 작성 버튼 및 폼 -->
+                <button class="btn btn-outline-secondary btn-sm" style="border: none; background: none; padding: 0.2rem;" th:attr="data-comment-id=${comment.id}" onclick="toggleReplyForm(this)">대댓글 작성</button>
+              </div>
+              <div class="d-flex align-items-center">
+                <!-- 추천 버튼 -->
+                <form th:action="@{/comment/star/add/{boardId}/{id}(id=${comment.id}, boardId=${board.id})}" th:method="post" style="display:inline;">
+                  <button type="submit" class="btn btn-outline-primary btn-sm" style="border: none; padding: 0.2rem 0.4rem; font-size: 0.7rem;">
+                    <i class="bi bi-hand-thumbs-up"></i> <span th:text="${comment.starCount}"></span>
                   </button>
+                </form>
+                <div th:if="${#authentication != null and #authentication.name == comment.member.email}" class="ms-2">
+                  <!-- 수정 버튼 -->
+                  <button class="btn btn-outline-secondary btn-sm" style="border: none; background: none; padding: 0.2rem;" onclick="editComment(${comment.id})">
+                    <i class="bi bi-pencil"></i>
+                  </button>
+                  <!-- 삭제 버튼 -->
+                  <form th:action="@{/comment/delete/{id}(id=${comment.id})}" th:method="post" style="display: inline;">
+                    <button type="submit" class="btn btn-outline-danger btn-sm" style="border: none; background: none; padding: 0.2rem;">
+                      <i class="bi bi-trash"></i>
+                    </button>
+                  </form>
+                </div>
+              </div>
+            </div>
+
+            <!-- 대댓글 작성 폼 -->
+            <div class="mt-2">
+              <div th:attr="id=${'replyForm-' + comment.id}" class="reply-form mt-2" style="display: none;">
+                <form th:action="@{/comment/{commentId}/writeReply.do(commentId=${comment.id})}" th:method="post">
+                  <div class="input-group">
+                    <input type="text" class="form-control" name="content" placeholder="대댓글을 작성하세요">
+                    <button class="btn btn-outline-secondary" type="submit">작성</button>
+                  </div>
                 </form>
               </div>
             </div>
           </div>
 
-          <!-- 대댓글 작성 폼 -->
-          <div class="mt-2">
-            <div th:attr="id=${'replyForm-' + comment.id}" class="reply-form mt-2" style="display: none;">
-              <form th:action="@{/comment/{commentId}/write.do(commentId=${comment.id})}" th:method="post">
-                <div class="input-group">
-                  <input type="text" class="form-control" name="content" placeholder="대댓글을 작성하세요">
-                  <button class="btn btn-outline-secondary" type="submit">작성</button>
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
-
-        <!-- 대댓글 리스트 -->
-        <div class="reply-list mt-3" th:if="${!comment.children.isEmpty()}">
-          <div th:each="reply : ${comment.children}">
-            <div class="card mb-2" style="border-radius: 0.5rem;">
-              <div class="card-body" style="padding: 0.5rem; font-size: 0.75rem;">
-                <div th:if="${reply.deleted}">
-                  <p class="card-text" style="font-size: 1rem; margin: 0;">삭제된 댓글입니다.</p>
-                </div>
-                <div th:unless="${reply.deleted}">
-                  <p class="card-text" th:text="${reply.content}" style="font-size: 1rem; margin: 0; line-height: 1.4;"></p>
-                  <p class="card-text" style="font-size: 0.65rem; margin: 0;">
-                    <small class="text-muted">작성자: <span th:text="${reply.member.nickname}"></span> | <span th:text="${#temporals.format(reply.createdAt, 'yyyy-MM-dd HH:mm')}"></span></small>
-                  </p>
-                  <div class="d-flex justify-content-end align-items-center" style="font-size: 0.65rem;">
-                    <!-- 추천 버튼 -->
-                    <form th:action="@{/comment/star/add/{boardId}/{id}(id=${reply.id}, boardId=${board.id})}" th:method="post" style="display:inline;">
-                      <input type="hidden" name="boardName" value="free-board">
-                      <button type="submit" class="btn btn-outline-primary btn-sm" style="border: none; padding: 0.2rem 0.4rem; font-size: 0.65rem;">
-                        <i class="bi bi-hand-thumbs-up"></i> <span th:text="${reply.starCount}"></span>
-                      </button>
-                    </form>
-                    <div th:if="${#authentication != null and #authentication.name == reply.member.email}" class="ms-2">
-                      <!-- 대댓글 수정 버튼 -->
-                      <button class="btn btn-outline-secondary btn-sm" style="border: none; background: none; padding: 0.2rem;" onclick="editReply(${reply.id})">
-                        <i class="bi bi-pencil"></i>
-                      </button>
-                      <!-- 대댓글 삭제 버튼 -->
-                      <form th:action="@{/comment/delete/{id}(id=${reply.id})}" th:method="post" style="display: inline;">
-                        <button type="submit" class="btn btn-outline-danger btn-sm" style="border: none; background: none; padding: 0.2rem;">
-                          <i class="bi bi-trash"></i>
+          <!-- 대댓글 리스트 -->
+          <div class="reply-list mt-3" th:if="${!comment.children.isEmpty()}">
+            <div th:each="reply : ${comment.children}">
+              <div class="card mb-2" style="border-radius: 0.5rem;">
+                <div class="card-body" style="padding: 0.5rem; font-size: 0.75rem;">
+                  <div th:if="${reply.deleted}">
+                    <p class="card-text" style="font-size: 1rem; margin: 0;">삭제된 댓글입니다.</p>
+                  </div>
+                  <div th:unless="${reply.deleted}">
+                    <p class="card-text" th:text="${reply.content}" style="font-size: 1rem; margin: 0; line-height: 1.4;"></p>
+                    <p class="card-text" style="font-size: 0.65rem; margin: 0;">
+                      <small class="text-muted">작성자: <span th:text="${reply.member.nickname}"></span> | <span th:text="${#temporals.format(reply.createdAt, 'yyyy-MM-dd HH:mm')}"></span></small>
+                    </p>
+                    <div class="d-flex justify-content-end align-items-center" style="font-size: 0.65rem;">
+                      <!-- 추천 버튼 -->
+                      <form th:action="@{/comment/star/add/{boardId}/{id}(id=${reply.id}, boardId=${board.id})}" th:method="post" style="display:inline;">
+                        <input type="hidden" name="boardName" value="free-board">
+                        <button type="submit" class="btn btn-outline-primary btn-sm" style="border: none; padding: 0.2rem 0.4rem; font-size: 0.65rem;">
+                          <i class="bi bi-hand-thumbs-up"></i> <span th:text="${reply.starCount}"></span>
                         </button>
                       </form>
+                      <div th:if="${#authentication != null and #authentication.name == reply.member.email}" class="ms-2">
+                        <!-- 대댓글 수정 버튼 -->
+                        <button class="btn btn-outline-secondary btn-sm" style="border: none; background: none; padding: 0.2rem;" onclick="editReply(${reply.id})">
+                          <i class="bi bi-pencil"></i>
+                        </button>
+                        <!-- 대댓글 삭제 버튼 -->
+                        <form th:action="@{/comment/delete/{id}(id=${reply.id})}" th:method="post" style="display: inline;">
+                          <button type="submit" class="btn btn-outline-danger btn-sm" style="border: none; background: none; padding: 0.2rem;">
+                            <i class="bi bi-trash"></i>
+                          </button>
+                        </form>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
+          <!-- 대댓글 리스트 끝 -->
         </div>
-        <!-- 대댓글 리스트 끝 -->
       </div>
     </div>
   </div>
