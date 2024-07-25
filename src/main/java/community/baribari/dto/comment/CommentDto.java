@@ -1,6 +1,6 @@
 package community.baribari.dto.comment;
 
-import community.baribari.dto.MemberDto;
+import community.baribari.dto.member.MemberDto;
 import community.baribari.entity.comment.Comment;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

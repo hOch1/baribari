@@ -3,7 +3,6 @@ package community.baribari.controller.star;
 import community.baribari.config.PrincipalDetail;
 import community.baribari.entity.board.Category;
 import community.baribari.entity.star.CommentStar;
-import community.baribari.exception.BoardNotFoundException;
 import community.baribari.exception.CommentNotFoundException;
 import community.baribari.service.star.CommentStarService;
 import lombok.RequiredArgsConstructor;

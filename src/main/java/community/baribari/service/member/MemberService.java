@@ -1,11 +1,15 @@
 package community.baribari.service.member;
 
-import community.baribari.dto.MemberDto;
+import community.baribari.dto.board.BoardDto;
+import community.baribari.entity.board.Board;
 import community.baribari.repository.MemberRepository;
+import community.baribari.repository.board.BoardRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -14,5 +18,10 @@ import org.springframework.transaction.annotation.Transactional;
 public class MemberService {
 
     private final MemberRepository memberRepository;
+    private final BoardRepository boardRepository;
 
+//    public List<BoardDto> getPosts(Long id) {
+//        List<Board> boards = boardRepository.findByMemberId(id);
+//
+//    }
 }

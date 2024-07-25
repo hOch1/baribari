@@ -1,6 +1,6 @@
 package community.baribari.dto.board;
 
-import community.baribari.dto.MemberDto;
+import community.baribari.dto.member.MemberDto;
 import community.baribari.entity.board.BariReview;
 import lombok.*;
 import lombok.experimental.SuperBuilder;

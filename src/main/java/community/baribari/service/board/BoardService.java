@@ -43,6 +43,11 @@ public abstract class BoardService<T extends Board, D extends BoardDto> {
         return boards.stream().map(this::toDto).collect(Collectors.toList());
     }
 
+    public List<D> myList(Category category, Long id){
+        List<T> boards = boardRepository.findByCategoryAndMemberId(category, id);
+        return boards.stream().map(this::toDto).collect(Collectors.toList());
+    }
+
     public D detail(Long id) {
         T board = boardRepository.findById(id).orElseThrow(BoardNotFoundException::new);
         if (board.getDeleted()) {

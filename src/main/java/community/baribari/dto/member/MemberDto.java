@@ -1,9 +1,7 @@
-package community.baribari.dto;
+package community.baribari.dto.member;
 
 import community.baribari.entity.member.Member;
 import community.baribari.entity.member.Role;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
