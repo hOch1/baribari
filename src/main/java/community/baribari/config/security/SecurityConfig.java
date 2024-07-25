@@ -39,7 +39,8 @@ public class SecurityConfig {
                         .requestMatchers("/*/write",
                                 "/*/write.do",
                                 "/qna-board/answer/**",
-                                "/*/star/**")
+                                "/*/star/**",
+                                "/member/**")
                         .authenticated()
                         .anyRequest().permitAll()
                 )

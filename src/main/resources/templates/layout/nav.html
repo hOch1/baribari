@@ -25,27 +25,10 @@
                     <a class="nav-link" href="/bari-review">바리 후기</a>
                 </li>
             </ul>
-            <form class="d-flex me-3">
+            <form class="d-flex me-max">
                 <input class="form-control form-control-sm me-2" type="search" placeholder="검색" aria-label="Search">
                 <button class="btn btn-outline-success btn-sm search-button" type="submit">검색</button>
             </form>
-            <div class="ms-3 me-max">
-                <span class="navbar-text" sec:authorize="isAnonymous()">
-                    <a class="nav-link" href="/login">로그인</a>
-                </span>
-                <span sec:authorize="isAuthenticated()">
-                    <div class="dropdown">
-                        <button class="btn btn-secondary" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="bi bi-person-circle"></i>
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">Action</a></li>
-                            <li><a class="dropdown-item" href="#">Another action</a></li>
-                            <li><a class="dropdown-item" href="/logout">로그아웃</a></li>
-                        </ul>
-                    </div>
-                </span>
-            </div>
         </div>
     </div>
 </nav>

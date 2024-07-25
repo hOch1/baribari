@@ -1,4 +1,4 @@
-package community.baribari.controller;
+package community.baribari.controller.board;
 
 import community.baribari.config.PrincipalDetail;
 import community.baribari.dto.board.AnswerDto;
