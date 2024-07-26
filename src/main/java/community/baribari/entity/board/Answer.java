@@ -28,7 +28,10 @@ public class Answer{
     private LocalDateTime createdAt = LocalDateTime.now();
 
     @Builder.Default
-    private Boolean deleted = false;
+    private boolean deleted = false;
+
+    @Builder.Default
+    private boolean accepted = false;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Member member;
@@ -46,5 +49,17 @@ public class Answer{
                 .member(member)
                 .qnaBoard(qnaBoard)
                 .build();
+    }
+
+    public void delete() {
+        this.deleted = true;
+    }
+
+    public void accept() {
+        this.accepted = true;
+    }
+
+    public void update(AnswerDto answerDto) {
+        this.content = answerDto.getContent();
     }
 }

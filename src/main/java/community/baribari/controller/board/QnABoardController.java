@@ -23,7 +23,7 @@ public class QnABoardController {
 
     @GetMapping(value = {"", "/"})
     public String index(Model model,
-                        @RequestParam(defaultValue = "0") int page){
+                        @RequestParam(defaultValue = "0", value = "page") int page){
 
         Page<QnABoardDto> list = qnABoardService.list(Category.QNA, PageRequest.of(page, 10));
 
@@ -48,7 +48,7 @@ public class QnABoardController {
     }
 
     @GetMapping("/detail/{id}")
-    public String detail(@PathVariable Long id, Model model, RedirectAttributes redirectAttributes){
+    public String detail(@PathVariable("id") Long id, Model model, RedirectAttributes redirectAttributes){
         try {
             qnABoardService.viewCountUp(id);
             model.addAttribute("qnaBoard", qnABoardService.detail(id));
@@ -60,7 +60,7 @@ public class QnABoardController {
     }
 
     @GetMapping("/update/{id}")
-    public String update(@PathVariable Long id, Model model){
+    public String update(@PathVariable("id") Long id, Model model){
         model.addAttribute("board", qnABoardService.detail(id));
         return "board/update/qna-update";
     }
@@ -73,7 +73,7 @@ public class QnABoardController {
     }
 
     @PostMapping("/delete/{id}")
-    public String delete(@PathVariable Long id, RedirectAttributes redirectAttributes){
+    public String delete(@PathVariable("id") Long id, RedirectAttributes redirectAttributes){
         qnABoardService.delete(id);
         redirectAttributes.addFlashAttribute("message", "삭제되었습니다.");
         return "redirect:/qna-board";

@@ -22,12 +22,11 @@ public class CommentStarController {
 
     @PostMapping("/add/{boardId}/{id}")
     public String star(@PathVariable(value = "id") Long id,
-                       @PathVariable(value = "boardId") Long boardId,
                        @AuthenticationPrincipal PrincipalDetail principalDetail,
                        RedirectAttributes redirectAttributes,
                        HttpServletRequest request) {
         try {
-            CommentStar star = commentStarService.starCountUp(id, principalDetail);
+            commentStarService.starCountUp(id, principalDetail);
             String referer = request.getHeader("Referer");
             return "redirect:"+referer;
         }catch (CustomException e){
@@ -35,5 +34,4 @@ public class CommentStarController {
             return "redirect:/";
         }
     }
-
 }

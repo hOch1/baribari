@@ -34,7 +34,7 @@ public class MemberController {
     }
 
     @GetMapping("/{id}/posts")
-    public String posts(@PathVariable Long id, Model model){
+    public String posts(@PathVariable("id") Long id, Model model){
         model.addAttribute("bariRecruits", bariRecruitService.myList(Category.RECRUIT, id));
         model.addAttribute("bariReviews", bariReviewService.myList(Category.REVIEW, id));
         model.addAttribute("freeBoards", freeBoardService.myList(Category.FREE, id));

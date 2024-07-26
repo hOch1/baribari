@@ -26,7 +26,7 @@ public class BariReviewController {
 
     @GetMapping(value = {"", "/"})
     public String index(Model model,
-                        @RequestParam(defaultValue = "0") int page) {
+                        @RequestParam(defaultValue = "0", value = "page") int page) {
 
         Page<BariReviewDto> list = bariReviewService.list(Category.REVIEW, PageRequest.of(page, 10));
 
@@ -51,7 +51,7 @@ public class BariReviewController {
     }
 
     @GetMapping("/detail/{id}")
-    public String detail(@PathVariable Long id, Model model, RedirectAttributes redirectAttributes) {
+    public String detail(@PathVariable("id") Long id, Model model, RedirectAttributes redirectAttributes) {
         try {
             bariReviewService.viewCountUp(id);
             model.addAttribute("board", bariReviewService.detail(id));
@@ -65,7 +65,7 @@ public class BariReviewController {
     }
 
     @GetMapping("/update/{id}")
-    public String update(@PathVariable Long id, Model model){
+    public String update(@PathVariable("id") Long id, Model model){
         model.addAttribute("board", bariReviewService.detail(id));
         return "bari/update/review-update";
     }
@@ -78,7 +78,7 @@ public class BariReviewController {
     }
 
     @PostMapping("/delete/{id}")
-    public String delete(@PathVariable Long id, RedirectAttributes redirectAttributes){
+    public String delete(@PathVariable("id") Long id, RedirectAttributes redirectAttributes){
         bariReviewService.delete(id);
         redirectAttributes.addFlashAttribute("message", "삭제되었습니다.");
         return "redirect:/bari-review";

@@ -49,7 +49,7 @@ public class SignController {
     }
 
     @PostMapping("/nickname-setup")
-    public String setNickname(@RequestParam String nickname,
+    public String setNickname(@RequestParam("nickname") String nickname,
                               @AuthenticationPrincipal PrincipalDetail principalDetail,
                               RedirectAttributes redirectAttributes){
         try {

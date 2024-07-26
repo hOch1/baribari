@@ -26,7 +26,7 @@ public class BariRecruitController {
 
     @GetMapping(value = {"", "/"})
     public String recruit(Model model,
-                          @RequestParam(defaultValue = "0") int page) {
+                          @RequestParam(defaultValue = "0", value = "page") int page) {
 
         Page<BariRecruitDto> list = bariRecruitService.list(Category.RECRUIT, PageRequest.of(page, 10));
         model.addAttribute("bariRecruits", list);
@@ -50,7 +50,7 @@ public class BariRecruitController {
     }
 
     @GetMapping("/detail/{id}")
-    public String detail(@PathVariable Long id, Model model, RedirectAttributes redirectAttributes){
+    public String detail(@PathVariable("id") Long id, Model model, RedirectAttributes redirectAttributes){
         try {
             bariRecruitService.viewCountUp(id);
             model.addAttribute("board", bariRecruitService.detail(id));
@@ -64,7 +64,7 @@ public class BariRecruitController {
     }
 
     @GetMapping("/update/{id}")
-    public String update(@PathVariable Long id, Model model){
+    public String update(@PathVariable("id") Long id, Model model){
         model.addAttribute("board", bariRecruitService.detail(id));
         return "bari/update/recruit-update";
     }
@@ -77,7 +77,7 @@ public class BariRecruitController {
     }
 
     @PostMapping("/delete/{id}")
-    public String delete(@PathVariable Long id, RedirectAttributes redirectAttributes){
+    public String delete(@PathVariable("id") Long id, RedirectAttributes redirectAttributes){
         bariRecruitService.delete(id);
         redirectAttributes.addFlashAttribute("message", "삭제되었습니다.");
         return "redirect:/bari-recruit";

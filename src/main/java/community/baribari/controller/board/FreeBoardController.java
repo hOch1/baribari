@@ -26,7 +26,7 @@ public class FreeBoardController {
 
     @GetMapping(value = {"", "/"})
     public String index(Model model,
-                        @RequestParam(defaultValue = "0") int page){
+                        @RequestParam(defaultValue = "0", value = "page") int page){
 
         Page<FreeBoardDto> list = freeBoardService.list(Category.FREE, PageRequest.of(page, 10));
 
@@ -51,7 +51,7 @@ public class FreeBoardController {
     }
 
     @GetMapping("/detail/{id}")
-    public String detail(@PathVariable Long id, Model model,
+    public String detail(@PathVariable("id") Long id, Model model,
                          RedirectAttributes redirectAttributes){
         try {
             freeBoardService.viewCountUp(id);
@@ -66,7 +66,7 @@ public class FreeBoardController {
     }
 
     @GetMapping("/update/{id}")
-    public String update(@PathVariable Long id, Model model){
+    public String update(@PathVariable("id") Long id, Model model){
         model.addAttribute("board", freeBoardService.detail(id));
         return "board/update/free-update";
     }
@@ -80,7 +80,7 @@ public class FreeBoardController {
     }
 
     @PostMapping("/delete/{id}")
-    public String delete(@PathVariable Long id,
+    public String delete(@PathVariable("id") Long id,
                          RedirectAttributes redirectAttributes){
         freeBoardService.delete(id);
         redirectAttributes.addFlashAttribute("message", "삭제되었습니다.");
