@@ -33,13 +33,13 @@ public class BariRecruitController {
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", list.getTotalPages());
         model.addAttribute("totalElements", list.getTotalElements());
-        return "bari/bari-recruit";
+        return "board/bari-recruit";
     }
 
     @GetMapping("/write")
     public String write(Model model){
         model.addAttribute("write", new BariRecruitDto());
-        return "bari/write/recruit-write";
+        return "board/write/recruit-write";
     }
 
     @PostMapping("/write.do")
@@ -60,13 +60,13 @@ public class BariRecruitController {
             redirectAttributes.addFlashAttribute("message", e.getMessage());
             return "redirect:/bari-recruit";
         }
-        return "bari/detail/bari-recruit-detail";
+        return "board/detail/bari-recruit-detail";
     }
 
     @GetMapping("/update/{id}")
     public String update(@PathVariable("id") Long id, Model model){
         model.addAttribute("board", bariRecruitService.detail(id));
-        return "bari/update/recruit-update";
+        return "board/update/recruit-update";
     }
 
     @PostMapping("/update.do")

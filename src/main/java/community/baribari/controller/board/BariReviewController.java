@@ -34,13 +34,13 @@ public class BariReviewController {
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", list.getTotalPages());
         model.addAttribute("totalElements", list.getTotalElements());
-        return "bari/bari-review";
+        return "board/bari-review";
     }
 
     @GetMapping("/write")
     public String write(Model model){
         model.addAttribute("write", new BariReviewDto());
-        return "bari/write/review-write";
+        return "board/write/review-write";
     }
 
     @PostMapping("/write.do")
@@ -61,13 +61,13 @@ public class BariReviewController {
             redirectAttributes.addFlashAttribute("message", e.getMessage());
             return "redirect:/bari-review";
         }
-        return "bari/detail/bari-review-detail";
+        return "board/detail/bari-review-detail";
     }
 
     @GetMapping("/update/{id}")
     public String update(@PathVariable("id") Long id, Model model){
         model.addAttribute("board", bariReviewService.detail(id));
-        return "bari/update/review-update";
+        return "board/update/review-update";
     }
 
     @PostMapping("/update.do")

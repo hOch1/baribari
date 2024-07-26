@@ -44,7 +44,7 @@ public abstract class BoardService<T extends Board, D extends BoardDto> {
     }
 
     public List<D> myList(Category category, Long id){
-        List<T> boards = boardRepository.findByCategoryAndMemberId(category, id);
+        List<T> boards = boardRepository.findByDeletedFalseAndCategoryAndMemberId(category, id);
         return boards.stream().map(this::toDto).collect(Collectors.toList());
     }
 
@@ -70,6 +70,10 @@ public abstract class BoardService<T extends Board, D extends BoardDto> {
     @Transactional
     public void viewCountUp(Long id) {
         T board = boardRepository.findById(id).orElseThrow(() -> new CustomException(ErrorCode.BOARD_NOT_FOUND));
+
+        if (board.getDeleted())
+            throw new CustomException(ErrorCode.DELETED_BOARD);
+
         board.updateViewCount();
         boardRepository.save(board);
     }

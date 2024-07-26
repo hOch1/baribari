@@ -14,5 +14,5 @@ public interface BoardRepository<T extends Board> extends JpaRepository<T, Long>
 
     Page<T> findAllByCategoryAndDeletedFalseOrderByCreatedAtDesc(Category category, Pageable pageable);
 
-    List<T> findByCategoryAndMemberId(Category category, Long id);
+    List<T> findByDeletedFalseAndCategoryAndMemberId(Category category, Long id);
 }
