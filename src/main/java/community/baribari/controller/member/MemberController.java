@@ -43,9 +43,15 @@ public class MemberController {
 
         model.addAttribute("bariRecruits", bariRecruitService.myList(Category.RECRUIT, id, PageRequest.of(page, 10)));
         model.addAttribute("bariReviews", bariReviewService.myList(Category.REVIEW, id, PageRequest.of(page, 10)));
-        model.addAttribute("freeBoards", freeBoardService.myList(Category.FREE, id, PageRequest.of(page, 1)));
+        model.addAttribute("freeBoards", freeBoardService.myList(Category.FREE, id, PageRequest.of(page, 10)));
         model.addAttribute("qnaBoards", qnABoardService.myList(Category.QNA, id, PageRequest.of(page, 10)));
         model.addAttribute("memberId", id);
         return "member/posts";
+    }
+
+    @GetMapping("/account-setting")
+    public String accountSetting(Model model, @AuthenticationPrincipal PrincipalDetail principalDetail) {
+        model.addAttribute("member", principalDetail.getMember());
+        return "member/account-setting";
     }
 }

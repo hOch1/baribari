@@ -18,10 +18,7 @@ import java.util.List;
 public class MemberService {
 
     private final MemberRepository memberRepository;
-    private final BoardRepository boardRepository;
 
-//    public List<BoardDto> getPosts(Long id) {
-//        List<Board> boards = boardRepository.findByMemberId(id);
-//
-//    }
+
+
 }
