@@ -18,6 +18,7 @@ public enum ErrorCode {
 //    STAR
     ALREADY_STARRED_BOARD("이미 추천한 게시물입니다."),
     ALREADY_STARRED_COMMENT("이미 추천한 댓글입니다."),
+    ALREADY_STARRED_ANSWER("이미 추천한 답변입니다."),
 
 //    DELETED
     DELETED_BOARD("삭제된 게시물입니다."),
