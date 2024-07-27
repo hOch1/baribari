@@ -11,6 +11,12 @@ main {
 .sidebar {
     height: 100vh;
 }
+#sidebarMenu {
+    position: fixed;
+    top: 56px; /* Adjust this value based on the height of your navbar */
+    height: calc(100% - 56px); /* Adjust this value based on the height of your navbar */
+    overflow-y: auto;
+}
 footer {
     margin-top: 20px;
 }

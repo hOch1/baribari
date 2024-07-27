@@ -14,19 +14,40 @@
 <body>
 <div th:replace="~{layout/nav :: nav}"></div>
 
-
 <div class="container-fluid">
     <div class="row">
         <div th:replace="~{layout/sidebar :: sidebar}"></div>
         <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
             <div class="pt-3 me-max">
-
-
+                <h1 class="mb-4">계정 설정</h1>
+                <form th:action="@{/member/account-settings}" th:object="${accountSettings}" method="post">
+                    <div class="mb-3">
+                        <label for="profileVisibility" class="form-label">프로필 공개 설정</label>
+                        <select id="profileVisibility" class="form-select" th:field="*{profileVisibility}">
+                            <option value="PUBLIC">공개</option>
+                            <option value="PRIVATE">비공개</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="postVisibility" class="form-label">게시물 공개 설정</label>
+                        <select id="postVisibility" class="form-select" th:field="*{postVisibility}">
+                            <option value="PUBLIC">공개</option>
+                            <option value="PRIVATE">비공개</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="commentVisibility" class="form-label">댓글 공개 설정</label>
+                        <select id="commentVisibility" class="form-select" th:field="*{commentVisibility}">
+                            <option value="PUBLIC">공개</option>
+                            <option value="PRIVATE">비공개</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">저장</button>
+                </form>
             </div>
         </main>
     </div>
 </div>
-
 
 <div th:replace="~{layout/footer :: footer}"></div>
 

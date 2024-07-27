@@ -20,12 +20,16 @@ public class Member {
     private String password;
 
     @Builder.Default
-    private Boolean deleted = false;
+    private boolean deleted = false;
+
+    @Builder.Default
+    private boolean isSocial = false;
 
     @Enumerated(EnumType.STRING)
     private Role role;
 
-
+    @OneToOne(mappedBy = "member")
+    private AccountSetting accountSetting;
 
     public Member update(String name){
         this.name = name;

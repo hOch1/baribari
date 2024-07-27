@@ -23,6 +23,9 @@ public class SignService {
 
     @Transactional
     public void signup(SignUpDto signUpDto) {
+        if (memberRepository.existsByEmail(signUpDto.getEmail()))
+            throw new CustomException(ErrorCode.ALREADY_EXIST_EMAIL);
+
         if (memberRepository.existsByNickname(signUpDto.getNickname()))
             throw new CustomException(ErrorCode.ALREADY_EXIST_NICKNAME);
 

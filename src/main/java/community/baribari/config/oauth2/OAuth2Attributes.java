@@ -51,6 +51,7 @@ public class OAuth2Attributes {
                 .name(name)
                 .email(email)
                 .role(Role.ROLE_MEMBER)
+                .isSocial(true)
                 .build();
     }
 }
