@@ -49,20 +49,16 @@
                             <!-- 반복되는 게시글 항목 -->
                             </tbody>
                         </table>
-                        <nav aria-label="Page navigation">
-                            <ul class="pagination">
-                                <li class="page-item" th:classappend="${currentPage == 0} ? 'disabled'">
-                                    <a class="page-link" th:href="@{/bari-recruit(page=${currentPage - 1}, size=${boardPage != null ? boardPage.size : 10})}" aria-label="Previous">
-                                        <span aria-hidden="true">&laquo;</span>
-                                    </a>
+                        <nav th:if="${bariRecruits.totalPages > 1}">
+                            <ul class="pagination justify-content-center mt-3">
+                                <li class="page-item" th:classappend="${bariRecruits.hasPrevious()} ? '' : 'disabled'">
+                                    <a class="page-link" th:href="@{|/bari-recruit?page=${bariRecruits.number - 1}|}">이전</a>
                                 </li>
-                                <li class="page-item" th:each="i : ${#numbers.sequence(0, totalPages - 1)}" th:classappend="${i == currentPage} ? 'active'">
-                                    <a class="page-link" th:href="@{/bari-recruit(page=${i}, size=${boardPage != null ? boardPage.size : 10})}" th:text="${i + 1}">1</a>
+                                <li class="page-item" th:each="pageNum : ${#numbers.sequence((bariRecruits.number / 10) * 10 + 1, ((bariRecruits.number / 10) + 1) * 10 < bariRecruits.totalPages ? ((bariRecruits.number / 10) + 1) * 10 : bariRecruits.totalPages)}" th:classappend="${pageNum == bariRecruits.number + 1} ? 'active'">
+                                    <a class="page-link" th:href="@{|/bari-recruit?page=${pageNum - 1}|}" th:text="${pageNum}">1</a>
                                 </li>
-                                <li class="page-item" th:classappend="${currentPage == totalPages - 1} ? 'disabled'">
-                                    <a class="page-link" th:href="@{/bari-recruit(page=${currentPage + 1}, size=${boardPage != null ? boardPage.size : 10})}" aria-label="Next">
-                                        <span aria-hidden="true">&raquo;</span>
-                                    </a>
+                                <li class="page-item" th:classappend="${bariReviews.hasNext()} ? '' : 'disabled'">
+                                    <a class="page-link" th:href="@{|/bari-recruit?page=${bariRecruits.number + 1}|}">다음</a>
                                 </li>
                             </ul>
                         </nav>

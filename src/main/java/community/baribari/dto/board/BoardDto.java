@@ -24,4 +24,5 @@ public abstract class BoardDto {
     private Long starCount;
     private Long viewCount;
     private Category category;
+
 }

@@ -1,6 +1,7 @@
 package community.baribari.controller.member;
 
 import community.baribari.config.PrincipalDetail;
+import community.baribari.dto.board.QnABoardDto;
 import community.baribari.entity.board.Category;
 import community.baribari.service.board.BoardService;
 import community.baribari.service.board.extend.BariRecruitService;
@@ -9,12 +10,15 @@ import community.baribari.service.board.extend.FreeBoardService;
 import community.baribari.service.board.extend.QnABoardService;
 import community.baribari.service.member.MemberService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping("/member")
@@ -34,12 +38,14 @@ public class MemberController {
     }
 
     @GetMapping("/{id}/posts")
-    public String posts(@PathVariable("id") Long id, Model model){
-        model.addAttribute("bariRecruits", bariRecruitService.myList(Category.RECRUIT, id));
-        model.addAttribute("bariReviews", bariReviewService.myList(Category.REVIEW, id));
-        model.addAttribute("freeBoards", freeBoardService.myList(Category.FREE, id));
-        model.addAttribute("qnaBoards", qnABoardService.myList(Category.QNA, id));
+    public String posts(@PathVariable("id") Long id, Model model,
+                        @RequestParam(defaultValue = "0", value = "page") int page){
 
+        model.addAttribute("bariRecruits", bariRecruitService.myList(Category.RECRUIT, id, PageRequest.of(page, 10)));
+        model.addAttribute("bariReviews", bariReviewService.myList(Category.REVIEW, id, PageRequest.of(page, 10)));
+        model.addAttribute("freeBoards", freeBoardService.myList(Category.FREE, id, PageRequest.of(page, 1)));
+        model.addAttribute("qnaBoards", qnABoardService.myList(Category.QNA, id, PageRequest.of(page, 10)));
+        model.addAttribute("memberId", id);
         return "member/posts";
     }
 }

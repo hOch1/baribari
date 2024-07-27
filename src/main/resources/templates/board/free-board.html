@@ -45,20 +45,16 @@
                             <!-- 반복되는 게시글 항목 -->
                             </tbody>
                         </table>
-                        <nav aria-label="Page navigation">
-                            <ul class="pagination">
-                                <li class="page-item" th:classappend="${currentPage == 0} ? 'disabled'">
-                                    <a class="page-link" th:href="@{/free-board(page=${currentPage - 1}, size=${boardPage != null ? boardPage.size : 10})}" aria-label="Previous">
-                                        <span aria-hidden="true">&laquo;</span>
-                                    </a>
+                        <nav th:if="${freeBoards.totalPages > 1}">
+                            <ul class="pagination justify-content-center mt-3">
+                                <li class="page-item" th:classappend="${freeBoards.hasPrevious()} ? '' : 'disabled'">
+                                    <a class="page-link" th:href="@{|/free-board?page=${freeBoards.number - 1}|}">이전</a>
                                 </li>
-                                <li class="page-item" th:each="i : ${#numbers.sequence(0, totalPages - 1)}" th:classappend="${i == currentPage} ? 'active'">
-                                    <a class="page-link" th:href="@{/free-board(page=${i}, size=${boardPage != null ? boardPage.size : 10})}" th:text="${i + 1}">1</a>
+                                <li class="page-item" th:each="pageNum : ${#numbers.sequence((freeBoards.number / 10) * 10 + 1, ((freeBoards.number / 10) + 1) * 10 < freeBoards.totalPages ? ((freeBoards.number / 10) + 1) * 10 : freeBoards.totalPages)}" th:classappend="${pageNum == freeBoards.number + 1} ? 'active'">
+                                    <a class="page-link" th:href="@{|/free-board?page=${pageNum - 1}|}" th:text="${pageNum}">1</a>
                                 </li>
-                                <li class="page-item" th:classappend="${currentPage == totalPages - 1} ? 'disabled'">
-                                    <a class="page-link" th:href="@{/free-board(page=${currentPage + 1}, size=${boardPage != null ? boardPage.size : 10})}" aria-label="Next">
-                                        <span aria-hidden="true">&raquo;</span>
-                                    </a>
+                                <li class="page-item" th:classappend="${freeBoards.hasNext()} ? '' : 'disabled'">
+                                    <a class="page-link" th:href="@{|/free-board?page=${freeBoards.number + 1}|}">다음</a>
                                 </li>
                             </ul>
                         </nav>

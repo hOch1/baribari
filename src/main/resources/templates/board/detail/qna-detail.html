@@ -103,7 +103,7 @@
                                 <!-- 추천 버튼 -->
                                 <form th:action="@{/answer/star/add/{id}(id=${answer.id})}" th:method="post" style="display: inline;">
                                     <button type="submit" class="btn btn-outline-primary btn-sm" style="border: none; background: none;">
-                                        <i class="bi bi-hand-thumbs-up"></i>
+                                        <i class="bi bi-hand-thumbs-up"><span th:text="${answer.starCount}"></span></i>
                                     </button>
                                 </form>
                                 <div th:if="${#authentication != null and #authentication.name == qnaBoard.member.email}">

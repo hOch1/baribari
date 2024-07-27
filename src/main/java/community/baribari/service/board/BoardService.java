@@ -43,9 +43,9 @@ public abstract class BoardService<T extends Board, D extends BoardDto> {
         return boards.stream().map(this::toDto).collect(Collectors.toList());
     }
 
-    public List<D> myList(Category category, Long id){
-        List<T> boards = boardRepository.findByDeletedFalseAndCategoryAndMemberId(category, id);
-        return boards.stream().map(this::toDto).collect(Collectors.toList());
+    public Page<D> myList(Category category, Long id, Pageable pageable){
+        Page<T> boards = boardRepository.findByDeletedFalseAndCategoryAndMemberIdOrderByCreatedAtDesc(category, id, pageable);
+        return boards.map(this::toDto);
     }
 
     public D detail(Long id) {
