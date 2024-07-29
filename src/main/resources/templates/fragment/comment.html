@@ -21,12 +21,11 @@
           </div>
           <div th:unless="${comment.deleted}">
             <p class="card-text" th:text="${comment.content}" style="font-size: 1rem; margin: 0; line-height: 1.4;"></p>
-            <p class="card-text" style="font-size: 0.7rem; margin: 0;">
+            <p class="card-text" style="font-size: 0.8rem; margin: 0;">
               <small class="text-muted">작성자:
-                <a th:href="@{/member/profile/{id}(id=${comment.member.id})}">
-                  <span th:text="${comment.member.nickname}"></span>
-                </a>
-                | <span th:text="${#temporals.format(comment.createdAt, 'yyyy-MM-dd HH:mm')}"></span></small>
+                <a th:href="@{/member/profile/{id}(id=${comment.member.id})}"><span th:text="${comment.member.nickname}"></span></a>
+                | <span th:text="${#temporals.format(comment.createdAt, 'yyyy-MM-dd HH:mm')}"></span>
+              </small>
             </p>
             <div class="d-flex justify-content-between align-items-center" style="font-size: 0.7rem;">
               <div class="d-flex align-items-center">
@@ -36,7 +35,7 @@
               <div class="d-flex align-items-center">
                 <!-- 추천 버튼 -->
                 <form th:action="@{/comment/star/add/{id}(id=${comment.id})}" th:method="post" style="display:inline;">
-                  <button type="submit" class="btn btn-outline-primary btn-sm" style="border: none; padding: 0.2rem 0.4rem; font-size: 0.7rem;">
+                  <button type="submit" class="btn btn-outline-primary btn-sm" style="border: none; padding: 0.2rem 0.4rem; font-size: 1rem;">
                     <i class="bi bi-hand-thumbs-up"></i> <span th:text="${comment.starCount}"></span>
                   </button>
                 </form>
@@ -78,14 +77,14 @@
                   </div>
                   <div th:unless="${reply.deleted}">
                     <p class="card-text" th:text="${reply.content}" style="font-size: 1rem; margin: 0; line-height: 1.4;"></p>
-                    <p class="card-text" style="font-size: 0.65rem; margin: 0;">
-                      <small class="text-muted">작성자: <span th:text="${reply.member.nickname}"></span> | <span th:text="${#temporals.format(reply.createdAt, 'yyyy-MM-dd HH:mm')}"></span></small>
+                    <p class="card-text" style="font-size: 0.75rem; margin: 0;">
+                      <small class="text-muted">작성자: <a th:href="@{/member/profile/{id}(id=${comment.member.id})}"><span th:text="${reply.member.nickname}"></span></a> | <span th:text="${#temporals.format(reply.createdAt, 'yyyy-MM-dd HH:mm')}"></span></small>
                     </p>
                     <div class="d-flex justify-content-end align-items-center" style="font-size: 0.65rem;">
                       <!-- 추천 버튼 -->
-                      <form th:action="@{/comment/star/add/{boardId}/{id}(id=${reply.id}, boardId=${board.id})}" th:method="post" style="display:inline;">
+                      <form th:action="@{/comment/star/add/{id}(id=${reply.id})}" th:method="post" style="display:inline;">
                         <input type="hidden" name="boardName" value="free-board">
-                        <button type="submit" class="btn btn-outline-primary btn-sm" style="border: none; padding: 0.2rem 0.4rem; font-size: 0.65rem;">
+                        <button type="submit" class="btn btn-outline-primary btn-sm" style="border: none; padding: 0.2rem 0.4rem; font-size: 1rem;">
                           <i class="bi bi-hand-thumbs-up"></i> <span th:text="${reply.starCount}"></span>
                         </button>
                       </form>

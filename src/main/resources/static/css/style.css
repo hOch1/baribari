@@ -20,6 +20,10 @@ main {
 footer {
     margin-top: 20px;
 }
+a{
+    text-decoration-line: none;
+    color: black;
+}
 
 .content-container {
     background-color: #f8f9fa;

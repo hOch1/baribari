@@ -20,7 +20,7 @@ public class AnswerStarController {
     private final AnswerStarService answerStarService;
 
     @PostMapping("/add/{id}")
-    public String answerStar (@PathVariable Long id,
+    public String answerStar (@PathVariable("id") Long id,
                              @AuthenticationPrincipal PrincipalDetail principalDetail,
                              HttpServletRequest request){
 

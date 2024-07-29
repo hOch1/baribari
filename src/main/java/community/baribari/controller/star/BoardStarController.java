@@ -18,7 +18,7 @@ public class BoardStarController {
     private final BoardStarService boardStarService;
 
     @PostMapping("/add/{id}")
-    public String boardStar (@PathVariable Long id,
+    public String boardStar (@PathVariable("id") Long id,
                              @AuthenticationPrincipal PrincipalDetail principalDetail,
                              HttpServletRequest request){
         boardStarService.starCountUp(id, principalDetail);
