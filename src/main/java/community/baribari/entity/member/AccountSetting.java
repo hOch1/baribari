@@ -24,15 +24,12 @@ public class AccountSetting {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Enumerated(EnumType.STRING)
     @Builder.Default
     private boolean postVisibility = true;
 
-    @Enumerated(EnumType.STRING)
     @Builder.Default
     private boolean commentVisibility = true;
 
-    @Enumerated(EnumType.STRING)
     @Builder.Default
     private boolean profileVisibility = true;
 
