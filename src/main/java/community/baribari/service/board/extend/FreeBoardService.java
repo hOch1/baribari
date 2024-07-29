@@ -2,6 +2,7 @@ package community.baribari.service.board.extend;
 
 import community.baribari.config.PrincipalDetail;
 import community.baribari.dto.board.FreeBoardDto;
+import community.baribari.entity.board.Category;
 import community.baribari.entity.board.FreeBoard;
 import community.baribari.repository.board.BoardRepository;
 import community.baribari.service.board.BoardService;
@@ -35,5 +36,10 @@ public class FreeBoardService extends BoardService<FreeBoard, FreeBoardDto> {
     @Override
     protected String getBoardTypeName() {
         return "자유 게시판";
+    }
+
+    @Override
+    protected Category getCategory() {
+        return Category.FREE;
     }
 }

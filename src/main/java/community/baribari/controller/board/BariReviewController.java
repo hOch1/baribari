@@ -27,13 +27,7 @@ public class BariReviewController {
     @GetMapping(value = {"", "/"})
     public String index(Model model,
                         @RequestParam(defaultValue = "0", value = "page") int page) {
-
-        Page<BariReviewDto> list = bariReviewService.list(Category.REVIEW, PageRequest.of(page, 10));
-
-        model.addAttribute("bariReviews", list);
-        model.addAttribute("currentPage", page);
-        model.addAttribute("totalPages", list.getTotalPages());
-        model.addAttribute("totalElements", list.getTotalElements());
+        model.addAttribute("bariReviews", bariReviewService.list(PageRequest.of(page, 10)));
         return "board/bari-review";
     }
 

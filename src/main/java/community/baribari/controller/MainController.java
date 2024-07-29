@@ -21,10 +21,10 @@ public class MainController {
 
     @GetMapping(value = {"/", ""})
     public String main(Model model){
-        model.addAttribute("bariRecruits", bariRecruitService.mainList(Category.RECRUIT));
-        model.addAttribute("bariReviews", bariReviewService.mainList(Category.REVIEW));
-        model.addAttribute("freeBoards", freeBoardService.mainList(Category.FREE));
-        model.addAttribute("qnaBoards", qnABoardService.mainList(Category.QNA));
+        model.addAttribute("bariRecruits", bariRecruitService.mainList());
+        model.addAttribute("bariReviews", bariReviewService.mainList());
+        model.addAttribute("freeBoards", freeBoardService.mainList());
+        model.addAttribute("qnaBoards", qnABoardService.mainList());
 
         return "home";
     }

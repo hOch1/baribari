@@ -10,6 +10,8 @@ import community.baribari.repository.board.AnswerRepository;
 import community.baribari.repository.board.BoardRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -68,5 +70,10 @@ public class AnswerService  {
         answer.update(answerDto);
         answerRepository.save(answer);
         log.info("답변이 수정되었습니다. ID : {}", id);
+    }
+
+    public Page<AnswerDto> search(String keyword, Pageable pageable) {
+        return answerRepository.findByDeletedFalseAndContentContainingOrderByCreatedAtDesc(keyword, pageable)
+                .map(AnswerDto::toDto);
     }
 }

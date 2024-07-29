@@ -35,7 +35,7 @@
                             </thead>
                             <tbody>
                             <tr th:each="qnaBoard, iterStat : ${qnaBoards}">
-                                <th scope="row" th:text="${totalElements - (currentPage ?: 0) * 10 - iterStat.index}"></th>
+                                <th scope="row" th:text="${qnaBoards.totalElements - (qnaBoards.number * qnaBoards.size) - iterStat.index}"></th>
                                 <td>
                                     <div style="display: flex; align-items: center;">
                                         <a class="nav-link" th:href="@{/qna-board/detail/{id}(id=${qnaBoard.id})}" th:text="${qnaBoard.title}"></a>

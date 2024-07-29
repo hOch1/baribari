@@ -10,6 +10,8 @@ import community.baribari.repository.board.BoardRepository;
 import community.baribari.repository.comment.CommentRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -67,5 +69,10 @@ public class CommentService {
             log.error("대댓글 등록 중 오류 발생 : {}", e.getMessage());
             throw new CustomException(ErrorCode.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    public Page<CommentDto> search(String keyword, Pageable pageable) {
+        return commentRepository.findByDeletedFalseAndContentContainingOrderByCreatedAtDesc(keyword, pageable)
+                .map(CommentDto::toDto);
     }
 }

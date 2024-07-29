@@ -27,12 +27,7 @@ public class BariRecruitController {
     @GetMapping(value = {"", "/"})
     public String recruit(Model model,
                           @RequestParam(defaultValue = "0", value = "page") int page) {
-
-        Page<BariRecruitDto> list = bariRecruitService.list(Category.RECRUIT, PageRequest.of(page, 10));
-        model.addAttribute("bariRecruits", list);
-        model.addAttribute("currentPage", page);
-        model.addAttribute("totalPages", list.getTotalPages());
-        model.addAttribute("totalElements", list.getTotalElements());
+        model.addAttribute("bariRecruits", bariRecruitService.list(PageRequest.of(page, 10)));
         return "board/bari-recruit";
     }
 

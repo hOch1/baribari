@@ -37,7 +37,7 @@
                             </thead>
                             <tbody>
                             <tr th:each="bariRecruit, iterStat : ${bariRecruits}">
-                                <th scope="row" th:text="${totalElements - (currentPage ?: 0) * 10 - iterStat.index}"></th>
+                                <th scope="row" th:text="${bariRecruits.totalElements - (bariRecruits.number * bariRecruits.size) - iterStat.index}"></th>
                                 <td>
                                     <a class="nav-link" th:href="@{/bari-recruit/detail/{id}(id=${bariRecruit.id})}" th:text="${bariRecruit.title}"></a>
                                 </td>

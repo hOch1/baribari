@@ -3,6 +3,7 @@ package community.baribari.service.board.extend;
 import community.baribari.config.PrincipalDetail;
 import community.baribari.dto.board.BariRecruitDto;
 import community.baribari.entity.board.BariRecruit;
+import community.baribari.entity.board.Category;
 import community.baribari.repository.board.BoardRepository;
 import community.baribari.service.board.BoardService;
 import lombok.extern.slf4j.Slf4j;
@@ -34,5 +35,10 @@ public class BariRecruitService extends BoardService<BariRecruit, BariRecruitDto
     @Override
     protected String getBoardTypeName() {
         return "바리 모집";
+    }
+
+    @Override
+    protected Category getCategory() {
+        return Category.RECRUIT;
     }
 }

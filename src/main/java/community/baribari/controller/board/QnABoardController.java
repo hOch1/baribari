@@ -24,13 +24,7 @@ public class QnABoardController {
     @GetMapping(value = {"", "/"})
     public String index(Model model,
                         @RequestParam(defaultValue = "0", value = "page") int page){
-
-        Page<QnABoardDto> list = qnABoardService.list(Category.QNA, PageRequest.of(page, 10));
-
-        model.addAttribute("qnaBoards", list);
-        model.addAttribute("currentPage", page);
-        model.addAttribute("totalPages", list.getTotalPages());
-        model.addAttribute("totalElements", list.getTotalElements());
+        model.addAttribute("qnaBoards", qnABoardService.list(PageRequest.of(page, 10)));
         return "board/qna-board";
     }
 

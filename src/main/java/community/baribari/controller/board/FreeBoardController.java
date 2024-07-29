@@ -27,13 +27,7 @@ public class FreeBoardController {
     @GetMapping(value = {"", "/"})
     public String index(Model model,
                         @RequestParam(defaultValue = "0", value = "page") int page){
-
-        Page<FreeBoardDto> list = freeBoardService.list(Category.FREE, PageRequest.of(page, 10));
-
-        model.addAttribute("freeBoards", list);
-        model.addAttribute("currentPage", page);
-        model.addAttribute("totalPages", list.getTotalPages());
-        model.addAttribute("totalElements", list.getTotalElements());
+        model.addAttribute("freeBoards", freeBoardService.list(PageRequest.of(page, 10)));
         return "board/free-board";
     }
 

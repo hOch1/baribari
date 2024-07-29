@@ -47,10 +47,10 @@ public class MemberController {
     public String posts(@PathVariable("id") Long id, Model model,
                         @RequestParam(defaultValue = "0", value = "page") int page){
 
-        model.addAttribute("bariRecruits", bariRecruitService.myList(Category.RECRUIT, id, PageRequest.of(page, 10)));
-        model.addAttribute("bariReviews", bariReviewService.myList(Category.REVIEW, id, PageRequest.of(page, 10)));
-        model.addAttribute("freeBoards", freeBoardService.myList(Category.FREE, id, PageRequest.of(page, 10)));
-        model.addAttribute("qnaBoards", qnABoardService.myList(Category.QNA, id, PageRequest.of(page, 10)));
+        model.addAttribute("bariRecruits", bariRecruitService.myList(id, PageRequest.of(page, 10)));
+        model.addAttribute("bariReviews", bariReviewService.myList(id, PageRequest.of(page, 10)));
+        model.addAttribute("freeBoards", freeBoardService.myList(id, PageRequest.of(page, 10)));
+        model.addAttribute("qnaBoards", qnABoardService.myList(id, PageRequest.of(page, 10)));
         model.addAttribute("memberId", id);
         return "member/posts";
     }

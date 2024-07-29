@@ -33,18 +33,23 @@ public abstract class BoardService<T extends Board, D extends BoardDto> {
         log.info("{}님이 {}을 등록했습니다. ID : {}", principalDetail.getMember().getNickname(), getBoardTypeName(), savedBoard.getId());
     }
 
-    public Page<D> list(Category category, Pageable pageable) {
-        Page<T> boards = boardRepository.findAllByCategoryAndDeletedFalseOrderByCreatedAtDesc(category, pageable);
+    public Page<D> list(Pageable pageable) {
+        Page<T> boards = boardRepository.findAllByCategoryAndDeletedFalseOrderByCreatedAtDesc(getCategory() ,pageable);
         return boards.map(this::toDto);
     }
 
-    public List<D> mainList(Category category) {
-        List<T> boards = boardRepository.findTop3ByCategoryAndDeletedFalseOrderByCreatedAtDesc(category);
+    public List<D> mainList() {
+        List<T> boards = boardRepository.findTop3ByCategoryAndDeletedFalseOrderByCreatedAtDesc(getCategory());
         return boards.stream().map(this::toDto).collect(Collectors.toList());
     }
 
-    public Page<D> myList(Category category, Long id, Pageable pageable){
-        Page<T> boards = boardRepository.findByDeletedFalseAndCategoryAndMemberIdOrderByCreatedAtDesc(category, id, pageable);
+    public Page<D> myList(Long id, Pageable pageable){
+        Page<T> boards = boardRepository.findByDeletedFalseAndCategoryAndMemberIdOrderByCreatedAtDesc(getCategory(), id, pageable);
+        return boards.map(this::toDto);
+    }
+
+    public Page<D> search(String keyword, Pageable pageable){
+        Page<T> boards = boardRepository.findByDeletedFalseAndCategoryAndTitleContainingOrderByCreatedAtDesc(getCategory(), keyword, pageable);
         return boards.map(this::toDto);
     }
 
@@ -91,4 +96,5 @@ public abstract class BoardService<T extends Board, D extends BoardDto> {
     protected abstract void updateBoard(T board, D dto);
     protected abstract D toDto(T entity);
     protected abstract String getBoardTypeName();
+    protected abstract Category getCategory();
 }

@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>바리 모집 페이지</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"
+            integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div th:replace="~{layout/nav :: nav}"></div>
+
+
+<div class="container-fluid">
+    <div class="row">
+        <div th:replace="~{layout/sidebar :: sidebar}"></div>
+        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+            <div class="pt-3 me-max">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h4 class="card-title">검색 결과</h4>
+                        <ul class="nav nav-tabs" id="myTab" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active" id="free-board-tab" data-bs-toggle="tab" data-bs-target="#free-board" type="button" role="tab" aria-controls="free-board" aria-selected="true">자유게시판</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="qna-board-tab" data-bs-toggle="tab" data-bs-target="#qna-board" type="button" role="tab" aria-controls="qna-board" aria-selected="false">질문게시판</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="answer-tab" data-bs-toggle="tab" data-bs-target="#answer" type="button" role="tab" aria-controls="answer" aria-selected="false">답변</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="bari-recruit-tab" data-bs-toggle="tab" data-bs-target="#bari-recruit" type="button" role="tab" aria-controls="bari-recruit" aria-selected="false">바리 모집게시판</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="bari-review-tab" data-bs-toggle="tab" data-bs-target="#bari-review" type="button" role="tab" aria-controls="bari-review" aria-selected="false">바리 후기게시판</button>
+                            </li>
+                        </ul>
+                        <div class="tab-content" id="myTabContent">
+                            <div class="tab-pane fade show active" id="free-board" role="tabpanel" aria-labelledby="free-board-tab">
+                                <div th:if="${!results.freeBoards.isEmpty()}">
+                                    <table class="table table-hover mt-3">
+                                        <thead>
+                                        <tr>
+                                            <th scope="col" style="width: 10%;">번호</th>
+                                            <th scope="col">제목</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr th:each="post, iterStat : ${results.freeBoards}">
+                                            <th scope="row" th:text="${results.freeBoards.totalElements - (results.freeBoards.number * results.freeBoards.size) - iterStat.index}"></th>
+                                            <td><a th:href="@{/free-board/detail/{id}(id=${post.id})}" th:text="${post.title}"></a></td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                    <nav th:if="${results.freeBoards.totalPages > 1}">
+                                        <ul class="pagination justify-content-center mt-3">
+                                            <li class="page-item" th:classappend="${results.freeBoards.hasPrevious()} ? '' : 'disabled'">
+                                                <a class="page-link" th:href="@{|/search/all?page=${results.freeBoards.number - 1}|}">이전</a>
+                                            </li>
+                                            <li class="page-item" th:each="pageNum : ${#numbers.sequence((results.freeBoards.number / 10) * 10 + 1, ((results.freeBoards.number / 10) + 1) * 10 < results.freeBoards.totalPages ? ((results.freeBoards.number / 10) + 1) * 10 : results.freeBoards.totalPages)}" th:classappend="${pageNum == results.freeBoards.number + 1} ? 'active'">
+                                                <a class="page-link" th:href="@{|/search/all?page=${pageNum - 1}|}" th:text="${pageNum}">1</a>
+                                            </li>
+                                            <li class="page-item" th:classappend="${results.freeBoards.hasNext()} ? '' : 'disabled'">
+                                                <a class="page-link" th:href="@{|/search/all?page=${results.freeBoards.number + 1}|}">다음</a>
+                                            </li>
+                                        </ul>
+                                    </nav>
+                                </div>
+                                <div th:if="${results.freeBoards.isEmpty()}">
+                                    <p class="text-muted mt-3">검색된 내용이 없습니다.</p>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="qna-board" role="tabpanel" aria-labelledby="qna-board-tab">
+                                <div th:if="${!results.qnaBoards.isEmpty()}">
+                                    <table class="table table-hover mt-3">
+                                        <thead>
+                                        <tr>
+                                            <th scope="col" style="width: 10%;">번호</th>
+                                            <th scope="col">제목</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr th:each="post, iterStat : ${results.qnaBoards}">
+                                            <th scope="row" th:text="${results.qnaBoards.totalElements - (results.qnaBoards.number * results.qnaBoards.size) - iterStat.index}"></th>
+                                            <td><a th:href="@{/qna-board/detail/{id}(id=${post.id})}" th:text="${post.title}"></a></td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                    <nav th:if="${results.qnaBoards.totalPages > 1}">
+                                        <ul class="pagination justify-content-center mt-3">
+                                            <li class="page-item" th:classappend="${results.qnaBoards.hasPrevious()} ? '' : 'disabled'">
+                                                <a class="page-link" th:href="@{|/search/all?page=${results.qnaBoards.number - 1}|}">이전</a>
+                                            </li>
+                                            <li class="page-item" th:each="pageNum : ${#numbers.sequence((results.qnaBoards.number / 10) * 10 + 1, ((results.qnaBoards.number / 10) + 1) * 10 < results.qnaBoards.totalPages ? ((results.qnaBoards.number / 10) + 1) * 10 : qnaBoards.totalPages)}" th:classappend="${pageNum == results.qnaBoards.number + 1} ? 'active'">
+                                                <a class="page-link" th:href="@{|/search/all?page=${pageNum - 1}|}" th:text="${pageNum}">1</a>
+                                            </li>
+                                            <li class="page-item" th:classappend="${results.qnaBoards.hasNext()} ? '' : 'disabled'">
+                                                <a class="page-link" th:href="@{|/search/all?page=${results.qnaBoards.number + 1}|}">다음</a>
+                                            </li>
+                                        </ul>
+                                    </nav>
+                                </div>
+                                <div th:if="${results.qnaBoards.isEmpty()}">
+                                    <p class="text-muted mt-3">검색된 내용이 없습니다.</p>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="answer" role="tabpanel" aria-labelledby="answer-tab">
+                                <div th:if="${!results.answers.isEmpty()}">
+                                    <table class="table table-hover mt-3">
+                                        <thead>
+                                        <tr>
+                                            <th scope="col" style="width: 10%;">번호</th>
+                                            <th scope="col">내용</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr th:each="post, iterStat : ${results.answers}">
+                                            <th scope="row" th:text="${results.answers.totalElements - (results.answers.number * results.answers.size) - iterStat.index}"></th>
+                                            <td><a th:href="@{/qna-board/detail/{id}(id=${post.questionId})}" th:text="${post.content}"></a></td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                    <nav th:if="${results.answers.totalPages > 1}">
+                                        <ul class="pagination justify-content-center mt-3">
+                                            <li class="page-item" th:classappend="${results.answers.hasPrevious()} ? '' : 'disabled'">
+                                                <a class="page-link" th:href="@{|/search/all?page=${results.answers.number - 1}|}">이전</a>
+                                            </li>
+                                            <li class="page-item" th:each="pageNum : ${#numbers.sequence((results.answers.number / 10) * 10 + 1, ((results.answers.number / 10) + 1) * 10 < results.answers.totalPages ? ((results.answers.number / 10) + 1) * 10 : results.answers.totalPages)}" th:classappend="${pageNum == results.answers.number + 1} ? 'active'">
+                                                <a class="page-link" th:href="@{|/search/all?page=${pageNum - 1}|}" th:text="${pageNum}">1</a>
+                                            </li>
+                                            <li class="page-item" th:classappend="${results.answers.hasNext()} ? '' : 'disabled'">
+                                                <a class="page-link" th:href="@{|/search/all?page=${results.answers.number + 1}|}">다음</a>
+                                            </li>
+                                        </ul>
+                                    </nav>
+                                </div>
+                                <div th:if="${results.answers.isEmpty()}">
+                                    <p class="text-muted mt-3">검색된 내용이 없습니다.</p>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="bari-recruit" role="tabpanel" aria-labelledby="bari-recruit-tab">
+                                <div th:if="${!results.recruits.isEmpty()}">
+                                    <table class="table table-hover mt-3">
+                                        <thead>
+                                        <tr>
+                                            <th scope="col" style="width: 10%;">번호</th>
+                                            <th scope="col">제목</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr th:each="post, iterStat : ${results.recruits}">
+                                            <th scope="row" th:text="${results.recruits.totalElements - (results.recruits.number * results.recruits.size) - iterStat.index}"></th>
+                                            <td><a th:href="@{/bari-recruit/detail/{id}(id=${post.id})}" th:text="${post.title}"></a></td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                    <nav th:if="${results.recruits.totalPages > 1}">
+                                        <ul class="pagination justify-content-center mt-3">
+                                            <li class="page-item" th:classappend="${results.recruits.hasPrevious()} ? '' : 'disabled'">
+                                                <a class="page-link" th:href="@{|/search/all?page=${results.recruits.number - 1}|}">이전</a>
+                                            </li>
+                                            <li class="page-item" th:each="pageNum : ${#numbers.sequence((results.recruits.number / 10) * 10 + 1, ((results.recruits.number / 10) + 1) * 10 < results.recruits.totalPages ? ((results.recruits.number / 10) + 1) * 10 : results.recruits.totalPages)}" th:classappend="${pageNum == results.recruits.number + 1} ? 'active'">
+                                                <a class="page-link" th:href="@{|/search/all?page=${pageNum - 1}|}" th:text="${pageNum}">1</a>
+                                            </li>
+                                            <li class="page-item" th:classappend="${results.recruits.hasNext()} ? '' : 'disabled'">
+                                                <a class="page-link" th:href="@{|/search/all?page=${results.recruits.number + 1}|}">다음</a>
+                                            </li>
+                                        </ul>
+                                    </nav>
+                                </div>
+                                <div th:if="${results.recruits.isEmpty()}">
+                                    <p class="text-muted mt-3">검색된 내용이 없습니다.</p>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="bari-review" role="tabpanel" aria-labelledby="bari-review-tab">
+                                <div th:if="${!results.reviews.isEmpty()}">
+                                    <table class="table table-hover mt-3">
+                                        <thead>
+                                        <tr>
+                                            <th scope="col" style="width: 10%;">번호</th>
+                                            <th scope="col">제목</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr th:each="post, iterStat : ${results.reviews}">
+                                            <th scope="row" th:text="${results.reviews.totalElements - (results.reviews.number * results.reviews.size) - iterStat.index}"></th>
+                                            <td><a th:href="@{/bari-review/detail/{id}(id=${post.id})}" th:text="${post.title}"></a></td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                    <nav th:if="${results.reviews.totalPages > 1}">
+                                        <ul class="pagination justify-content-center mt-3">
+                                            <li class="page-item" th:classappend="${results.reviews.hasPrevious()} ? '' : 'disabled'">
+                                                <a class="page-link" th:href="@{|/search/all?page=${results.reviews.number - 1}|}">이전</a>
+                                            </li>
+                                            <li class="page-item" th:each="pageNum : ${#numbers.sequence((results.reviews.number / 10) * 10 + 1, ((results.reviews.number / 10) + 1) * 10 < results.reviews.totalPages ? ((results.reviews.number / 10) + 1) * 10 : results.reviews.totalPages)}" th:classappend="${pageNum == results.reviews.number + 1} ? 'active'">
+                                                <a class="page-link" th:href="@{|/search/all?page=${pageNum - 1}|}" th:text="${pageNum}">1</a>
+                                            </li>
+                                            <li class="page-item" th:classappend="${results.reviews.hasNext()} ? '' : 'disabled'">
+                                                <a class="page-link" th:href="@{|/search/all?page=${results.reviews.number + 1}|}">다음</a>
+                                            </li>
+                                        </ul>
+                                    </nav>
+                                </div>
+                                <div th:if="${results.reviews.isEmpty()}">
+                                    <p class="text-muted mt-3">검색된 내용이 없습니다.</p>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+
+
+<div th:replace="~{layout/footer :: footer}"></div>
+
+<script th:inline="javascript">
+    let message = /*[[${message}]]*/ null;
+</script>
+<script th:src="@{/js/message.js}"></script>
+</body>
+</html>

@@ -18,4 +18,7 @@ public interface BoardRepository<T extends Board> extends JpaRepository<T, Long>
 
     // 작성 글 리스트
     Page<T> findByDeletedFalseAndCategoryAndMemberIdOrderByCreatedAtDesc(Category category, Long id, Pageable pageable);
+
+    // 검색
+    Page<T> findByDeletedFalseAndCategoryAndTitleContainingOrderByCreatedAtDesc(Category category, String keyword, Pageable pageable);
 }
