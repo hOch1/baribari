@@ -21,7 +21,7 @@ public class CommentStarController {
     private final CommentStarService commentStarService;
 
     @PostMapping("/add/{id}")
-    public String star(@PathVariable(value = "id") Long id,
+    public String star(@PathVariable("id") Long id,
                        @AuthenticationPrincipal PrincipalDetail principalDetail,
                        RedirectAttributes redirectAttributes,
                        HttpServletRequest request) {
