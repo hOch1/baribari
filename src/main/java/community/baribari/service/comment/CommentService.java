@@ -7,7 +7,7 @@ import community.baribari.entity.comment.Comment;
 import community.baribari.exception.CustomException;
 import community.baribari.exception.ErrorCode;
 import community.baribari.repository.board.BoardRepository;
-import community.baribari.repository.board.CommentRepository;
+import community.baribari.repository.comment.CommentRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

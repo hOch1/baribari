@@ -1,5 +1,6 @@
 package community.baribari.config.oauth2;
 
+import community.baribari.entity.member.AccountSetting;
 import community.baribari.entity.member.Member;
 import community.baribari.entity.member.Role;
 import lombok.Builder;
@@ -52,6 +53,12 @@ public class OAuth2Attributes {
                 .email(email)
                 .role(Role.ROLE_MEMBER)
                 .isSocial(true)
+                .accountSetting(AccountSetting.builder()
+                        .profileVisibility(true)
+                        .commentVisibility(true)
+                        .postVisibility(true)
+                        .build()
+                )
                 .build();
     }
 }

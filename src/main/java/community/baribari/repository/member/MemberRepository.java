@@ -1,4 +1,4 @@
-package community.baribari.repository;
+package community.baribari.repository.member;
 
 import community.baribari.entity.member.Member;
 import org.springframework.data.jpa.repository.JpaRepository;

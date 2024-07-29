@@ -5,7 +5,7 @@ import community.baribari.entity.comment.Comment;
 import community.baribari.entity.star.CommentStar;
 import community.baribari.exception.CustomException;
 import community.baribari.exception.ErrorCode;
-import community.baribari.repository.board.CommentRepository;
+import community.baribari.repository.comment.CommentRepository;
 import community.baribari.repository.star.CommentStarRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

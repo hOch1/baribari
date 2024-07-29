@@ -23,11 +23,16 @@
                     <div class="card-body">
                         <h4 class="card-title">프로필</h4>
                         <div class="row mt-4">
-                            <div class="col-md-9">
+                            <div class="col-md-9" th:if="${#authentication.name == member.email || member.accountSetting.profileVisibility}">
                                 <p><label>이름:</label> <span th:text="${member.name}"></span></p>
                                 <p><label>닉네임:</label> <span th:text="${member.nickname}"></span></p>
                                 <p><label>이메일:</label> <span th:text="${member.email}"></span></p>
-                                <a href="/set-nickname" class="btn btn-secondary ms-2">닉네임 수정</a>
+                                <a href="/set-nickname" class="btn btn-secondary ms-2" th:if="${#authentication.name == member.email}">
+                                    닉네임 수정
+                                </a>
+                            </div>
+                            <div class="col-md-9" th:unless="${#authentication.name == member.email || member.accountSetting.profileVisibility}">
+                                <p>비공개</p>
                             </div>
                         </div>
                     </div>
@@ -38,12 +43,12 @@
                     <div class="card-body">
                         <h4 class="card-title">활동</h4>
                         <ul class="list-unstyled">
-                            <li>
+                            <li th:if="${#authentication.name == member.email || member.accountSetting.postVisibility}">
                                 <a th:href="@{/member/{id}/posts(id=${member.id})}" class="btn btn-outline-primary">
                                     <i class="bi bi-pencil"></i> 작성한 게시물
                                 </a>
                             </li>
-                            <li class="mt-2">
+                            <li class="mt-2" th:if="${#authentication.name == member.email || member.accountSetting.commentVisibility}">
                                 <a th:href="@{/member/{id}/comments(id=${member.id})}" class="btn btn-outline-primary">
                                     <i class="bi bi-chat-text"></i> 작성한 댓글
                                 </a>

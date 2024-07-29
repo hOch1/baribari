@@ -31,7 +31,7 @@
       </h6>
       <ul class="nav flex-column mb-2 mt-2">
         <li class="nav-item">
-          <a class="nav-link" href="/member/myPage">
+          <a class="nav-link" th:href="@{/member/profile/{id}(id=${#authentication.principal.member.id})}">
             <i class="bi bi-person"></i> 프로필
           </a>
         </li>
@@ -41,8 +41,8 @@
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">
-            <i class="bi bi-gear"></i> 계정설정
+          <a class="nav-link" href="/member/account-setting">
+            <i class="bi bi-gear"></i> 계정 설정
           </a>
         </li>
         <li class="nav-item">

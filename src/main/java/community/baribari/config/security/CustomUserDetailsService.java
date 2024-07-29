@@ -2,7 +2,7 @@ package community.baribari.config.security;
 
 import community.baribari.config.PrincipalDetail;
 import community.baribari.entity.member.Member;
-import community.baribari.repository.MemberRepository;
+import community.baribari.repository.member.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;

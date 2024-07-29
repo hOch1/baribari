@@ -28,7 +28,8 @@ public class Member {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @OneToOne(mappedBy = "member")
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "account_setting_id")
     private AccountSetting accountSetting;
 
     public Member update(String name){
@@ -41,4 +42,8 @@ public class Member {
         return this;
     }
 
+    public Member updateAccountSetting(AccountSetting accountSetting){
+        this.accountSetting = accountSetting;
+        return this;
+    }
 }

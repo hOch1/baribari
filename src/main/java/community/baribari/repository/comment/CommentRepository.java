@@ -1,4 +1,4 @@
-package community.baribari.repository.board;
+package community.baribari.repository.comment;
 
 import community.baribari.entity.comment.Comment;
 import org.springframework.data.jpa.repository.JpaRepository;

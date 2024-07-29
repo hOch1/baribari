@@ -1,22 +1,18 @@
 package community.baribari.entity.member;
 
+import community.baribari.dto.member.AccountSettingDto;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @Getter
 @Builder
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 public class AccountSetting {
 
@@ -33,7 +29,13 @@ public class AccountSetting {
     @Builder.Default
     private boolean profileVisibility = true;
 
-    @OneToOne
-    @JoinColumn(name = "member_id")
+    @OneToOne(mappedBy = "accountSetting")
     private Member member;
+
+    public AccountSetting update(AccountSettingDto accountSettingDto) {
+        this.profileVisibility = accountSettingDto.isProfileVisibility();
+        this.commentVisibility = accountSettingDto.isCommentVisibility();
+        this.postVisibility = accountSettingDto.isPostVisibility();
+        return this;
+    }
 }

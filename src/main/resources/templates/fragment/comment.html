@@ -22,7 +22,11 @@
           <div th:unless="${comment.deleted}">
             <p class="card-text" th:text="${comment.content}" style="font-size: 1rem; margin: 0; line-height: 1.4;"></p>
             <p class="card-text" style="font-size: 0.7rem; margin: 0;">
-              <small class="text-muted">작성자: <span th:text="${comment.member.nickname}"></span> | <span th:text="${#temporals.format(comment.createdAt, 'yyyy-MM-dd HH:mm')}"></span></small>
+              <small class="text-muted">작성자:
+                <a th:href="@{/member/profile/{id}(id=${comment.member.id})}">
+                  <span th:text="${comment.member.nickname}"></span>
+                </a>
+                | <span th:text="${#temporals.format(comment.createdAt, 'yyyy-MM-dd HH:mm')}"></span></small>
             </p>
             <div class="d-flex justify-content-between align-items-center" style="font-size: 0.7rem;">
               <div class="d-flex align-items-center">

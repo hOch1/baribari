@@ -2,10 +2,12 @@ package community.baribari.service.sign;
 
 import community.baribari.config.PrincipalDetail;
 import community.baribari.dto.sign.SignUpDto;
+import community.baribari.entity.member.AccountSetting;
 import community.baribari.entity.member.Member;
 import community.baribari.exception.CustomException;
 import community.baribari.exception.ErrorCode;
-import community.baribari.repository.MemberRepository;
+import community.baribari.repository.member.AccountSettingRepository;
+import community.baribari.repository.member.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;

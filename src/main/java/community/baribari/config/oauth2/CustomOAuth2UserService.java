@@ -2,7 +2,8 @@ package community.baribari.config.oauth2;
 
 import community.baribari.config.PrincipalDetail;
 import community.baribari.entity.member.Member;
-import community.baribari.repository.MemberRepository;
+import community.baribari.repository.member.AccountSettingRepository;
+import community.baribari.repository.member.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
@@ -19,6 +20,7 @@ import org.springframework.stereotype.Service;
 public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
 
     private final MemberRepository memberRepository;
+    private final AccountSettingRepository accountSettingRepository;
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {

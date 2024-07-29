@@ -1,5 +1,6 @@
 package community.baribari.dto.sign;
 
+import community.baribari.entity.member.AccountSetting;
 import community.baribari.entity.member.Member;
 import community.baribari.entity.member.Role;
 import lombok.Data;
@@ -20,6 +21,12 @@ public class SignUpDto {
                 .nickname(nickname)
                 .password(passwordEncoder.encode(password))
                 .role(Role.ROLE_MEMBER)
+                .accountSetting(AccountSetting.builder()
+                        .postVisibility(true)
+                        .commentVisibility(true)
+                        .profileVisibility(true)
+                        .build()
+                )
                 .build();
     }
 }

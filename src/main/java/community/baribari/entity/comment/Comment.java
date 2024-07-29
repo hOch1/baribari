@@ -45,6 +45,7 @@ public class Comment {
     private Comment parent;
 
     @OneToMany(mappedBy = "parent")
+    @Builder.Default
     private List<Comment> children = new ArrayList<>();
 
     public static Comment toEntity(CommentDto commentDto, PrincipalDetail principalDetail, Board board) {

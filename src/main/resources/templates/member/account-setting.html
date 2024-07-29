@@ -20,27 +20,18 @@
         <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
             <div class="pt-3 me-max">
                 <h1 class="mb-4">계정 설정</h1>
-                <form th:action="@{/member/account-settings}" th:object="${accountSettings}" method="post">
-                    <div class="mb-3">
-                        <label for="profileVisibility" class="form-label">프로필 공개 설정</label>
-                        <select id="profileVisibility" class="form-select" th:field="*{profileVisibility}">
-                            <option value="PUBLIC">공개</option>
-                            <option value="PRIVATE">비공개</option>
-                        </select>
+                <form th:action="@{/member/edit/account-setting}" th:object="${accountSetting}" method="post">
+                    <div class="mb-3 form-check">
+                        <input type="checkbox" class="form-check-input" id="profileVisibility" th:field="*{profileVisibility}">
+                        <label for="profileVisibility" class="form-check-label">프로필 공개 설정</label>
                     </div>
-                    <div class="mb-3">
-                        <label for="postVisibility" class="form-label">게시물 공개 설정</label>
-                        <select id="postVisibility" class="form-select" th:field="*{postVisibility}">
-                            <option value="PUBLIC">공개</option>
-                            <option value="PRIVATE">비공개</option>
-                        </select>
+                    <div class="mb-3 form-check">
+                        <input type="checkbox" class="form-check-input" id="postVisibility" th:field="*{postVisibility}">
+                        <label for="postVisibility" class="form-check-label">게시물 공개 설정</label>
                     </div>
-                    <div class="mb-3">
-                        <label for="commentVisibility" class="form-label">댓글 공개 설정</label>
-                        <select id="commentVisibility" class="form-select" th:field="*{commentVisibility}">
-                            <option value="PUBLIC">공개</option>
-                            <option value="PRIVATE">비공개</option>
-                        </select>
+                    <div class="mb-3 form-check">
+                        <input type="checkbox" class="form-check-input" id="commentVisibility" th:field="*{commentVisibility}">
+                        <label for="commentVisibility" class="form-check-label">댓글 공개 설정</label>
                     </div>
                     <button type="submit" class="btn btn-primary">저장</button>
                 </form>

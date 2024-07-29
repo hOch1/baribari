@@ -18,6 +18,7 @@ public class MemberDto {
     private String nickname;
     private String email;
     private String password;
+    private AccountSettingDto accountSetting;
     private Role role;
 
     public static MemberDto toDto(Member member){
@@ -27,6 +28,7 @@ public class MemberDto {
                 .name(member.getName())
                 .email(member.getEmail())
                 .role(member.getRole())
+                .accountSetting(AccountSettingDto.toDto(member.getAccountSetting()))
                 .build();
     }
 }
