@@ -15,6 +15,7 @@ public class AccountSettingDto {
     private boolean postVisibility;
     private boolean commentVisibility;
     private boolean profileVisibility;
+    private boolean noteBlock;
 
     public static AccountSettingDto toDto(AccountSetting accountSetting) {
         return AccountSettingDto.builder()

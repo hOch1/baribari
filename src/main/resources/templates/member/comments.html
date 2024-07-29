@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>프로필 - 작성한 댓글</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"
+            integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI=" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div th:replace="~{layout/nav :: nav}"></div>
+
+<div class="container-fluid">
+    <div class="row">
+        <div th:replace="~{layout/sidebar :: sidebar}"></div>
+        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+            <div class="pt-3 me-max">
+                <div th:if="${!comments.isEmpty()}">
+                    <table class="table table-hover mt-3">
+                        <thead>
+                        <tr>
+                            <th scope="col" style="width: 10%;">번호</th>
+                            <th scope="col">내용</th>
+                            <th scope="col">작성일</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="comment, iterStat : ${comments}">
+                            <th scope="row" th:text="${comments.totalElements - (comments.number * comments.size) - iterStat.index}"></th>
+                            <td th:text="${comment.content}"></td>
+                            <td th:text="${#dates.format(comment.createdAt, 'yyyy-MM-dd HH:mm')}"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <nav th:if="${comments.totalPages > 1}">
+                        <ul class="pagination justify-content-center mt-3">
+                            <li class="page-item" th:classappend="${comments.hasPrevious()} ? '' : 'disabled'">
+                                <a class="page-link" th:href="@{|/member/${memberId}/comments?page=${comments.number - 1}|}">이전</a>
+                            </li>
+                            <li class="page-item" th:each="pageNum : ${#numbers.sequence((comments.number / 10) * 10 + 1, ((comments.number / 10) + 1) * 10 < comments.totalPages ? ((comments.number / 10) + 1) * 10 : comments.totalPages)}" th:classappend="${pageNum == comments.number + 1} ? 'active'">
+                                <a class="page-link" th:href="@{|/member/${memberId}/comments?page=${pageNum - 1}|}" th:text="${pageNum}">1</a>
+                            </li>
+                            <li class="page-item" th:classappend="${comments.hasNext()} ? '' : 'disabled'">
+                                <a class="page-link" th:href="@{|/member/${memberId}/comments?page=${comments.number + 1}|}">다음</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+                <div th:if="${comments.isEmpty()}">
+                    <p class="text-muted mt-3">작성한 댓글이 없습니다.</p>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+
+<div th:replace="~{layout/footer :: footer}"></div>
+
+<script th:inline="javascript">
+    let message = /*[[${message}]]*/ null;
+</script>
+<script th:src="@{/js/message.js}"></script>
+</body>
+</html>

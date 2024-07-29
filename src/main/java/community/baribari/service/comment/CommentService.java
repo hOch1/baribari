@@ -75,4 +75,9 @@ public class CommentService {
         return commentRepository.findByDeletedFalseAndContentContainingOrderByCreatedAtDesc(keyword, pageable)
                 .map(CommentDto::toDto);
     }
+
+    public Page<CommentDto> myList(Long id, Pageable pageable) {
+        return commentRepository.findByDeletedFalseAndMemberIdOrderByCreatedAtDesc(id, pageable)
+                .map(CommentDto::toDto);
+    }
 }

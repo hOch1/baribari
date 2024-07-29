@@ -8,6 +8,7 @@ import community.baribari.service.board.extend.BariRecruitService;
 import community.baribari.service.board.extend.BariReviewService;
 import community.baribari.service.board.extend.FreeBoardService;
 import community.baribari.service.board.extend.QnABoardService;
+import community.baribari.service.comment.CommentService;
 import community.baribari.service.member.MemberService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +29,7 @@ public class MemberController {
     private final QnABoardService qnABoardService;
     private final BariReviewService bariReviewService;
     private final BariRecruitService bariRecruitService;
+    private final CommentService commentService;
 
     @GetMapping("/profile/{id}")
     public String profile(Model model,
@@ -53,6 +55,14 @@ public class MemberController {
         model.addAttribute("qnaBoards", qnABoardService.myList(id, PageRequest.of(page, 10)));
         model.addAttribute("memberId", id);
         return "member/posts";
+    }
+
+    @GetMapping("/{id}/comments")
+    public String comments(@PathVariable("id") Long id, Model model,
+                           @RequestParam(defaultValue = "0", value = "page") int page){
+        model.addAttribute("comments", commentService.myList(id, PageRequest.of(page, 10)));
+        model.addAttribute("memberId", id);
+        return "member/comments";
     }
 
     @GetMapping("/account-setting")

@@ -29,6 +29,9 @@ public class AccountSetting {
     @Builder.Default
     private boolean profileVisibility = true;
 
+    @Builder.Default
+    private boolean noteBlock = false;
+
     @OneToOne(mappedBy = "accountSetting")
     private Member member;
 
@@ -36,6 +39,7 @@ public class AccountSetting {
         this.profileVisibility = accountSettingDto.isProfileVisibility();
         this.commentVisibility = accountSettingDto.isCommentVisibility();
         this.postVisibility = accountSettingDto.isPostVisibility();
+        this.noteBlock = accountSettingDto.isNoteBlock();
         return this;
     }
 }
