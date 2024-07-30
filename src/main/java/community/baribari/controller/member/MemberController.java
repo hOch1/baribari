@@ -33,15 +33,8 @@ public class MemberController {
 
     @GetMapping("/profile/{id}")
     public String profile(Model model,
-                         @PathVariable("id") Long id,
-                         RedirectAttributes redirectAttributes,
-                         HttpServletRequest request) {
-        try {
-            model.addAttribute("member", memberService.getMember(id));
-        }catch (CustomException e){
-            redirectAttributes.addFlashAttribute("message", e.getMessage());
-            return "redirect:"+request.getHeader("Referer");
-        }
+                         @PathVariable("id") Long id) {
+        model.addAttribute("member", memberService.getMember(id));
         return "member/profile";
     }
 

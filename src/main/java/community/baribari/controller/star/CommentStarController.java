@@ -23,15 +23,10 @@ public class CommentStarController {
     @PostMapping("/add/{id}")
     public String star(@PathVariable(value = "id") Long id,
                        @AuthenticationPrincipal PrincipalDetail principalDetail,
-                       RedirectAttributes redirectAttributes,
                        HttpServletRequest request) {
-        try {
-            commentStarService.starCountUp(id, principalDetail);
-            String referer = request.getHeader("Referer");
-            return "redirect:"+referer;
-        }catch (CustomException e){
-            redirectAttributes.addFlashAttribute("message", e.getMessage());
-            return "redirect:/";
-        }
+
+        commentStarService.starCountUp(id, principalDetail);
+        String referer = request.getHeader("Referer");
+        return "redirect:"+referer;
     }
 }

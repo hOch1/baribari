@@ -20,13 +20,8 @@ public class BoardStarController {
     @PostMapping("/add/{id}")
     public String boardStar (@PathVariable Long id,
                              @AuthenticationPrincipal PrincipalDetail principalDetail,
-                             RedirectAttributes redirectAttributes,
                              HttpServletRequest request){
-        try {
-            boardStarService.starCountUp(id, principalDetail);
-        }catch (CustomException e){
-            redirectAttributes.addFlashAttribute("message", e.getMessage());
-        }
+        boardStarService.starCountUp(id, principalDetail);
         String referer = request.getHeader("Referer");
         return "redirect:"+referer;
     }

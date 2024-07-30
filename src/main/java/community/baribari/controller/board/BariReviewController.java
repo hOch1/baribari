@@ -7,6 +7,7 @@ import community.baribari.entity.board.Category;
 import community.baribari.exception.CustomException;
 import community.baribari.service.board.extend.BariReviewService;
 import community.baribari.service.comment.CommentService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -38,23 +39,19 @@ public class BariReviewController {
     }
 
     @PostMapping("/write.do")
-    public String write(@ModelAttribute BariReviewDto bariReviewDto,
+    public String write(@ModelAttribute @Valid BariReviewDto bariReviewDto,
                         @AuthenticationPrincipal PrincipalDetail principalDetail) {
         bariReviewService.save(bariReviewDto, principalDetail);
         return "redirect:/bari-review";
     }
 
     @GetMapping("/detail/{id}")
-    public String detail(@PathVariable("id") Long id, Model model, RedirectAttributes redirectAttributes) {
-        try {
-            bariReviewService.viewCountUp(id);
-            model.addAttribute("board", bariReviewService.detail(id));
-            model.addAttribute("comments", commentService.list(id));
-            model.addAttribute("comment", new CommentDto());
-        }catch (CustomException e){
-            redirectAttributes.addFlashAttribute("message", e.getMessage());
-            return "redirect:/bari-review";
-        }
+    public String detail(@PathVariable("id") Long id, Model model) {
+        bariReviewService.viewCountUp(id);
+        model.addAttribute("board", bariReviewService.detail(id));
+        model.addAttribute("comments", commentService.list(id));
+        model.addAttribute("comment", new CommentDto());
+
         return "board/detail/bari-review-detail";
     }
 
@@ -65,7 +62,7 @@ public class BariReviewController {
     }
 
     @PostMapping("/update.do")
-    public String update(@ModelAttribute BariReviewDto bariReviewDto, RedirectAttributes redirectAttributes){
+    public String update(@ModelAttribute @Valid BariReviewDto bariReviewDto, RedirectAttributes redirectAttributes){
         bariReviewService.update(bariReviewDto);
         redirectAttributes.addFlashAttribute("message", "수정되었습니다");
         return "redirect:/bari-review/detail/"+bariReviewDto.getId();

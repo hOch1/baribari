@@ -7,6 +7,7 @@ import community.baribari.entity.board.Category;
 import community.baribari.exception.CustomException;
 import community.baribari.service.comment.CommentService;
 import community.baribari.service.board.extend.FreeBoardService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -38,24 +39,18 @@ public class FreeBoardController {
     }
 
     @PostMapping("/write.do")
-    public String write(@ModelAttribute FreeBoardDto freeBoardDto,
+    public String write(@ModelAttribute @Valid FreeBoardDto freeBoardDto,
                         @AuthenticationPrincipal PrincipalDetail principalDetail){
         freeBoardService.save(freeBoardDto, principalDetail);
         return "redirect:/free-board";
     }
 
     @GetMapping("/detail/{id}")
-    public String detail(@PathVariable("id") Long id, Model model,
-                         RedirectAttributes redirectAttributes){
-        try {
-            freeBoardService.viewCountUp(id);
-            model.addAttribute("board", freeBoardService.detail(id));
-            model.addAttribute("comments", commentService.list(id));
-            model.addAttribute("comment", new CommentDto());
-        } catch (CustomException e){
-            redirectAttributes.addFlashAttribute("message", e.getMessage());
-            return "redirect:/free-board/";
-        }
+    public String detail(@PathVariable("id") Long id, Model model){
+        freeBoardService.viewCountUp(id);
+        model.addAttribute("board", freeBoardService.detail(id));
+        model.addAttribute("comments", commentService.list(id));
+        model.addAttribute("comment", new CommentDto());
         return "board/detail/free-detail";
     }
 
@@ -66,7 +61,7 @@ public class FreeBoardController {
     }
 
     @PostMapping("/update.do")
-    public String update(@ModelAttribute FreeBoardDto freeBoardDto,
+    public String update(@ModelAttribute @Valid FreeBoardDto freeBoardDto,
                          RedirectAttributes redirectAttributes){
         freeBoardService.update(freeBoardDto);
         redirectAttributes.addFlashAttribute("message", "수정되었습니다.");

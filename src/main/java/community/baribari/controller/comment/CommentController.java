@@ -6,6 +6,7 @@ import community.baribari.entity.comment.Comment;
 import community.baribari.exception.CustomException;
 import community.baribari.service.comment.CommentService;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -24,17 +25,10 @@ public class CommentController {
 
     @PostMapping("/{boardId}/writeComment.do")
     public String writeComment(@PathVariable(value = "boardId") Long boardId,
-                               @ModelAttribute CommentDto commentDto,
+                               @ModelAttribute @Valid CommentDto commentDto,
                                @AuthenticationPrincipal PrincipalDetail principalDetail,
-                               RedirectAttributes redirectAttributes,
                                HttpServletRequest request) {
-
-        try {
-            commentService.addComment(commentDto, principalDetail, boardId);
-        }catch (CustomException e){
-            redirectAttributes.addFlashAttribute("message", e.getMessage());
-        }
-
+        commentService.addComment(commentDto, principalDetail, boardId);
         String referer = request.getHeader("Referer");
         return "redirect:"+referer;
     }
@@ -43,19 +37,14 @@ public class CommentController {
     public String delete(@PathVariable(value = "id") Long id,
                          RedirectAttributes redirectAttributes,
                          HttpServletRequest request) {
-        try {
-            Comment comment = commentService.delete(id);
-            redirectAttributes.addFlashAttribute("message", " 삭제되었습니다.");
-            String referer = request.getHeader("Referer");
-            return "redirect:"+referer;
-        }catch (CustomException e){
-            redirectAttributes.addFlashAttribute("message", e.getMessage());
-            return "redirect:/";
-        }
+        commentService.delete(id);
+        redirectAttributes.addFlashAttribute("message", " 삭제되었습니다.");
+        String referer = request.getHeader("Referer");
+        return "redirect:"+referer;
     }
 
     @PostMapping("/{commentId}/writeReply.do")
-    public String writeReply(@ModelAttribute CommentDto commentDto,
+    public String writeReply(@ModelAttribute @Valid CommentDto commentDto,
                              @PathVariable(value = "commentId") Long commentId,
                              @AuthenticationPrincipal PrincipalDetail principalDetail,
                              HttpServletRequest request){

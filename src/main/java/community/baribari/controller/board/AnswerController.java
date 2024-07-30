@@ -5,6 +5,7 @@ import community.baribari.dto.board.AnswerDto;
 import community.baribari.exception.CustomException;
 import community.baribari.service.board.AnswerService;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -23,16 +24,9 @@ public class AnswerController {
 
     @PostMapping("/{questionId}/write.do")
     public String answerWrite(@PathVariable("questionId") Long questionId,
-                              AnswerDto answerDto,
-                              @AuthenticationPrincipal PrincipalDetail principalDetail,
-                              RedirectAttributes redirectAttributes){
-        try {
-            answerService.writeAnswer(questionId, principalDetail, answerDto);
-        } catch (CustomException e){
-            redirectAttributes.addFlashAttribute("message", e.getMessage());
-            return "redirect:/qna-board/";
-        }
-
+                              @Valid AnswerDto answerDto,
+                              @AuthenticationPrincipal PrincipalDetail principalDetail){
+        answerService.writeAnswer(questionId, principalDetail, answerDto);
         return "redirect:/qna-board/detail/" + questionId;
     }
 
@@ -40,27 +34,19 @@ public class AnswerController {
     public String delete(@PathVariable("id") Long id,
                          HttpServletRequest request,
                          RedirectAttributes redirectAttributes){
-        try {
-            answerService.delete(id);
-            redirectAttributes.addFlashAttribute("message", "답변이 삭제되었습니다.");
-        } catch (CustomException e){
-            redirectAttributes.addFlashAttribute("message", e.getMessage());
-        }
+        answerService.delete(id);
+        redirectAttributes.addFlashAttribute("message", "답변이 삭제되었습니다.");
         String referer = request.getHeader("Referer");
         return "redirect:"+ referer;
     }
 
     @PostMapping("/update/{id}")
     public String update(@PathVariable("id") Long id,
-                         @ModelAttribute AnswerDto answerDto,
+                         @ModelAttribute @Valid AnswerDto answerDto,
                          HttpServletRequest request,
                          RedirectAttributes redirectAttributes){
-        try {
-            answerService.update(id, answerDto);
-            redirectAttributes.addFlashAttribute("message", "답변이 수정되었습니다.");
-        }catch (CustomException e){
-            redirectAttributes.addFlashAttribute("message", e.getMessage());
-        }
+        answerService.update(id, answerDto);
+        redirectAttributes.addFlashAttribute("message", "답변이 수정되었습니다.");
         String referer = request.getHeader("Referer");
         return "redirect:"+ referer;
     }
@@ -69,12 +55,8 @@ public class AnswerController {
     public String accept(@PathVariable("id") Long id,
                          HttpServletRequest request,
                          RedirectAttributes redirectAttributes){
-        try {
-            answerService.accept(id);
-            redirectAttributes.addFlashAttribute("message", "답변이 채택되었습니다.");
-        }catch (CustomException e){
-            redirectAttributes.addFlashAttribute("message", e.getMessage());
-        }
+        answerService.accept(id);
+        redirectAttributes.addFlashAttribute("message", "답변이 채택되었습니다.");
         String referer = request.getHeader("Referer");
         return "redirect:"+ referer;
     }

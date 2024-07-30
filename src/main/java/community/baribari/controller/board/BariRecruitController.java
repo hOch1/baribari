@@ -7,6 +7,7 @@ import community.baribari.entity.board.Category;
 import community.baribari.exception.CustomException;
 import community.baribari.service.board.extend.BariRecruitService;
 import community.baribari.service.comment.CommentService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -38,7 +39,7 @@ public class BariRecruitController {
     }
 
     @PostMapping("/write.do")
-    public String write(@ModelAttribute BariRecruitDto bariRecruitDto,
+    public String write(@ModelAttribute @Valid BariRecruitDto bariRecruitDto,
                         @AuthenticationPrincipal PrincipalDetail principalDetail){
         bariRecruitService.save(bariRecruitDto, principalDetail);
         return "redirect:/bari-recruit";
@@ -65,7 +66,7 @@ public class BariRecruitController {
     }
 
     @PostMapping("/update.do")
-    public String update(@ModelAttribute BariRecruitDto bariRecruitDto, RedirectAttributes redirectAttributes){
+    public String update(@ModelAttribute @Valid BariRecruitDto bariRecruitDto, RedirectAttributes redirectAttributes){
         bariRecruitService.update(bariRecruitDto);
         redirectAttributes.addFlashAttribute("message", "수정되었습니다.");
         return "redirect:/bari-recruit/detail/"+bariRecruitDto.getId();

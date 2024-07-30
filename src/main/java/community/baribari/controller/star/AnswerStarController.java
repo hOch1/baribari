@@ -22,13 +22,9 @@ public class AnswerStarController {
     @PostMapping("/add/{id}")
     public String answerStar (@PathVariable Long id,
                              @AuthenticationPrincipal PrincipalDetail principalDetail,
-                             RedirectAttributes redirectAttributes,
                              HttpServletRequest request){
-        try {
-            answerStarService.starCountUp(id, principalDetail);
-        }catch (CustomException e){
-            redirectAttributes.addFlashAttribute("message", e.getMessage());
-        }
+
+        answerStarService.starCountUp(id, principalDetail);
         String referer = request.getHeader("Referer");
         return "redirect:"+referer;
     }

@@ -5,6 +5,7 @@ import community.baribari.dto.board.QnABoardDto;
 import community.baribari.entity.board.Category;
 import community.baribari.exception.CustomException;
 import community.baribari.service.board.extend.QnABoardService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -35,21 +36,16 @@ public class QnABoardController {
     }
 
     @PostMapping("/write.do")
-    public String write(@ModelAttribute QnABoardDto qnABoardDto,
+    public String write(@ModelAttribute @Valid QnABoardDto qnABoardDto,
                         @AuthenticationPrincipal PrincipalDetail principalDetail){
         qnABoardService.save(qnABoardDto, principalDetail);
         return "redirect:/qna-board";
     }
 
     @GetMapping("/detail/{id}")
-    public String detail(@PathVariable("id") Long id, Model model, RedirectAttributes redirectAttributes){
-        try {
-            qnABoardService.viewCountUp(id);
-            model.addAttribute("qnaBoard", qnABoardService.detail(id));
-        } catch (CustomException e){
-            redirectAttributes.addFlashAttribute("message", e.getMessage());
-            return "redirect:/qna-board/";
-        }
+    public String detail(@PathVariable("id") Long id, Model model){
+        qnABoardService.viewCountUp(id);
+        model.addAttribute("qnaBoard", qnABoardService.detail(id));
         return "board/detail/qna-detail";
     }
 
@@ -60,7 +56,7 @@ public class QnABoardController {
     }
 
     @PostMapping("/update.do")
-    public String update(@ModelAttribute QnABoardDto qnABoardDto, RedirectAttributes redirectAttributes){
+    public String update(@ModelAttribute @Valid QnABoardDto qnABoardDto, RedirectAttributes redirectAttributes){
         qnABoardService.update(qnABoardDto);
         redirectAttributes.addFlashAttribute("message", "수정되었습니다.");
         return "redirect:/qna-board/detail/"+qnABoardDto.getId();
