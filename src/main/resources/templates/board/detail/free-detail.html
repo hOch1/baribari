@@ -19,10 +19,15 @@
                 <div class="post-header">
                     <h1 class="post-title" th:text="${board.title}"></h1>
                     <div class="post-meta">
-                        <p>작성자:
-                            <a th:href="@{/member/profile/{id}(id=${board.member.id})}">
-                                <span th:text="${board.member.nickname}"></span>
+                        <div class="dropdown d-inline">
+                            <a href="#" class="dropdown-toggle" id="dropdownMenuButtonBoard" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <small class="text-muted" style="margin-right: 5px;">작성자: <span th:text="${board.member.nickname}"></span></small>
                             </a>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButtonBoard">
+                                <a class="dropdown-item" th:href="@{/note/send/{id}(id=${board.member.id})}">쪽지 보내기</a>
+                                <a class="dropdown-item" th:href="@{/member/profile/{id}(id=${board.member.id})}">프로필 보기</a>
+                            </div>
+                        </div>
                         </p>
                         <p>
                             <span th:text="${#temporals.format(board.createdAt, 'yyyy-MM-dd HH:mm')}"></span>

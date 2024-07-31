@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
     <title>바리 모집 페이지</title>
@@ -19,10 +19,16 @@
                 <div class="post-header">
                     <h1 class="post-title" th:text="${qnaBoard.title}"></h1>
                     <div class="post-meta">
-                        <p>작성자:
-                            <a th:href="@{/member/profile/{id}(id=${qnaBoard.member.id})}">
-                                <span th:text="${qnaBoard.member.nickname}"></span>
+                        <p style="display: inline-flex; align-items: center; gap: 5px;">
+                        <div class="dropdown d-inline">
+                            <a href="#" class="dropdown-toggle" id="dropdownMenuButtonBoard" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <small class="text-muted" style="margin-right: 5px;">작성자: <span th:text="${qnaBoard.member.nickname}"></span></small>
                             </a>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButtonBoard">
+                                <a class="dropdown-item" th:href="@{/note/send/{id}(id=${qnaBoard.member.id})}">쪽지 보내기</a>
+                                <a class="dropdown-item" th:href="@{/member/profile/{id}(id=${qnaBoard.member.id})}">프로필 보기</a>
+                            </div>
+                        </div>
                         </p>
                         <p>
                             <span th:text="${#temporals.format(qnaBoard.createdAt, 'yyyy-MM-dd HH:mm')}"></span>
@@ -75,6 +81,7 @@
                 <div th:each="answer : ${qnaBoard.answers}">
                     <div class="card mb-3">
                         <div class="card-body">
+                            <!-- 답변 내용 및 수정 폼 -->
                             <div class="card-text" th:id="'answerContent-'+${answer.id}" th:utext="${answer.content}"></div>
                             <div th:id="'editFormContainer-'+${answer.id}" style="display: none;">
                                 <form th:action="@{/answer/update/{id}(id=${answer.id})}" method="post">
@@ -87,15 +94,26 @@
                                     </div>
                                 </form>
                             </div>
-                            <p class="card-text">
-                                <small class="text-muted me-2">작성자:
-                                    <a th:href="@{/member/profile/{id}(id=${answer.member.id})}">
+
+                            <!-- 작성자 및 작성일 -->
+                            <p class="card-text" style="display: flex; align-items: center; gap: 10px; margin: 0;">
+                            <div class="dropdown" style="display: inline-flex; align-items: center;">
+                                <a href="#" class="dropdown-toggle" id="dropdownMenuButtonAnswer" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="display: flex; align-items: center;">
+                                    <small class="text-muted" style="margin-right: 5px;">작성자:
                                         <span th:text="${answer.member.nickname}"></span>
-                                    </a>
-                                </small>
-                                <small class="text-muted" th:text="${#temporals.format(answer.createdAt, 'yyyy-MM-dd HH:mm')}"></small>
+                                    </small>
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButtonAnswer" style="position: absolute; top: 100%; left: 0; transform: translateY(0.125rem);">
+                                    <a class="dropdown-item" th:href="@{/note/send/{id}(id=${answer.member.id})}">쪽지 보내기</a>
+                                    <a class="dropdown-item" th:href="@{/member/profile/{id}(id=${answer.member.id})}">프로필 보기</a>
+                                </div>
+                            </div>
+                            <small class="text-muted" th:text="${#temporals.format(answer.createdAt, 'yyyy-MM-dd HH:mm')}"></small>
                             </p>
-                            <div class="d-flex gap-2">
+
+
+                            <!-- 액션 버튼들 -->
+                            <div class="d-flex gap-2 mt-2">
                                 <div th:if="${#authentication != null and #authentication.name == answer.member.email}">
                                     <!-- 수정 버튼 -->
                                     <a href="#" class="btn btn-outline-secondary btn-sm toggleEditForm" style="border: none; background: none;" th:data-answer-id="${answer.id}">
@@ -111,7 +129,7 @@
                                 <!-- 추천 버튼 -->
                                 <form th:action="@{/answer/star/add/{id}(id=${answer.id})}" th:method="post" style="display: inline;">
                                     <button type="submit" class="btn btn-outline-primary btn-sm" style="border: none; background: none;">
-                                        <i class="bi bi-hand-thumbs-up"><span th:text="${answer.starCount}"></span></i>
+                                        <i class="bi bi-hand-thumbs-up"></i> <span th:text="${answer.starCount}"></span>
                                     </button>
                                 </form>
                                 <div th:if="${#authentication != null and #authentication.name == qnaBoard.member.email}">
@@ -124,6 +142,7 @@
                                 </div>
                             </div>
                         </div>
+
                     </div>
                 </div>
             </div>

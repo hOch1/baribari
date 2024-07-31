@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>쪽지함</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js" integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI=" crossorigin="anonymous"></script>
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div th:replace="~{layout/nav :: nav}"></div>
+
+<div class="container-fluid">
+  <div class="row">
+    <div th:replace="~{layout/sidebar :: sidebar}"></div>
+    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+      <div class="pt-3">
+        <h1>쪽지함</h1>
+
+        <!-- 검색 및 필터링 기능 -->
+        <div class="mb-3">
+          <form th:action="@{/messages/search}" method="get">
+            <div class="input-group">
+              <input type="text" class="form-control" name="query" placeholder="쪽지 검색" aria-label="Search" aria-describedby="search-button">
+              <button class="btn btn-primary" type="submit" id="search-button">
+                <i class="bi bi-search"></i>
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <!-- 탭 메뉴 -->
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+          <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="all-note-tab" data-bs-toggle="tab" data-bs-target="#all-note" type="button" role="tab" aria-controls="all-note" aria-selected="true">전체 쪽지</button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="not-read-tab" data-bs-toggle="tab" data-bs-target="#not-read" type="button" role="tab" aria-controls="not-read" aria-selected="false">안 읽은 쪽지</button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="receive-tab" data-bs-toggle="tab" data-bs-target="#receive" type="button" role="tab" aria-controls="receive" aria-selected="false">받은 쪽지</button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="send-tab" data-bs-toggle="tab" data-bs-target="#send" type="button" role="tab" aria-controls="send" aria-selected="false">보낸 쪽지</button>
+          </li>
+        </ul>
+
+        <!-- 탭 콘텐츠 -->
+        <div class="tab-content" id="myTabContent">
+          <!-- 전체 쪽지 탭 -->
+          <div class="tab-pane fade show active" id="all-note" role="tabpanel" aria-labelledby="all-note-tab">
+            <div class="table-responsive mt-3">
+              <table class="table table-striped">
+                <thead>
+                <tr>
+                  <th>제목</th>
+                  <th>보낸사람</th>
+                  <th>받은사람</th>
+                  <th>날짜</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="note : ${notes.allNotes}" th:href="@{/note/detail/{id}(id=${note.id})}">
+                  <td th:text="${note.title}">쪽지 제목</td>
+                  <td th:text="${note.send.nickname}"></td>
+                  <td th:text="${note.receive.nickname}"></td>
+                  <td th:text="${#temporals.format(note.createdAt, 'yyyy-MM-dd HH:mm')}">날짜</td>
+                </tr>
+                </tbody>
+              </table>
+              <nav th:if="${notes.allNotes.totalPages > 1}">
+                <ul class="pagination justify-content-center mt-3">
+                  <li class="page-item" th:classappend="${notes.allNotes.hasPrevious()} ? '' : 'disabled'">
+                    <a class="page-link" th:href="@{|/note?page=${notes.allNotes.number - 1}|}">이전</a>
+                  </li>
+                  <li class="page-item" th:each="pageNum : ${#numbers.sequence((notes.allNotes.number / 10) * 10 + 1, ((notes.allNotes.number / 10) + 1) * 10 < notes.allNotes.totalPages ? ((notes.allNotes.number / 10) + 1) * 10 : notes.allNotes.totalPages)}" th:classappend="${pageNum == notes.allNotes.number + 1} ? 'active'">
+                    <a class="page-link" th:href="@{|/note?page=${pageNum - 1}|}" th:text="${pageNum}">1</a>
+                  </li>
+                  <li class="page-item" th:classappend="${notes.allNotes.hasNext()} ? '' : 'disabled'">
+                    <a class="page-link" th:href="@{|/note?page=${notes.allNotes.number + 1}|}">다음</a>
+                  </li>
+                </ul>
+              </nav>
+            </div>
+            <div th:if="${notes.allNotes.isEmpty()}">
+              <p class="text-muted mt-3">쪽지가 없습니다.</p>
+            </div>
+          </div>
+
+          <!-- 안 읽은 쪽지 탭 -->
+          <div class="tab-pane fade" id="not-read" role="tabpanel" aria-labelledby="not-read-tab">
+            <div class="table-responsive mt-3">
+              <table class="table table-striped">
+                <thead>
+                <tr>
+                  <th>제목</th>
+                  <th>보낸사람</th>
+                  <th>날짜</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="note : ${notes.unreadNotes}" th:href="@{/note/detail/{id}(id=${note.id})}">
+                  <td th:text="${note.title}">쪽지 제목</td>
+                  <td th:text="${note.send.nickname}"></td>
+                  <td th:text="${#temporals.format(note.createdAt, 'yyyy-MM-dd HH:mm')}">날짜</td>
+                </tr>
+                </tbody>
+              </table>
+              <nav th:if="${notes.unreadNotes.totalPages > 1}">
+                <ul class="pagination justify-content-center mt-3">
+                  <li class="page-item" th:classappend="${notes.unreadNotes.hasPrevious()} ? '' : 'disabled'">
+                    <a class="page-link" th:href="@{|/note?page=${notes.unreadNotes.number - 1}|}">이전</a>
+                  </li>
+                  <li class="page-item" th:each="pageNum : ${#numbers.sequence((notes.unreadNotes.number / 10) * 10 + 1, ((notes.unreadNotes.number / 10) + 1) * 10 < notes.unreadNotes.totalPages ? ((notes.unreadNotes.number / 10) + 1) * 10 : notes.unreadNotes.totalPages)}" th:classappend="${pageNum == notes.unreadNotes.number + 1} ? 'active'">
+                    <a class="page-link" th:href="@{|/note?page=${pageNum - 1}|}" th:text="${pageNum}">1</a>
+                  </li>
+                  <li class="page-item" th:classappend="${notes.unreadNotes.hasNext()} ? '' : 'disabled'">
+                    <a class="page-link" th:href="@{|/note?page=${notes.unreadNotes.number + 1}|}">다음</a>
+                  </li>
+                </ul>
+              </nav>
+            </div>
+            <div th:if="${notes.unreadNotes.isEmpty()}">
+              <p class="text-muted mt-3">쪽지가 없습니다.</p>
+            </div>
+          </div>
+
+          <!-- 받은 쪽지 탭 -->
+          <div class="tab-pane fade" id="receive" role="tabpanel" aria-labelledby="receive-tab">
+            <div class="table-responsive mt-3">
+              <table class="table table-striped">
+                <thead>
+                <tr>
+                  <th>제목</th>
+                  <th>보낸사람</th>
+                  <th>날짜</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="note : ${notes.receiveNotes}" th:href="@{/note/detail/{id}(id=${note.id})}">
+                  <td th:text="${note.title}">쪽지 제목</td>
+                  <td th:text="${note.send.nickname}"></td>
+                  <td th:text="${#temporals.format(note.createdAt, 'yyyy-MM-dd HH:mm')}">날짜</td>
+                </tr>
+                </tbody>
+              </table>
+              <nav th:if="${notes.receiveNotes.totalPages > 1}">
+                <ul class="pagination justify-content-center mt-3">
+                  <li class="page-item" th:classappend="${notes.receiveNotes.hasPrevious()} ? '' : 'disabled'">
+                    <a class="page-link" th:href="@{|/note?page=${notes.receiveNotes.number - 1}|}">이전</a>
+                  </li>
+                  <li class="page-item" th:each="pageNum : ${#numbers.sequence((notes.receiveNotes.number / 10) * 10 + 1, ((notes.receiveNotes.number / 10) + 1) * 10 < notes.receiveNotes.totalPages ? ((notes.receiveNotes.number / 10) + 1) * 10 : notes.receiveNotes.totalPages)}" th:classappend="${pageNum == notes.receiveNotes.number + 1} ? 'active'">
+                    <a class="page-link" th:href="@{|/note?page=${pageNum - 1}|}" th:text="${pageNum}">1</a>
+                  </li>
+                  <li class="page-item" th:classappend="${notes.receiveNotes.hasNext()} ? '' : 'disabled'">
+                    <a class="page-link" th:href="@{|/note?page=${notes.receiveNotes.number + 1}|}">다음</a>
+                  </li>
+                </ul>
+              </nav>
+            </div>
+            <div th:if="${notes.receiveNotes.isEmpty()}">
+              <p class="text-muted mt-3">쪽지가 없습니다.</p>
+            </div>
+          </div>
+
+          <!-- 보낸 쪽지 탭 -->
+          <div class="tab-pane fade" id="send" role="tabpanel" aria-labelledby="send-tab">
+            <div class="table-responsive mt-3">
+              <table class="table table-striped">
+                <thead>
+                <tr>
+                  <th>제목</th>
+                  <th>받은사람</th>
+                  <th>보낸사람</th>
+                  <th>날짜</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="note : ${notes.sendNotes}" th:href="@{/note/detail/{id}(id=${note.id})}">
+                  <td th:text="${note.title}">쪽지 제목</td>
+                  <td th:text="${note.receive.nickname}"></td>
+                  <td th:text="${note.send.nickname}"></td>
+                  <td th:text="${#temporals.format(note.createdAt, 'yyyy-MM-dd HH:mm')}">날짜</td>
+                </tr>
+                </tbody>
+              </table>
+              <nav th:if="${notes.sendNotes.totalPages > 1}">
+                <ul class="pagination justify-content-center mt-3">
+                  <li class="page-item" th:classappend="${notes.sendNotes.hasPrevious()} ? '' : 'disabled'">
+                    <a class="page-link" th:href="@{|/note?page=${notes.sendNotes.number - 1}|}">이전</a>
+                  </li>
+                  <li class="page-item" th:each="pageNum : ${#numbers.sequence((notes.sendNotes.number / 10) * 10 + 1, ((notes.sendNotes.number / 10) + 1) * 10 < notes.sendNotes.totalPages ? ((notes.sendNotes.number / 10) + 1) * 10 : notes.sendNotes.totalPages)}" th:classappend="${pageNum == notes.sendNotes.number + 1} ? 'active'">
+                    <a class="page-link" th:href="@{|/note?page=${pageNum - 1}|}" th:text="${pageNum}">1</a>
+                  </li>
+                  <li class="page-item" th:classappend="${notes.sendNotes.hasNext()} ? '' : 'disabled'">
+                    <a class="page-link" th:href="@{|/note?page=${notes.sendNotes.number + 1}|}">다음</a>
+                  </li>
+                </ul>
+              </nav>
+            </div>
+            <div th:if="${notes.sendNotes.isEmpty()}">
+              <p class="text-muted mt-3">쪽지가 없습니다.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<div th:replace="~{layout/footer :: footer}"></div>
+
+<script th:inline="javascript">
+  let message = /*[[${message}]]*/ null;
+</script>
+<script th:src="@{/js/message.js}"></script>
+</body>
+</html>

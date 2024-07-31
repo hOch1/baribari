@@ -10,6 +10,7 @@ public enum ErrorCode {
     COMMENT_NOT_FOUND("해당 댓글을 찾을 수 없습니다."),
     MEMBER_NOT_FOUND("해당 회원을 찾을 수 없습니다."),
     ANSWER_NOT_FOUND("해당 답변을 찾을 수 없습니다."),
+    NOTE_NOT_FOUND("해당 쪽지를 찾을 수 없습니다."),
 
     // ANSWER
     ANSWER_ACCEPTED("채택된 답변은 수정하거나, 삭제할 수 없습니다."),
@@ -32,6 +33,9 @@ public enum ErrorCode {
 
     // AUTH
     UNAUTHORIZED("권한이 없습니다."),
+
+    // BLOCK
+    NOTE_BLOCK("쪽지를 차단한 회원입니다."),
 
     INVALID_INPUT("올바르지 않은 입력입니다."),
     INTERNAL_SERVER_ERROR("서버 오류입니다.");
