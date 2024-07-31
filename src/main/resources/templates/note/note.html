@@ -62,8 +62,8 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="note : ${notes.allNotes}" th:href="@{/note/detail/{id}(id=${note.id})}">
-                  <td th:text="${note.title}">쪽지 제목</td>
+                <tr th:each="note : ${notes.allNotes}">
+                  <td><a th:href="@{/note/detail/{id}(id=${note.id})}" th:text="${note.title}"></a></td>
                   <td th:text="${note.send.nickname}"></td>
                   <td th:text="${note.receive.nickname}"></td>
                   <td th:text="${#temporals.format(note.createdAt, 'yyyy-MM-dd HH:mm')}">날짜</td>
@@ -101,8 +101,8 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="note : ${notes.unreadNotes}" th:href="@{/note/detail/{id}(id=${note.id})}">
-                  <td th:text="${note.title}">쪽지 제목</td>
+                <tr th:each="note : ${notes.unreadNotes}">
+                  <td><a th:href="@{/note/detail/{id}(id=${note.id})}" th:text="${note.title}"></a></td>
                   <td th:text="${note.send.nickname}"></td>
                   <td th:text="${#temporals.format(note.createdAt, 'yyyy-MM-dd HH:mm')}">날짜</td>
                 </tr>
@@ -139,8 +139,8 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="note : ${notes.receiveNotes}" th:href="@{/note/detail/{id}(id=${note.id})}">
-                  <td th:text="${note.title}">쪽지 제목</td>
+                <tr th:each="note : ${notes.receiveNotes}">
+                  <td><a th:href="@{/note/detail/{id}(id=${note.id})}" th:text="${note.title}"></a></td>
                   <td th:text="${note.send.nickname}"></td>
                   <td th:text="${#temporals.format(note.createdAt, 'yyyy-MM-dd HH:mm')}">날짜</td>
                 </tr>
@@ -179,7 +179,7 @@
                 </thead>
                 <tbody>
                 <tr th:each="note : ${notes.sendNotes}" th:href="@{/note/detail/{id}(id=${note.id})}">
-                  <td th:text="${note.title}">쪽지 제목</td>
+                  <td><a th:href="@{/note/detail/{id}(id=${note.id})}" th:text="${note.title}"></a></td>
                   <td th:text="${note.receive.nickname}"></td>
                   <td th:text="${note.send.nickname}"></td>
                   <td th:text="${#temporals.format(note.createdAt, 'yyyy-MM-dd HH:mm')}">날짜</td>

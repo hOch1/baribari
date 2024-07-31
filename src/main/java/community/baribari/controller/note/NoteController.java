@@ -3,6 +3,7 @@ package community.baribari.controller.note;
 import community.baribari.config.PrincipalDetail;
 import community.baribari.dto.note.NoteDto;
 import community.baribari.service.note.NoteService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -38,10 +39,11 @@ public class NoteController {
     public String sendNoteDo(@AuthenticationPrincipal PrincipalDetail principalDetail,
                              @RequestParam("id") Long receiveId,
                              @ModelAttribute @Valid NoteDto noteDto,
-                             RedirectAttributes redirectAttributes){
+                             RedirectAttributes redirectAttributes,
+                             HttpServletRequest request){
         noteService.sendNote(principalDetail, receiveId, noteDto);
         redirectAttributes.addFlashAttribute("message", "쪽지를 보냈습니다.");
-        return "redirect:/note";
+        return "redirect:"+request.getHeader("Referer");
     }
 
     @GetMapping("/detail/{id}")
@@ -49,6 +51,16 @@ public class NoteController {
                            Model model){
         model.addAttribute("note", noteService.readNote(noteId));
         return "note/detail";
+    }
+
+    @PostMapping("/reply")
+    public String replyNote(@AuthenticationPrincipal PrincipalDetail principalDetail,
+                            @RequestParam("id") Long sendId,
+                            @ModelAttribute @Valid NoteDto noteDto,
+                            RedirectAttributes redirectAttributes){
+        noteService.sendNote(principalDetail, sendId, noteDto);
+        redirectAttributes.addFlashAttribute("message", "답장을 보냈습니다.");
+        return "redirect:/note";
     }
 
 }

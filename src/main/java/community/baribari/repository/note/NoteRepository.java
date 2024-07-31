@@ -6,11 +6,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface NoteRepository extends JpaRepository<Note, Long> {
-    Page<Note> findAllByReceiveIdAndSendId(Long id, Long id1, Pageable pageable);
+    Page<Note> findByReceiveIdOrSendIdOrderByCreatedAtDesc(Long id, Long id1, Pageable pageable);
 
-    Page<Note> findAllByReceiveIdAndSendIdAndIsReadFalse(Long id, Long id1, Pageable pageable);
+    Page<Note> findByReceiveIdAndIsReadFalseOrderByCreatedAtDesc(Long id, Pageable pageable);
 
-    Page<Note> findAllByReceiveId(Long id, Pageable pageable);
+    Page<Note> findByReceiveIdOrderByCreatedAtDesc(Long id, Pageable pageable);
 
-    Page<Note> findAllBySendId(Long id, Pageable pageable);
+    Page<Note> findBySendIdOrderByCreatedAtDesc(Long id, Pageable pageable);
 }
