@@ -23,19 +23,19 @@
                 <form th:action="@{/member/edit/account-setting}" th:object="${accountSetting}" method="post">
                     <div class="mb-3 form-check">
                         <input type="checkbox" class="form-check-input" id="profileVisibility" th:field="*{profileVisibility}">
-                        <label for="profileVisibility" class="form-check-label">프로필 공개 설정</label>
+                        <label for="profileVisibility" class="form-check-label">프로필 공개</label>
                     </div>
                     <div class="mb-3 form-check">
                         <input type="checkbox" class="form-check-input" id="postVisibility" th:field="*{postVisibility}">
-                        <label for="postVisibility" class="form-check-label">게시물 공개 설정</label>
+                        <label for="postVisibility" class="form-check-label">게시물 공개</label>
                     </div>
                     <div class="mb-3 form-check">
                         <input type="checkbox" class="form-check-input" id="commentVisibility" th:field="*{commentVisibility}">
-                        <label for="commentVisibility" class="form-check-label">댓글 공개 설정</label>
+                        <label for="commentVisibility" class="form-check-label">댓글 공개</label>
                     </div>
                     <div class="mb-3 form-check">
                         <input type="checkbox" class="form-check-input" id="noteBlock" th:field="*{noteBlock}">
-                        <label for="noteBlock" class="form-check-label">쪽지 설정</label>
+                        <label for="noteBlock" class="form-check-label">쪽지 차단</label>
                     </div>
                     <button type="submit" class="btn btn-primary">저장</button>
                 </form>

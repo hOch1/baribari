@@ -61,10 +61,12 @@ public class NoteService {
         noteRepository.save(note);
     }
 
+    @Transactional
     public NoteDto readNote(Long noteId) {
         Note note = noteRepository.findById(noteId)
                 .orElseThrow(() -> new CustomException(ErrorCode.NOTE_NOT_FOUND));
         note.read();
+        noteRepository.save(note);
         return NoteDto.toDto(note);
     }
 }
