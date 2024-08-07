@@ -60,7 +60,20 @@
     $('#summernote').summernote({
         tabSize: 2,
         height: 500,
-        lang: 'ko-KR'
+        lang: 'ko-KR',
+        callbacks: {
+            onInit: function () {
+                const template = `
+                일시 : <br>
+                출발지 : <br>
+                도착지 : <br>
+                비용 : <br>
+                인원 : <br><br>
+                기타 : <br>
+                `;
+                $('#summernote').summernote('code', template);
+            }
+        }
     });
 </script>
 <script th:inline="javascript">
