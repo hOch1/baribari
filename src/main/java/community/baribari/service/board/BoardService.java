@@ -49,7 +49,7 @@ public abstract class BoardService<T extends Board, D extends BoardDto> {
     }
 
     public Page<D> search(String keyword, Pageable pageable){
-        Page<T> boards = boardRepository.findByDeletedFalseAndCategoryAndTitleContainingOrderByCreatedAtDesc(getCategory(), keyword, pageable);
+        Page<T> boards = boardRepository.findByDeletedFalseAndCategoryAndTitleOrContentContainingOrderByCreatedAtDesc(getCategory(), keyword, keyword, pageable);
         return boards.map(this::toDto);
     }
 

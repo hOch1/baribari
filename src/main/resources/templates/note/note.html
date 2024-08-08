@@ -21,9 +21,9 @@
 
         <!-- 검색 및 필터링 기능 -->
         <div class="mb-3">
-          <form th:action="@{/messages/search}" method="get">
+          <form th:action="@{/note/search}" method="post">
             <div class="input-group">
-              <input type="text" class="form-control" name="query" placeholder="쪽지 검색" aria-label="Search" aria-describedby="search-button">
+              <input type="text" class="form-control" name="keyword" placeholder="쪽지 검색" aria-label="Search" aria-describedby="search-button">
               <button class="btn btn-primary" type="submit" id="search-button">
                 <i class="bi bi-search"></i>
               </button>

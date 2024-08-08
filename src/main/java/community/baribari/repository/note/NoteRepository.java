@@ -13,4 +13,6 @@ public interface NoteRepository extends JpaRepository<Note, Long> {
     Page<Note> findByReceiveIdOrderByCreatedAtDesc(Long id, Pageable pageable);
 
     Page<Note> findBySendIdOrderByCreatedAtDesc(Long id, Pageable pageable);
+
+    Page<Note> findByReceiveIdOrSendIdAndTitleOrContentContainingOrderByCreatedAtDesc(Long receiveId, Long sendId, String titleKeyword, String contentKeyword, Pageable pageable);
 }

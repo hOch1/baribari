@@ -16,8 +16,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
@@ -68,5 +66,12 @@ public class NoteService {
         note.read();
         noteRepository.save(note);
         return NoteDto.toDto(note);
+    }
+
+    public Page<NoteDto> searchNotes(PrincipalDetail principalDetail, String keyword, Pageable pageable) {
+        Long id = principalDetail.getMember().getId();
+        Page<Note> notes = noteRepository.findByReceiveIdOrSendIdAndTitleOrContentContainingOrderByCreatedAtDesc(id, id, keyword, keyword, pageable);
+
+        return notes.map(NoteDto::toDto);
     }
 }

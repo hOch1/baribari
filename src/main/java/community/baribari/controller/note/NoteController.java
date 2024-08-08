@@ -61,4 +61,14 @@ public class NoteController {
         return "redirect:/note";
     }
 
+    @PostMapping("/search")
+    public String searchNote(@AuthenticationPrincipal PrincipalDetail principalDetail,
+                             @RequestParam("keyword") String keyword,
+                             @RequestParam(value = "page", defaultValue = "0") int page,
+                             Model model){
+        model.addAttribute("notes", noteService.searchNotes(principalDetail, keyword, PageRequest.of(page, 10)));
+        model.addAttribute("keyword", keyword);
+        return "note/search";
+    }
+
 }

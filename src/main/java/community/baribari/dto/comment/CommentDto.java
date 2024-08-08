@@ -22,7 +22,7 @@ public class CommentDto {
     private Long id;
 
     @NotBlank(message = "내용을 입력해주세요.")
-    @Size(min = 2, message = "내용은 2자 이상 입력해주세요.")
+    @Size(min = 2, max = 50, message = "내용은 2자 이상, 50자 이내로 작성해주세요.")
     private String content;
 
     private Long starCount;
