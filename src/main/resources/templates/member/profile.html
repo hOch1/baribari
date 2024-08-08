@@ -39,18 +39,28 @@
                 </div>
 
                 <!-- 작성한 게시물 및 댓글 링크 -->
-                <div class="card mb-4">
+                <div class="card mb-4" th:if="${#authentication.name == member.email}">
                     <div class="card-body">
                         <h4 class="card-title">활동</h4>
                         <ul class="list-unstyled">
-                            <li th:if="${#authentication.name == member.email || member.accountSetting.postVisibility}">
+                            <li th:if="${member.accountSetting.postVisibility}">
                                 <a th:href="@{/member/{id}/posts(id=${member.id})}" class="btn btn-outline-primary">
                                     <i class="bi bi-pencil"></i> 작성한 게시물
                                 </a>
                             </li>
-                            <li class="mt-2" th:if="${#authentication.name == member.email || member.accountSetting.commentVisibility}">
+                            <li class="mt-2" th:if="${member.accountSetting.commentVisibility}">
                                 <a th:href="@{/member/{id}/comments(id=${member.id})}" class="btn btn-outline-primary">
                                     <i class="bi bi-chat-text"></i> 작성한 댓글
+                                </a>
+                            </li>
+                            <li class="mt-2">
+                                <a th:href="@{#}" class="btn btn-outline-primary">
+                                    <i class="bi bi-chat-text"></i> 신고 내역
+                                </a>
+                            </li>
+                            <li class="mt-2">
+                                <a th:href="@{#}" class="btn btn-outline-primary">
+                                    <i class="bi bi-chat-text"></i> 문의 내역
                                 </a>
                             </li>
                         </ul>

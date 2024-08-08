@@ -41,7 +41,8 @@ public class SecurityConfig {
                                 "/qna-board/answer/**",
                                 "/*/star/**",
                                 "/member/**",
-                                "/note/**")
+                                "/note/**",
+                                "/**/report/**")
                         .authenticated()
                         .anyRequest().permitAll()
                 )
