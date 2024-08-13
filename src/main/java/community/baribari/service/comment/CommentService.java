@@ -41,6 +41,11 @@ public class CommentService {
         }
     }
 
+    public CommentDto detail(Long id){
+        Comment comment = commentRepository.findById(id).orElseThrow(() -> new CustomException(ErrorCode.COMMENT_NOT_FOUND));
+        return CommentDto.toDto(comment);
+    }
+
     public List<CommentDto> list(Long boardId){
         List<Comment> comments = commentRepository.findByBoardIdAndParentIsNull(boardId);
 

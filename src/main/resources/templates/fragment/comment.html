@@ -21,18 +21,18 @@
           <div th:unless="${comment.deleted}">
             <p class="card-text" th:text="${comment.content}" style="font-size: 1rem; margin: 0; line-height: 1.4;"></p>
             <p class="card-text" style="font-size: 0.8rem; margin: 0;">
-              <div class="dropdown d-inline">
-                <a href="#" class="dropdown-toggle" id="dropdownMenuButtonComment" data-bs-toggle="dropdown" aria-expanded="false">
-                  <small class="text-muted" style="margin-right: 5px;">
-                    작성자: <span th:text="${comment.member.nickname}"></span>
-                  </small>
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButtonComment">
-                  <li><a class="dropdown-item" th:href="@{/note/send/{id}(id=${comment.member.id})}">쪽지 보내기</a></li>
-                  <li><a class="dropdown-item" th:href="@{/member/profile/{id}(id=${comment.member.id})}">프로필 보기</a></li>
-                </ul>
-              </div>
-              <small class="text-muted" th:text="${#temporals.format(comment.createdAt, 'yyyy-MM-dd HH:mm')}"></small>
+            <div class="dropdown d-inline">
+              <a href="#" class="dropdown-toggle" id="dropdownMenuButtonComment" data-bs-toggle="dropdown" aria-expanded="false">
+                <small class="text-muted" style="margin-right: 5px;">
+                  작성자: <span th:text="${comment.member.nickname}"></span>
+                </small>
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="dropdownMenuButtonComment">
+                <li><a class="dropdown-item" th:href="@{/note/send/{id}(id=${comment.member.id})}">쪽지 보내기</a></li>
+                <li><a class="dropdown-item" th:href="@{/member/profile/{id}(id=${comment.member.id})}">프로필 보기</a></li>
+              </ul>
+            </div>
+            <small class="text-muted" th:text="${#temporals.format(comment.createdAt, 'yyyy-MM-dd HH:mm')}"></small>
             </p>
             <div class="d-flex justify-content-between align-items-center" style="font-size: 0.7rem;">
               <div class="d-flex align-items-center">
@@ -58,6 +58,12 @@
                     </button>
                   </form>
                 </div>
+                <!-- 신고 버튼 -->
+                <a th:href="@{/report/comment/write/{id}(id=${comment.id})}" style="display:inline;">
+                  <button type="submit" class="btn btn-outline-danger btn-sm" style="border: none; padding: 0.2rem 0.4rem; font-size: 1rem;">
+                    <i class="bi bi-flag"></i>
+                  </button>
+                </a>
               </div>
             </div>
 
@@ -85,18 +91,18 @@
                   <div th:unless="${reply.deleted}">
                     <p class="card-text" th:text="${reply.content}" style="font-size: 1rem; margin: 0; line-height: 1.4;"></p>
                     <p class="card-text" style="font-size: 0.75rem; margin: 0;">
-                      <div class="dropdown d-inline" style="display: inline-flex; align-items: center;">
-                        <a href="#" class="dropdown-toggle" id="dropdownMenuButtonReply" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                          <small class="text-muted" style="margin-right: 5px;">
-                            작성자: <span th:text="${reply.member.nickname}"></span>
-                          </small>
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButtonReply" style="position: absolute; transform: translateY(0.125rem);">
-                          <li><a class="dropdown-item" th:href="@{/note/send/{id}(id=${reply.member.id})}">쪽지 보내기</a></li>
-                          <li><a class="dropdown-item" th:href="@{/member/profile/{id}(id=${reply.member.id})}">프로필 보기</a></li>
-                        </ul>
-                      </div>
-                      <small class="text-muted" th:text="${#temporals.format(reply.createdAt, 'yyyy-MM-dd HH:mm')}"></small>
+                    <div class="dropdown d-inline" style="display: inline-flex; align-items: center;">
+                      <a href="#" class="dropdown-toggle" id="dropdownMenuButtonReply" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <small class="text-muted" style="margin-right: 5px;">
+                          작성자: <span th:text="${reply.member.nickname}"></span>
+                        </small>
+                      </a>
+                      <ul class="dropdown-menu" aria-labelledby="dropdownMenuButtonReply" style="position: absolute; transform: translateY(0.125rem);">
+                        <li><a class="dropdown-item" th:href="@{/note/send/{id}(id=${reply.member.id})}">쪽지 보내기</a></li>
+                        <li><a class="dropdown-item" th:href="@{/member/profile/{id}(id=${reply.member.id})}">프로필 보기</a></li>
+                      </ul>
+                    </div>
+                    <small class="text-muted" th:text="${#temporals.format(reply.createdAt, 'yyyy-MM-dd HH:mm')}"></small>
                     </p>
                     <div class="d-flex justify-content-end align-items-center" style="font-size: 0.65rem;">
                       <!-- 추천 버튼 -->
@@ -118,6 +124,12 @@
                           </button>
                         </form>
                       </div>
+                      <!-- 대댓글 신고 버튼 -->
+                      <a th:href="@{/report/comment/write/{id}(id=${reply.id})}" style="display:inline;">
+                        <button type="submit" class="btn btn-outline-danger btn-sm" style="border: none; padding: 0.2rem 0.4rem; font-size: 1rem;">
+                          <i class="bi bi-flag"></i>
+                        </button>
+                      </a>
                     </div>
                   </div>
                 </div>

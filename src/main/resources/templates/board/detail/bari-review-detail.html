@@ -30,7 +30,6 @@
                                 <a class="dropdown-item" th:href="@{/member/profile/{id}(id=${board.member.id})}">프로필 보기</a>
                             </div>
                         </div>
-                        </p>
                         <p>
                             <span th:text="${#temporals.format(board.createdAt, 'yyyy-MM-dd HH:mm')}"></span>
                             | 조회수: <span th:text="${board.viewCount}"></span>
@@ -60,6 +59,11 @@
                             <i class="bi bi-hand-thumbs-up"></i> 추천
                         </button>
                     </form>
+                    <a th:href="@{/report/board/write/{id}(id=${board.id})}">
+                        <button type="submit" class="btn btn-outline-danger">
+                            <i class="bi bi-flag"></i> 신고
+                        </button>
+                    </a>
                 </div>
 
                 <div th:replace="~{fragment/comment :: comment}"></div>
