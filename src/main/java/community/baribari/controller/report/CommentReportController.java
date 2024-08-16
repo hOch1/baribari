@@ -1,13 +1,8 @@
 package community.baribari.controller.report;
 
 import community.baribari.config.PrincipalDetail;
-import community.baribari.dto.board.BoardDto;
-import community.baribari.dto.comment.CommentDto;
-import community.baribari.dto.report.BoardReportDto;
 import community.baribari.dto.report.CommentReportDto;
-import community.baribari.service.comment.CommentService;
 import community.baribari.service.report.extend.CommentReportService;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
