@@ -10,6 +10,7 @@ import community.baribari.exception.CustomException;
 import community.baribari.exception.ErrorCode;
 import community.baribari.repository.member.MemberRepository;
 import community.baribari.repository.note.NoteRepository;
+import community.baribari.service.sse.NotificationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -23,11 +24,12 @@ public class NoteService {
 
     private final NoteRepository noteRepository;
     private final MemberRepository memberRepository;
+    private final NotificationService notificationService;
 
     public NoteBoxDto getNotes(PrincipalDetail principalDetail, Pageable pageable) {
         Long id = principalDetail.getMember().getId();
         Page<Note> allNotes = noteRepository.findByReceiveIdOrSendIdOrderByCreatedAtDesc(id, id, pageable);
-        Page<Note> unreadNotes = noteRepository.findByReceiveIdAndIsReadFalseOrderByCreatedAtDesc(id, pageable);
+        Page<Note> unreadNotes = noteRepository.findByReceiveIdAndReadFalseOrderByCreatedAtDesc(id, pageable);
         Page<Note> receiveNotes = noteRepository.findByReceiveIdOrderByCreatedAtDesc(id, pageable);
         Page<Note> sendNotes = noteRepository.findBySendIdOrderByCreatedAtDesc(id, pageable);
 
@@ -57,6 +59,8 @@ public class NoteService {
 
         Note note = Note.toEntity(noteDto, send, receive);
         noteRepository.save(note);
+
+        notificationService.sendNotification(receiveId, "새로운 쪽지가 도착했습니다.");
     }
 
     @Transactional

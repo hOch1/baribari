@@ -8,6 +8,7 @@ import community.baribari.exception.CustomException;
 import community.baribari.exception.ErrorCode;
 import community.baribari.repository.board.BoardRepository;
 import community.baribari.repository.comment.CommentRepository;
+import community.baribari.service.sse.NotificationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -25,6 +26,7 @@ public class CommentService {
 
     private final BoardRepository<Board> boardRepository;
     private final CommentRepository commentRepository;
+    private final NotificationService notificationService;
 
     @Transactional
     public void addComment(CommentDto commentDto, PrincipalDetail principalDetail, Long boardId){
@@ -35,6 +37,10 @@ public class CommentService {
             Comment save = commentRepository.save(comment);
 
             log.info("{}님이 {}에 댓글을 등록했습니다. ID : {}", principalDetail.getMember().getNickname(), boardId, save.getId());
+
+            Long boardOwnerId = board.getMember().getId();
+            String message = principalDetail.getMember().getNickname() + "님이 게시물 '" + board.getTitle() + "'에 댓글을 남겼습니다.";
+            notificationService.sendNotification(boardOwnerId, message);
         }catch (Exception e){
             log.error("댓글 등록 중 오류 발생 : {}", e.getMessage());
             throw new CustomException(ErrorCode.INTERNAL_SERVER_ERROR);
@@ -70,6 +76,8 @@ public class CommentService {
             Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new CustomException(ErrorCode.BOARD_NOT_FOUND));
             Comment reply = Comment.toEntity(commentDto, principalDetail, comment.getBoard(), comment);
             commentRepository.save(reply);
+
+            notificationService.sendNotification(comment.getMember().getId(), principalDetail.getMember().getNickname() + "님이 댓글에 답글을 남겼습니다.");
         }catch (Exception e){
             log.error("대댓글 등록 중 오류 발생 : {}", e.getMessage());
             throw new CustomException(ErrorCode.INTERNAL_SERVER_ERROR);

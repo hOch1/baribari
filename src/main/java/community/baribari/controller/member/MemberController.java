@@ -62,15 +62,6 @@ public class MemberController {
         return "member/comments";
     }
 
-    @GetMapping("/{id}/reports")
-    public String reports(@PathVariable("id") Long id, Model model,
-                          @RequestParam(defaultValue = "0", value = "page") int page){
-        model.addAttribute("boards", boardReportService.myReportList(id, PageRequest.of(page, 10)));
-        model.addAttribute("comments", commentReportService.myReportList(id, PageRequest.of(page, 10)));
-        model.addAttribute("memberId", id);
-        return "member/reports";
-    }
-
     @GetMapping("/account-setting")
     public String accountSetting(Model model, @AuthenticationPrincipal PrincipalDetail principalDetail) {
         model.addAttribute("accountSetting", memberService.getAccountSetting(principalDetail.getMember()));

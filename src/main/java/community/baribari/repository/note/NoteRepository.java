@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface NoteRepository extends JpaRepository<Note, Long> {
     Page<Note> findByReceiveIdOrSendIdOrderByCreatedAtDesc(Long id, Long id1, Pageable pageable);
 
-    Page<Note> findByReceiveIdAndIsReadFalseOrderByCreatedAtDesc(Long id, Pageable pageable);
+    Page<Note> findByReceiveIdAndReadFalseOrderByCreatedAtDesc(Long id, Pageable pageable);
 
     Page<Note> findByReceiveIdOrderByCreatedAtDesc(Long id, Pageable pageable);
 

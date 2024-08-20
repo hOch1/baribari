@@ -158,6 +158,8 @@
 <div th:replace="~{layout/footer :: footer}"></div>
 <script th:inline="javascript">
     let message = /*[[${message}]]*/ null;
+    let userId = /*[[${#authentication.principal.member.id}]]*/ 'null';
+
 
     document.getElementById('toggleAnswerForm').addEventListener('click', function(event) {
         event.preventDefault();
@@ -186,5 +188,6 @@
     });
 </script>
 <script th:src="@{/js/message.js}"></script>
+<script th:src="@{/js/notification.js}" sec:authorize="isAuthenticated()"></script>
 </body>
 </html>

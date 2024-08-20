@@ -8,6 +8,7 @@ import community.baribari.exception.CustomException;
 import community.baribari.exception.ErrorCode;
 import community.baribari.repository.board.AnswerRepository;
 import community.baribari.repository.board.BoardRepository;
+import community.baribari.service.sse.NotificationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -23,6 +24,7 @@ public class AnswerService  {
 
     private final AnswerRepository answerRepository;
     private final BoardRepository<QnABoard> boardRepository;
+    private final NotificationService notificationService;
 
     @Transactional
     public void writeAnswer(Long questionId, PrincipalDetail principalDetail, AnswerDto answerDto) {
@@ -32,6 +34,8 @@ public class AnswerService  {
 
         Answer save = answerRepository.save(answer);
         log.info("{}님이 {}에 답변을 등록했습니다. ID : {}", principalDetail.getMember().getNickname(), qnABoard.getId(), save.getId());
+
+        notificationService.sendNotification(qnABoard.getMember().getId(), principalDetail.getMember().getNickname() + "님이 게시물 '" + qnABoard.getTitle() + "'에 답변을 남겼습니다.");
     }
 
     @Transactional
@@ -53,11 +57,11 @@ public class AnswerService  {
         if (qnABoard.getAnswers().stream().anyMatch(Answer::isAccepted))
             throw new CustomException(ErrorCode.ANSWER_ALREADY_ACCEPTED);
 
-
-        // Mark the current answer as accepted
         answer.accept();
         answerRepository.save(answer);
         log.info("답변이 채택되었습니다. ID : {}", id);
+
+        notificationService.sendNotification(answer.getMember().getId(), "게시물 '" + qnABoard.getTitle() + "'에 답변이 채택되었습니다.");
     }
 
     @Transactional

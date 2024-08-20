@@ -20,7 +20,7 @@ public class MainController {
     private final QnABoardService qnABoardService;
 
     @GetMapping(value = {"/", ""})
-    public String main(Model model){
+    public String index(Model model){
         model.addAttribute("bariRecruits", bariRecruitService.mainList());
         model.addAttribute("bariReviews", bariReviewService.mainList());
         model.addAttribute("freeBoards", freeBoardService.mainList());

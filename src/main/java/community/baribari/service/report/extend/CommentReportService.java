@@ -16,9 +16,9 @@ public class CommentReportService extends ReportService<CommentReport, CommentRe
 
     private final CommentRepository commentRepository;
 
-    public CommentReportService(ReportRepository<CommentReport> reportRepository, CommentRepository commentRepository, CommentRepository commentRepository1) {
+    public CommentReportService(ReportRepository<CommentReport> reportRepository, CommentRepository commentRepository) {
         super(reportRepository);
-        this.commentRepository = commentRepository1;
+        this.commentRepository = commentRepository;
     }
 
     @Override
