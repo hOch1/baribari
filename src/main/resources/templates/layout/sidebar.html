@@ -59,4 +59,11 @@
       </ul>
     </div>
   </div>
+
+  <script th:inline="javascript" sec:authorize="isAuthenticated()">
+    /*<![CDATA[*/
+    let userId = /*[[${#authentication.principal.member.id}]]*/ 'null';
+    /*]]>*/
+  </script>
+  <script th:src="@{/js/notification.js}" sec:authorize="isAuthenticated()"></script>
 </nav>

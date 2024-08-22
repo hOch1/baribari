@@ -72,13 +72,6 @@
 </div>
 <div th:replace="~{layout/footer :: footer}"></div>
 <script th:inline="javascript">
-    let message = /*[[${message}]]*/ null;
-    let userId = /*[[${#authentication.principal.member.id}]]*/ 'null';
-</script>
-<script th:src="@{/js/message.js}"></script>
-<script th:src="@{/js/notification.js}" sec:authorize="isAuthenticated()"></script>
-<!-- JavaScript for toggling the reply form visibility -->
-<script th:inline="javascript">
     function toggleReplyForm(button) {
         var commentId = button.getAttribute('data-comment-id');
         var form = document.getElementById('replyForm-' + commentId);

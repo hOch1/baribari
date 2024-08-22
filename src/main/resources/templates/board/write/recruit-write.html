@@ -76,11 +76,5 @@
         }
     });
 </script>
-<script th:inline="javascript">
-    let message = /*[[${message}]]*/ null;
-    let userId = /*[[${#authentication.principal.member.id}]]*/ 'null';
-</script>
-<script th:src="@{/js/message.js}"></script>
-<script th:src="@{/js/notification.js}" sec:authorize="isAuthenticated()"></script>
 </body>
 </html>

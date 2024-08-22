@@ -14,7 +14,7 @@ public class NotificationController {
 
     private final NotificationService notificationService;
 
-    @GetMapping("/notification")
+    @GetMapping(value = "/notification", produces = "text/event-stream")
     public SseEmitter streamNotifications(@RequestParam("id") Long userId) {
         return notificationService.createEmitter(userId);
     }
