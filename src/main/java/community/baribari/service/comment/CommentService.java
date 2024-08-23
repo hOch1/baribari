@@ -40,7 +40,9 @@ public class CommentService {
 
             Long boardOwnerId = board.getMember().getId();
             String message = principalDetail.getMember().getNickname() + "님이 게시물 '" + board.getTitle() + "'에 댓글을 남겼습니다.";
-            notificationService.sendNotification(boardOwnerId, message);
+
+            if (!principalDetail.getMember().getId().equals(boardOwnerId))
+                notificationService.sendNotification(boardOwnerId, message);
         }catch (Exception e){
             log.error("댓글 등록 중 오류 발생 : {}", e.getMessage());
             throw new CustomException(ErrorCode.INTERNAL_SERVER_ERROR);
@@ -77,7 +79,8 @@ public class CommentService {
             Comment reply = Comment.toEntity(commentDto, principalDetail, comment.getBoard(), comment);
             commentRepository.save(reply);
 
-            notificationService.sendNotification(comment.getMember().getId(), principalDetail.getMember().getNickname() + "님이 댓글에 답글을 남겼습니다.");
+            if (!principalDetail.getMember().getId().equals(reply.getMember().getId()))
+                notificationService.sendNotification(comment.getMember().getId(), principalDetail.getMember().getNickname() + "님이 댓글에 답글을 남겼습니다.");
         }catch (Exception e){
             log.error("대댓글 등록 중 오류 발생 : {}", e.getMessage());
             throw new CustomException(ErrorCode.INTERNAL_SERVER_ERROR);

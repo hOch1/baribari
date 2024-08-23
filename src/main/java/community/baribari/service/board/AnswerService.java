@@ -35,7 +35,8 @@ public class AnswerService  {
         Answer save = answerRepository.save(answer);
         log.info("{}님이 {}에 답변을 등록했습니다. ID : {}", principalDetail.getMember().getNickname(), qnABoard.getId(), save.getId());
 
-        notificationService.sendNotification(qnABoard.getMember().getId(), principalDetail.getMember().getNickname() + "님이 게시물 '" + qnABoard.getTitle() + "'에 답변을 남겼습니다.");
+        if (!qnABoard.getMember().getId().equals(principalDetail.getMember().getId()))
+            notificationService.sendNotification(qnABoard.getMember().getId(), principalDetail.getMember().getNickname() + "님이 게시물 '" + qnABoard.getTitle() + "'에 답변을 남겼습니다.");
     }
 
     @Transactional
