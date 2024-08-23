@@ -1,6 +1,7 @@
 package community.baribari.config.oauth2;
 
 import community.baribari.config.PrincipalDetail;
+import community.baribari.entity.member.AccountSetting;
 import community.baribari.entity.member.Member;
 import community.baribari.repository.member.AccountSettingRepository;
 import community.baribari.repository.member.MemberRepository;
@@ -12,6 +13,7 @@ import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 
 @Service
@@ -23,6 +25,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
     private final AccountSettingRepository accountSettingRepository;
 
     @Override
+    @Transactional
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
         OAuth2UserService<OAuth2UserRequest, OAuth2User> delegate = new DefaultOAuth2UserService();
         OAuth2User oAuth2User = delegate.loadUser(userRequest);
@@ -43,7 +46,8 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
                 .map(entity -> entity.update(attributes.getName()))
                 .orElseGet( () -> {
                     log.info("{} 님이 회원가입 했습니다.", attributes.getName());
-                    return attributes.toEntity();
+                    Member signMember = attributes.toEntity();
+                    return signMember;
                 });
 
         return memberRepository.save(member);

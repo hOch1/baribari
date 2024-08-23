@@ -53,12 +53,7 @@ public class OAuth2Attributes {
                 .email(email)
                 .role(Role.ROLE_MEMBER)
                 .isSocial(true)
-                .accountSetting(AccountSetting.builder()
-                        .profileVisibility(true)
-                        .commentVisibility(true)
-                        .postVisibility(true)
-                        .build()
-                )
+                .accountSetting(AccountSetting.builder().build())
                 .build();
     }
 }

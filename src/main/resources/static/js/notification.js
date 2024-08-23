@@ -20,7 +20,7 @@ function restoreNotificationCount() {
     }
 }
 
-// 알림 카운트를 업데이트하고 저장하는 함수
+// 알림 카운트를 업데이트하는 함수
 function updateNotificationCount() {
     const badge = document.getElementById("notification-badge");
     let count = parseInt(badge.innerText);
@@ -62,7 +62,7 @@ function initializeEventSource(userId) {
 
 // 페이지가 로드될 때 실행되는 함수
 document.addEventListener('DOMContentLoaded', function () {
-    if (userId !== 'null') {
+    if (userId) {
         restoreNotificationCount(); // 알림 상태 복원
         initializeEventSource(userId); // EventSource 초기화
     }

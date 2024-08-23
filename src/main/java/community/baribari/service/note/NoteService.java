@@ -29,7 +29,7 @@ public class NoteService {
     public NoteBoxDto getNotes(PrincipalDetail principalDetail, Pageable pageable) {
         Long id = principalDetail.getMember().getId();
         Page<Note> allNotes = noteRepository.findByReceiveIdOrSendIdOrderByCreatedAtDesc(id, id, pageable);
-        Page<Note> unreadNotes = noteRepository.findByReceiveIdAndReadFalseOrderByCreatedAtDesc(id, pageable);
+        Page<Note> unreadNotes = noteRepository.findByReceiveIdAndIsReadFalseOrderByCreatedAtDesc(id, pageable);
         Page<Note> receiveNotes = noteRepository.findByReceiveIdOrderByCreatedAtDesc(id, pageable);
         Page<Note> sendNotes = noteRepository.findBySendIdOrderByCreatedAtDesc(id, pageable);
 

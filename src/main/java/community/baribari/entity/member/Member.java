@@ -28,7 +28,7 @@ public class Member {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "account_setting_id")
     private AccountSetting accountSetting;
 

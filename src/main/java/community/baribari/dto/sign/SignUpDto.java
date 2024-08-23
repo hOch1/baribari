@@ -40,13 +40,8 @@ public class SignUpDto {
                 .email(email)
                 .nickname(nickname)
                 .password(passwordEncoder.encode(password))
+                .accountSetting(AccountSetting.builder().build())
                 .role(Role.ROLE_MEMBER)
-                .accountSetting(AccountSetting.builder()
-                        .postVisibility(true)
-                        .commentVisibility(true)
-                        .profileVisibility(true)
-                        .build()
-                )
                 .build();
     }
 }
