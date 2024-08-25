@@ -65,3 +65,17 @@ a{
 .sidebar .nav-link:hover {
     color: #00000080 !important; /* 50% 투명도 */
 }
+
+/* 드롭다운 버튼의 기본 링크 스타일을 제거 */
+.btn-link {
+    color: inherit; /* 텍스트 색상을 부모 요소의 색상으로 상속받게 합니다. */
+    text-decoration: none; /* 밑줄을 제거합니다. */
+}
+
+/* 버튼에 대한 기본 스타일을 유지하며 링크 스타일만 제거 */
+.btn-link:hover,
+.btn-link:focus {
+    color: inherit; /* 호버 시 색상 변경을 제거합니다. */
+    text-decoration: none; /* 호버 시 밑줄을 제거합니다. */
+}
+

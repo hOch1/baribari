@@ -2,6 +2,7 @@ package community.baribari.service.comment;
 
 import community.baribari.config.PrincipalDetail;
 import community.baribari.dto.comment.CommentDto;
+import community.baribari.dto.sse.Notification;
 import community.baribari.entity.board.Board;
 import community.baribari.entity.comment.Comment;
 import community.baribari.exception.CustomException;
@@ -39,10 +40,10 @@ public class CommentService {
             log.info("{}님이 {}에 댓글을 등록했습니다. ID : {}", principalDetail.getMember().getNickname(), boardId, save.getId());
 
             Long boardOwnerId = board.getMember().getId();
-            String message = principalDetail.getMember().getNickname() + "님이 게시물 '" + board.getTitle() + "'에 댓글을 남겼습니다.";
 
             if (!principalDetail.getMember().getId().equals(boardOwnerId))
-                notificationService.sendNotification(boardOwnerId, message);
+                notificationService.sendNotification(boardOwnerId, Notification.NEW_COMMENT.getMessage(), board.getCategory().getPath()+"/detail/"+boardId);
+
         }catch (Exception e){
             log.error("댓글 등록 중 오류 발생 : {}", e.getMessage());
             throw new CustomException(ErrorCode.INTERNAL_SERVER_ERROR);
@@ -80,7 +81,8 @@ public class CommentService {
             commentRepository.save(reply);
 
             if (!principalDetail.getMember().getId().equals(reply.getMember().getId()))
-                notificationService.sendNotification(comment.getMember().getId(), principalDetail.getMember().getNickname() + "님이 댓글에 답글을 남겼습니다.");
+                notificationService.sendNotification(comment.getMember().getId(), Notification.NEW_REPLY.getMessage(), comment.getBoard().getCategory().getPath()+"/detail/"+comment.getBoard().getId());
+
         }catch (Exception e){
             log.error("대댓글 등록 중 오류 발생 : {}", e.getMessage());
             throw new CustomException(ErrorCode.INTERNAL_SERVER_ERROR);

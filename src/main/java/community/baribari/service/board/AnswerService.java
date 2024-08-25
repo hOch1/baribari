@@ -2,6 +2,7 @@ package community.baribari.service.board;
 
 import community.baribari.config.PrincipalDetail;
 import community.baribari.dto.board.AnswerDto;
+import community.baribari.dto.sse.Notification;
 import community.baribari.entity.board.Answer;
 import community.baribari.entity.board.QnABoard;
 import community.baribari.exception.CustomException;
@@ -36,7 +37,8 @@ public class AnswerService  {
         log.info("{}님이 {}에 답변을 등록했습니다. ID : {}", principalDetail.getMember().getNickname(), qnABoard.getId(), save.getId());
 
         if (!qnABoard.getMember().getId().equals(principalDetail.getMember().getId()))
-            notificationService.sendNotification(qnABoard.getMember().getId(), principalDetail.getMember().getNickname() + "님이 게시물 '" + qnABoard.getTitle() + "'에 답변을 남겼습니다.");
+            notificationService.sendNotification(qnABoard.getMember().getId(), Notification.NEW_ANSWER.getMessage(), "/qna-board/detail/" + qnABoard.getId());
+
     }
 
     @Transactional
@@ -62,7 +64,7 @@ public class AnswerService  {
         answerRepository.save(answer);
         log.info("답변이 채택되었습니다. ID : {}", id);
 
-        notificationService.sendNotification(answer.getMember().getId(), "게시물 '" + qnABoard.getTitle() + "'에 답변이 채택되었습니다.");
+        notificationService.sendNotification(qnABoard.getMember().getId(), Notification.ANSWER_ACCEPTED.getMessage(), "/qna-board/detail/" + qnABoard.getId());
     }
 
     @Transactional

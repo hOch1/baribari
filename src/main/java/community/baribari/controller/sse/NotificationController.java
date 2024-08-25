@@ -2,6 +2,7 @@ package community.baribari.controller.sse;
 
 import community.baribari.service.sse.NotificationService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,8 +15,8 @@ public class NotificationController {
 
     private final NotificationService notificationService;
 
-    @GetMapping(value = "/notification", produces = "text/event-stream")
+    @GetMapping(value = "/notification", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public SseEmitter streamNotifications(@RequestParam("id") Long userId) {
-        return notificationService.createEmitter(userId);
+        return notificationService.subscribe(userId);
     }
 }

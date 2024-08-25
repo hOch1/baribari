@@ -4,6 +4,7 @@ import community.baribari.config.PrincipalDetail;
 import community.baribari.dto.member.MemberDto;
 import community.baribari.dto.note.NoteBoxDto;
 import community.baribari.dto.note.NoteDto;
+import community.baribari.dto.sse.Notification;
 import community.baribari.entity.member.Member;
 import community.baribari.entity.note.Note;
 import community.baribari.exception.CustomException;
@@ -60,7 +61,7 @@ public class NoteService {
         Note note = Note.toEntity(noteDto, send, receive);
         noteRepository.save(note);
 
-        notificationService.sendNotification(receiveId, "새로운 쪽지가 도착했습니다.");
+        notificationService.sendNotification(receiveId, Notification.NEW_NOTE.getMessage(), "/note");
     }
 
     @Transactional
