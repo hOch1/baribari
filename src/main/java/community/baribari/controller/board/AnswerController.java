@@ -2,7 +2,6 @@ package community.baribari.controller.board;
 
 import community.baribari.config.PrincipalDetail;
 import community.baribari.dto.board.AnswerDto;
-import community.baribari.exception.CustomException;
 import community.baribari.service.board.AnswerService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
@@ -44,8 +43,10 @@ public class AnswerController {
     public String update(@PathVariable("id") Long id,
                          @ModelAttribute @Valid AnswerDto answerDto,
                          HttpServletRequest request,
-                         RedirectAttributes redirectAttributes){
-        answerService.update(id, answerDto);
+                         RedirectAttributes redirectAttributes,
+                         @AuthenticationPrincipal PrincipalDetail principalDetail){
+
+        answerService.update(id, answerDto, principalDetail);
         redirectAttributes.addFlashAttribute("message", "답변이 수정되었습니다.");
         String referer = request.getHeader("Referer");
         return "redirect:"+ referer;

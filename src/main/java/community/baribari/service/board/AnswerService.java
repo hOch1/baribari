@@ -68,9 +68,11 @@ public class AnswerService  {
     }
 
     @Transactional
-    public void update(Long id, AnswerDto answerDto) {
+    public void update(Long id, AnswerDto answerDto, PrincipalDetail principalDetail) {
         Answer answer = answerRepository.findById(id).orElseThrow(() -> new CustomException(ErrorCode.ANSWER_NOT_FOUND));
 
+        if (principalDetail.getMember().getId().equals(answer.getMember().getId()))
+            throw new CustomException(ErrorCode.UNAUTHORIZED);
         if (answer.isAccepted())
             throw new CustomException(ErrorCode.ANSWER_ACCEPTED);
 

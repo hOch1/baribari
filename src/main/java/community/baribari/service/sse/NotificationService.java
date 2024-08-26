@@ -13,6 +13,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class NotificationService {
 
     private final Map<Long, SseEmitter> emitters = new ConcurrentHashMap<>();
+    private final Map<Long, SseEmitter> keepEmitters = new ConcurrentHashMap<>();
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     public SseEmitter subscribe(Long userId) {

@@ -1,9 +1,7 @@
 # Baribari
-***
 Site Url : https://baribari.site
 
 # Tech
-***
 * Spring Boot
 * JPA
 * Thymeleaf
@@ -13,7 +11,6 @@ Site Url : https://baribari.site
 * Nginx
 
 # Project Tree
-***
 ```
 📦 src
 ├─ main.java.community.baribari

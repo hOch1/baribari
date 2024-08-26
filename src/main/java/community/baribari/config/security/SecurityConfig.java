@@ -42,7 +42,8 @@ public class SecurityConfig {
                                 "/*/star/**",
                                 "/member/**",
                                 "/note/**",
-                                "/report/**")
+                                "/report/**",
+                                "/*/update/**")
                         .authenticated()
                         .anyRequest().permitAll()
                 )

@@ -3,13 +3,12 @@ package community.baribari.controller.board;
 import community.baribari.config.PrincipalDetail;
 import community.baribari.dto.board.BariRecruitDto;
 import community.baribari.dto.comment.CommentDto;
-import community.baribari.entity.board.Category;
 import community.baribari.exception.CustomException;
+import community.baribari.exception.ErrorCode;
 import community.baribari.service.board.extend.BariRecruitService;
 import community.baribari.service.comment.CommentService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -60,8 +59,15 @@ public class BariRecruitController {
     }
 
     @GetMapping("/update/{id}")
-    public String update(@PathVariable("id") Long id, Model model){
-        model.addAttribute("board", bariRecruitService.detail(id));
+    public String update(@PathVariable("id") Long id, Model model,
+                         @AuthenticationPrincipal PrincipalDetail principalDetail){
+
+        BariRecruitDto dto = bariRecruitService.detail(id);
+
+        if (!principalDetail.getMember().getId().equals(dto.getMember().getId()))
+            throw new CustomException(ErrorCode.UNAUTHORIZED);
+
+        model.addAttribute("board", dto);
         return "board/update/recruit-update";
     }
 
