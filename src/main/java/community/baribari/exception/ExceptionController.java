@@ -19,6 +19,9 @@ public class ExceptionController {
         return "redirect:"+request.getHeader("Referer");
     }
 
+    /**
+     * @Valid 유효성 검사 실패 시 발생하는 예외 처리
+     */
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public String methodArgumentNotValidException(MethodArgumentNotValidException e,
                                                   RedirectAttributes redirectAttributes,
@@ -30,6 +33,9 @@ public class ExceptionController {
         return "redirect:"+request.getHeader("Referer");
     }
 
+    /**
+     * @Validated 유효성 검사 실패 시 발생하는 예외 처리
+     */
     @ExceptionHandler(HandlerMethodValidationException.class)
     public String handlerMethodValidationException(HandlerMethodValidationException e,
                                                    RedirectAttributes redirectAttributes,
