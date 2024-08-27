@@ -43,8 +43,8 @@ public class SecurityConfig {
                                 "/member/**",
                                 "/note/**",
                                 "/report/**",
-                                "/*/update/**")
-                        .authenticated()
+                                "/*/update/**").authenticated()
+                        .requestMatchers("/admin/**").hasRole("ADMIN")
                         .anyRequest().permitAll()
                 )
                 .oauth2Login(oauth2 -> oauth2

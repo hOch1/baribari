@@ -8,6 +8,7 @@ src/main/resources/application-dev.yml
 src/main/resources/application-oauth2.yml
 application-dev.yml
 application-oauth2.yml
+DataInitializer.java
 
 ### STS ###
 .apt_generated
