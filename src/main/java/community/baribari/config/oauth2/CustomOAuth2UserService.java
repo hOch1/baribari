@@ -22,7 +22,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
 
     private final MemberRepository memberRepository;
-    private final AccountSettingRepository accountSettingRepository;
 
     @Override
     @Transactional
@@ -46,8 +45,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
                 .map(entity -> entity.update(attributes.getName()))
                 .orElseGet( () -> {
                     log.info("{} 님이 회원가입 했습니다.", attributes.getName());
-                    Member signMember = attributes.toEntity();
-                    return signMember;
+                    return attributes.toEntity();
                 });
 
         return memberRepository.save(member);

@@ -1,5 +1,6 @@
 package community.baribari.entity.member;
 
+import community.baribari.dto.member.AccountSettingDto;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -37,12 +38,21 @@ public class Member {
         return this;
     }
 
+
+
     public Member updateNickname(String nickname){
         this.nickname = nickname;
         return this;
     }
 
-    public Member updateAccountSetting(AccountSetting accountSetting){
+    public Member updateAccountSetting(AccountSettingDto accountSettingDto){
+        AccountSetting accountSetting = AccountSetting.builder()
+                .profileVisibility(accountSettingDto.isProfileVisibility())
+                .commentVisibility(accountSettingDto.isCommentVisibility())
+                .postVisibility(accountSettingDto.isPostVisibility())
+                .noteBlock(accountSettingDto.isNoteBlock())
+                .build();
+
         this.accountSetting = accountSetting;
         return this;
     }

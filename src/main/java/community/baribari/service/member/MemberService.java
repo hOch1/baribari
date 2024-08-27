@@ -34,12 +34,7 @@ public class MemberService {
 
     @Transactional
     public void editAccountSetting(Member member, AccountSettingDto accountSettingDto) {
-        AccountSetting accountSetting = member.getAccountSetting();
-
-        accountSetting.update(accountSettingDto);
-        member.updateAccountSetting(accountSetting);
-
-        memberRepository.save(member);
+        memberRepository.save(member.updateAccountSetting(accountSettingDto));
         log.info("{}님이 계정 설정 변경하였습니다.", member.getNickname());
     }
 

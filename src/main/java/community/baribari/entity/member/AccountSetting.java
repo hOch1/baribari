@@ -34,12 +34,4 @@ public class AccountSetting {
 
     @OneToOne(mappedBy = "accountSetting")
     private Member member;
-
-    public AccountSetting update(AccountSettingDto accountSettingDto) {
-        this.profileVisibility = accountSettingDto.isProfileVisibility();
-        this.commentVisibility = accountSettingDto.isCommentVisibility();
-        this.postVisibility = accountSettingDto.isPostVisibility();
-        this.noteBlock = accountSettingDto.isNoteBlock();
-        return this;
-    }
 }
