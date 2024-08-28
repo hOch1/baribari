@@ -22,7 +22,7 @@ public class BoardReportController {
                         Model model) {
         model.addAttribute("report", new BoardReportDto());
         model.addAttribute("id", id);
-        return "report/boardReport";
+        return "report/board";
     }
 
     @PostMapping("/add/{id}")

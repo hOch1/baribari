@@ -13,10 +13,6 @@ public class AdminController {
         return "admin/index";
     }
 
-    @GetMapping("/member")
-    public String member(){
-        return "admin/member/index";
-    }
 
     @GetMapping("/board")
     public String board(){

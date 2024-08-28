@@ -28,13 +28,13 @@ public class FreeBoardController {
     public String index(Model model,
                         @RequestParam(defaultValue = "0", value = "page") int page){
         model.addAttribute("freeBoards", freeBoardService.list(PageRequest.of(page, 10)));
-        return "board/free-board";
+        return "board/free/index";
     }
 
     @GetMapping("/write")
     public String write(Model model){
         model.addAttribute("write", new FreeBoardDto());
-        return "board/write/free-write";
+        return "board/free/write";
     }
 
     @PostMapping("/write.do")
@@ -50,7 +50,7 @@ public class FreeBoardController {
         model.addAttribute("board", freeBoardService.detail(id));
         model.addAttribute("comments", commentService.list(id));
         model.addAttribute("comment", new CommentDto());
-        return "board/detail/free-detail";
+        return "board/free/detail";
     }
 
     @GetMapping("/update/{id}")
@@ -63,7 +63,7 @@ public class FreeBoardController {
             throw new CustomException(ErrorCode.UNAUTHORIZED);
 
         model.addAttribute("board", dto);
-        return "board/update/free-update";
+        return "board/free/update";
     }
 
     @PostMapping("/update.do")

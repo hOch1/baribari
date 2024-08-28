@@ -20,6 +20,7 @@ public class DataInitializer {
     void init() {
 
         Member admin = Member.builder()
+                .name("어드민1")
                 .email("admin@admin")
                 .password(passwordEncoder.encode("admin"))
                 .nickname("admin")
@@ -28,6 +29,7 @@ public class DataInitializer {
                 .build();
 
         Member member = Member.builder()
+                .name("회원1")
                 .email("user@user")
                 .password(passwordEncoder.encode("user"))
                 .nickname("user")

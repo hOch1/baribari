@@ -22,7 +22,7 @@ public class CommentReportController {
                         Model model) {
         model.addAttribute("report", new CommentReportDto());
         model.addAttribute("id", id);
-        return "report/commentReport";
+        return "report/comment";
     }
 
     @PostMapping("/add/{id}")

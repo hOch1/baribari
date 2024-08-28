@@ -8,23 +8,24 @@
                     Dashboard
                 </a>
                 <div class="sb-sidenav-menu-heading">tables</div>
-                <a aria-controls="collapsePages" aria-expanded="false" class="nav-link collapsed" data-bs-target="#collapsePages"
-                   data-bs-toggle="collapse" href="#">
-                    <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
-                    회원 관리
+                <a class="nav-link" href="/admin/member/">
+                    <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
+                    Member
+                </a>
+                <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
+                    <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                    Board
                     <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                 </a>
-                <a aria-controls="collapsePages" aria-expanded="false" class="nav-link collapsed" data-bs-target="#collapsePages"
-                   data-bs-toggle="collapse" href="#">
-                    <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
-                    게시물 관리
-                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                </a>
-                <a aria-controls="collapsePages" aria-expanded="false" class="nav-link collapsed" data-bs-target="#collapsePages"
-                   data-bs-toggle="collapse" href="#">
-                    <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
-                    신고 내역
-                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                    <nav class="sb-sidenav-menu-nested nav">
+                        <a class="nav-link" href="/admin/notice/">공지사항</a>
+                        <a class="nav-link" href="/admin/board/">게시물</a>
+                    </nav>
+                </div>
+                <a class="nav-link" href="/admin/report">
+                    <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
+                    Report
                 </a>
 
                 <div class="sb-sidenav-menu-heading">Addons</div>

@@ -28,13 +28,13 @@ public class BariReviewController {
     public String index(Model model,
                         @RequestParam(defaultValue = "0", value = "page") int page) {
         model.addAttribute("bariReviews", bariReviewService.list(PageRequest.of(page, 10)));
-        return "board/bari-review";
+        return "board/review/index";
     }
 
     @GetMapping("/write")
     public String write(Model model){
         model.addAttribute("write", new BariReviewDto());
-        return "board/write/review-write";
+        return "board/review/write";
     }
 
     @PostMapping("/write.do")
@@ -51,7 +51,7 @@ public class BariReviewController {
         model.addAttribute("comments", commentService.list(id));
         model.addAttribute("comment", new CommentDto());
 
-        return "board/detail/bari-review-detail";
+        return "board/review/detail";
     }
 
     @GetMapping("/update/{id}")
@@ -63,7 +63,7 @@ public class BariReviewController {
             throw new CustomException(ErrorCode.UNAUTHORIZED);
 
         model.addAttribute("board", dto);
-        return "board/update/review-update";
+        return "board/review/update";
     }
 
     @PostMapping("/update.do")

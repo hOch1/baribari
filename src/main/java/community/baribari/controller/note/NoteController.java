@@ -24,14 +24,14 @@ public class NoteController {
                           @RequestParam(value = "page", defaultValue = "0") int page,
                           Model model){
         model.addAttribute("notes", noteService.getNotes(principalDetail, PageRequest.of(page, 10)));
-        return "note/note";
+        return "note/index";
     }
 
     @GetMapping("/send/{id}")
     public String sendNote(@PathVariable("id") Long receiveId,
                            Model model){
         model.addAttribute("receive", noteService.isBlock(receiveId));
-        return "note/note-write";
+        return "note/write";
     }
 
     @PostMapping("/send.do")

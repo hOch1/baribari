@@ -14,6 +14,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -36,6 +38,13 @@ public class MemberService {
     public void editAccountSetting(Member member, AccountSettingDto accountSettingDto) {
         memberRepository.save(member.updateAccountSetting(accountSettingDto));
         log.info("{}님이 계정 설정 변경하였습니다.", member.getNickname());
+    }
+
+    public List<MemberDto> list(){
+        List<Member> members = memberRepository.findAll();
+        return members.stream()
+                .map(MemberDto::toDto)
+                .toList();
     }
 
 }

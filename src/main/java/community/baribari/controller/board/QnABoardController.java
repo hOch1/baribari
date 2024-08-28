@@ -25,13 +25,13 @@ public class QnABoardController {
     public String index(Model model,
                         @RequestParam(defaultValue = "0", value = "page") int page){
         model.addAttribute("qnaBoards", qnABoardService.list(PageRequest.of(page, 10)));
-        return "board/qna-board";
+        return "board/qna/index";
     }
 
     @GetMapping("/write")
     public String write(Model model){
         model.addAttribute("write", new QnABoardDto());
-        return "board/write/qna-write";
+        return "update";
     }
 
     @PostMapping("/write.do")
@@ -45,7 +45,7 @@ public class QnABoardController {
     public String detail(@PathVariable("id") Long id, Model model){
         qnABoardService.viewCountUp(id);
         model.addAttribute("qnaBoard", qnABoardService.detail(id));
-        return "board/detail/qna-detail";
+        return "board/qna/detail";
     }
 
     @GetMapping("/update/{id}")
@@ -58,7 +58,7 @@ public class QnABoardController {
             throw new CustomException(ErrorCode.UNAUTHORIZED);
 
         model.addAttribute("board", dto);
-        return "board/update/qna-update";
+        return "board/qna/update";
     }
 
     @PostMapping("/update.do")

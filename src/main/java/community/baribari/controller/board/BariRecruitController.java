@@ -28,13 +28,13 @@ public class BariRecruitController {
     public String recruit(Model model,
                           @RequestParam(defaultValue = "0", value = "page") int page) {
         model.addAttribute("bariRecruits", bariRecruitService.list(PageRequest.of(page, 10)));
-        return "board/bari-recruit";
+        return "board/recruit/index";
     }
 
     @GetMapping("/write")
     public String write(Model model){
         model.addAttribute("write", new BariRecruitDto());
-        return "board/write/recruit-write";
+        return "board/recruit/write";
     }
 
     @PostMapping("/write.do")
@@ -55,7 +55,7 @@ public class BariRecruitController {
             redirectAttributes.addFlashAttribute("message", e.getMessage());
             return "redirect:/bari-recruit";
         }
-        return "board/detail/bari-recruit-detail";
+        return "board/recruit/detail";
     }
 
     @GetMapping("/update/{id}")
@@ -68,7 +68,7 @@ public class BariRecruitController {
             throw new CustomException(ErrorCode.UNAUTHORIZED);
 
         model.addAttribute("board", dto);
-        return "board/update/recruit-update";
+        return "board/recruit/update";
     }
 
     @PostMapping("/update.do")

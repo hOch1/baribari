@@ -4,6 +4,8 @@ import community.baribari.dto.member.AccountSettingDto;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Getter
 @Builder
@@ -25,6 +27,9 @@ public class Member {
 
     @Builder.Default
     private boolean isSocial = false;
+
+    @Builder.Default
+    private LocalDateTime createdAt = LocalDateTime.now();
 
     @Enumerated(EnumType.STRING)
     private Role role;
