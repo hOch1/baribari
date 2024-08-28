@@ -24,7 +24,7 @@ public enum ErrorCode {
     // DELETE
     DELETED_BOARD("삭제된 게시물입니다."),
     DELETED_COMMENT("삭제된 댓글입니다."),
-    DELETED_MEMBER("삭제된 회원입니다."),
+    DELETED_MEMBER("탈퇴된 회원입니다."),
 
     // SIGNUP
     ALREADY_EXIST_EMAIL("이미 존재하는 이메일입니다."),

@@ -3,6 +3,8 @@ package community.baribari.config.oauth2;
 import community.baribari.config.PrincipalDetail;
 import community.baribari.entity.member.AccountSetting;
 import community.baribari.entity.member.Member;
+import community.baribari.exception.CustomException;
+import community.baribari.exception.ErrorCode;
 import community.baribari.repository.member.AccountSettingRepository;
 import community.baribari.repository.member.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -35,6 +37,9 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         OAuth2Attributes attributes = OAuth2Attributes.of(registrationId, userNameAttributeName, oAuth2User.getAttributes());
 
         Member member = saveOrUpdate(attributes);
+
+        if (member.isDeleted())
+            throw new OAuth2AuthenticationException(ErrorCode.DELETED_MEMBER.getMessage());
 
         log.info("{}님이 로그인 하였습니다. ID : {}",member.getName(), member.getId());
         return new PrincipalDetail(member, attributes.getAttributes());

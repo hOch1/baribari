@@ -28,12 +28,12 @@
                                 <h5 class="card-title">공지사항</h5>
                             </div>
                             <ul class="list-group list-group-flush">
-                                <li class="list-group-item">
-                                    <a href="#" class="nav-link">공지사항 1</a>
+                                <li class="list-group-item" th:each="notice : ${notices}">
+                                    <a th:href="@{/notice/detail/{id}(id=${notice.id})}" th:text="${notice.title}" class="nav-link"></a>
                                 </li>
                             </ul>
                             <div class="card-footer text-center">
-                                <a href="#" class="text-decoration-none nav-link">더보기</a>
+                                <a href="/notice" class="text-decoration-none nav-link">더보기</a>
                             </div>
                         </div>
                     </div>

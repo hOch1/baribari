@@ -32,8 +32,6 @@ public class MemberController {
     private final BariReviewService bariReviewService;
     private final BariRecruitService bariRecruitService;
     private final CommentService commentService;
-    private final BoardReportService boardReportService;
-    private final CommentReportService commentReportService;
 
     @GetMapping("/profile/{id}")
     public String profile(Model model,
@@ -75,5 +73,13 @@ public class MemberController {
         memberService.editAccountSetting(principalDetail.getMember(), accountSettingDto);
         redirectAttributes.addFlashAttribute("message", "계정 설정이 변경되었습니다.");
         return "redirect:/member/account-setting";
+    }
+
+    @PostMapping("/delete/{id}")
+    public String deleteMember(@PathVariable("id") Long id, @AuthenticationPrincipal PrincipalDetail principalDetail,
+                               RedirectAttributes redirectAttributes){
+        memberService.deleteMember(id, principalDetail);
+        redirectAttributes.addFlashAttribute("message", "탈퇴되었습니다.");
+        return "redirect:/logout";
     }
 }

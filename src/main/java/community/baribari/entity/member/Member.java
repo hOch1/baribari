@@ -61,4 +61,9 @@ public class Member {
         this.accountSetting = accountSetting;
         return this;
     }
+
+    public Member delete() {
+        this.deleted = true;
+        return this;
+    }
 }

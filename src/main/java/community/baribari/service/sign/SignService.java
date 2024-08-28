@@ -21,7 +21,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class SignService {
 
     private final MemberRepository memberRepository;
-    private final AccountSettingRepository accountSettingRepository;
     private final PasswordEncoder passwordEncoder;
 
     @Transactional

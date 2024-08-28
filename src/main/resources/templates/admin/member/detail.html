@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>회원 상세 - Admin</title>
+    <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
+    <link th:href="@{/css/admin-styles.css}" rel="stylesheet" />
+    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+</head>
+<body class="sb-nav-fixed">
+<div th:replace="~{admin/layouts/nav :: nav}"></div>
+<div id="layoutSidenav">
+    <div th:replace="~{admin/layouts/sidebar :: sidebar}"></div>
+
+    <div id="layoutSidenav_content">
+        <main>
+            <div class="container-fluid px-4">
+                <h1 class="mt-4">회원 관리</h1>
+                <ol class="breadcrumb mb-4">
+                    <li class="breadcrumb-item"><a th:href="@{/admin/member}">회원 목록</a></li>
+                    <li class="breadcrumb-item active">회원 상세</li>
+                </ol>
+
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <i class="fas fa-user me-1"></i>
+                        회원 상세 정보
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h5>기본 정보</h5>
+                                <table class="table table-bordered">
+                                    <tr>
+                                        <th>이름</th>
+                                        <td th:text="${member.name}"></td>
+                                    </tr>
+                                    <tr>
+                                        <th>이메일</th>
+                                        <td th:text="${member.email}"></td>
+                                    </tr>
+                                    <tr>
+                                        <th>닉네임</th>
+                                        <td th:text="${member.nickname}"></td>
+                                    </tr>
+                                    <tr>
+                                        <th>가입일</th>
+                                        <td th:text="${#temporals.format(member.createdAt, 'yyyy-MM-dd HH:mm')}"></td>
+                                    </tr>
+                                    <tr>
+                                        <th>권한</th>
+                                        <td th:text="${member.role}"></td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="col-md-6">
+                                <h5>추가 정보</h5>
+                                <table class="table table-bordered">
+                                    <tr>
+                                        <th>탈퇴여부 ( true : 탈퇴 )</th>
+                                        <td th:text="${member.isDeleted}"></td>
+                                    </tr>
+                                    <tr>
+                                        <th>소셜로그인 여부</th>
+                                        <td th:text="${member.isSocial}"></td>
+                                    </tr>
+                                    <!--
+                                    <tr>
+                                        <th>최근 로그인</th>
+                                        <td th:text="${#dates.format(member.lastLoginAt, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                                    </tr>
+                                    <tr>
+                                        <th>게시글 수</th>
+                                        <td th:text="${member.postCount}">10</td>
+                                    </tr>
+                                    <tr>
+                                        <th>댓글 수</th>
+                                        <td th:text="${member.commentCount}">25</td>
+                                    </tr>
+                                    -->
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <div th:replace="~{admin/layouts/footer :: footer}"></div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+<script th:src="@{/js/admin-scripts.js}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
+<script th:src="@{/js/datatables-simple-demo.js}"></script>
+</body>
+</html>
