@@ -10,6 +10,9 @@ Site Url : https://baribari.site
 * AWS RDS (MySql)
 * Nginx
 
+# ERD
+https://www.erdcloud.com/d/y8phnsrMbqB4nsHFR
+
 # Project Tree
 ```
 📦 src
