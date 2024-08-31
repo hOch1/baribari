@@ -11,7 +11,8 @@ Site Url : https://baribari.site
 * Nginx
 
 # ERD
-https://www.erdcloud.com/d/y8phnsrMbqB4nsHFR
+[LINK](https://www.erdcloud.com/d/yrC7ubN3XAN9mtt2H)
+![erd](https://github.com/user-attachments/assets/cb5becd7-d394-446f-833a-2bed75ba29ed)
 
 # Project Tree
 ```
