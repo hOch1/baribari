@@ -1,12 +1,11 @@
-package community.baribari.repository.note;
+package community.baribari.repository.note.querydsl;
 
 import community.baribari.entity.note.Note;
-import community.baribari.repository.note.querydsl.NoteRepositoryCustom;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface NoteRepository extends JpaRepository<Note, Long>, NoteRepositoryCustom {
+public interface NoteRepositoryCustom {
+
     Page<Note> findByReceiveIdOrSendIdOrderByCreatedAtDesc(Long id, Pageable pageable);
 
     Page<Note> findByReceiveIdAndIsReadFalseOrderByCreatedAtDesc(Long id, Pageable pageable);

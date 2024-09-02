@@ -34,22 +34,22 @@ public abstract class BoardService<T extends Board, D extends BoardDto> {
     }
 
     public Page<D> list(Pageable pageable) {
-        Page<T> boards = boardRepository.findAllByCategoryAndDeletedFalseOrderByCreatedAtDesc(getCategory() ,pageable);
+        Page<T> boards = boardRepository.listByCategory(getCategory() ,pageable);
         return boards.map(this::toDto);
     }
 
     public List<D> mainList() {
-        List<T> boards = boardRepository.findTop3ByCategoryAndDeletedFalseOrderByCreatedAtDesc(getCategory());
+        List<T> boards = boardRepository.mainList(getCategory());
         return boards.stream().map(this::toDto).collect(Collectors.toList());
     }
 
     public Page<D> myList(Long id, Pageable pageable){
-        Page<T> boards = boardRepository.findByDeletedFalseAndCategoryAndMemberIdOrderByCreatedAtDesc(getCategory(), id, pageable);
+        Page<T> boards = boardRepository.writeBoardList(getCategory(), id, pageable);
         return boards.map(this::toDto);
     }
 
     public Page<D> search(String keyword, Pageable pageable){
-        Page<T> boards = boardRepository.findByCategoryAndTitleOrContentContaining(getCategory(), keyword, pageable);
+        Page<T> boards = boardRepository.boardSearch(getCategory(), keyword, pageable);
         return boards.map(this::toDto);
     }
 

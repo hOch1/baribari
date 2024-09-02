@@ -1,15 +1,13 @@
-package community.baribari.repository.board;
+package community.baribari.repository.board.querydsl;
 
 import community.baribari.entity.board.Board;
 import community.baribari.entity.board.Category;
-import community.baribari.repository.board.querydsl.BoardRepositoryCustom;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface BoardRepository<T extends Board> extends JpaRepository<T, Long>, BoardRepositoryCustom<T> {
+public interface BoardRepositoryCustom<T extends Board> {
 
     // 메인 리스트
     List<T> mainList(Category category);
@@ -22,4 +20,5 @@ public interface BoardRepository<T extends Board> extends JpaRepository<T, Long>
 
     // 검색
     Page<T> boardSearch(Category category, String keyword, Pageable pageable);
+
 }

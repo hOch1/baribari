@@ -1,15 +1,12 @@
-package community.baribari.repository.comment;
+package community.baribari.repository.comment.querydsl;
 
 import community.baribari.entity.comment.Comment;
-import community.baribari.repository.comment.querydsl.CommentRepositoryCustom;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Range;
-import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface CommentRepository extends JpaRepository<Comment, Long>, CommentRepositoryCustom {
+public interface CommentRepositoryCustom {
 
     // 상위 댓글 조회
     List<Comment> findByBoardIdAndParentIsNull(Long boardId);

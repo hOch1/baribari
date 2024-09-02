@@ -82,7 +82,7 @@ public class AnswerService  {
     }
 
     public Page<AnswerDto> search(String keyword, Pageable pageable) {
-        return answerRepository.findByDeletedFalseAndContentContainingOrderByCreatedAtDesc(keyword, pageable)
+        return answerRepository.searchAnswer(keyword, pageable)
                 .map(AnswerDto::toDto);
     }
 }
