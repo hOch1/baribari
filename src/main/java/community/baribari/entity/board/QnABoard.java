@@ -13,6 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @SuperBuilder
+@DiscriminatorValue("QNA")
 public class QnABoard extends Board{
 
     @OneToMany(mappedBy = "qnaBoard")

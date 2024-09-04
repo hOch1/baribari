@@ -11,6 +11,7 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @SuperBuilder
+@DiscriminatorValue("RECRUIT")
 public class BariRecruit extends Board {
 
     @Enumerated(EnumType.STRING)

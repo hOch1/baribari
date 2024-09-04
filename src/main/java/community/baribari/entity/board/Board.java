@@ -17,6 +17,8 @@ import java.util.List;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@DiscriminatorColumn
+@Inheritance(strategy = InheritanceType.JOINED)
 @SuperBuilder
 public abstract class Board {
 
