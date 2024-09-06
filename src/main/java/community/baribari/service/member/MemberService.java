@@ -25,7 +25,6 @@ import java.util.Optional;
 public class MemberService {
 
     private final MemberRepository memberRepository;
-    private final AccountSettingRepository accountSettingRepository;
 
     public MemberDto getMember(Long id){
         return MemberDto.toDto(memberRepository.findById(id)

@@ -18,7 +18,6 @@ public class DataInitializer {
 
     @PostConstruct
     void init() {
-
         Member admin = Member.builder()
                 .name("어드민1")
                 .email("admin@admin")
