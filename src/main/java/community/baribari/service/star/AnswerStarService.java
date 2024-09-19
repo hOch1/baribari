@@ -23,19 +23,16 @@ public class AnswerStarService {
 
     @Transactional
     public void starCountUp(Long id, PrincipalDetail principalDetail) {
-        Answer answer = answerRepository.findById(id).orElseThrow(() -> new CustomException(ErrorCode.ANSWER_NOT_FOUND));
+        Answer answer = answerRepository.findById(id).orElseThrow(() ->
+                new CustomException(ErrorCode.ANSWER_NOT_FOUND));
 
         if (answerStarRepository.existsByMemberIdAndAnswerId(principalDetail.getMember().getId(), id))
             throw new CustomException(ErrorCode.ALREADY_STARRED_ANSWER);
 
-        AnswerStar answerStar = AnswerStar.builder()
-                .member(principalDetail.getMember())
-                .answer(answer)
-                .build();
-
+        AnswerStar answerStar = AnswerStar.toEntity(principalDetail.getMember(), answer);
         AnswerStar save = answerStarRepository.save(answerStar);
+
         log.info("{}님이 답변 {}을 추천했습니다. ID : {}", principalDetail.getMember().getNickname(), answer.getId(), save.getId());
     }
-
 
 }

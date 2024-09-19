@@ -33,11 +33,6 @@ public abstract class ReportService<T extends Report, D extends ReportDto> {
         return toDto(report);
     }
 
-    public Page<D> myReportList(Long id, Pageable pageable) {
-        return reportRepository.findByMemberId(id, pageable).map(this::toDto);
-    }
-
-
 
     protected abstract T toEntity(D dto, PrincipalDetail principalDetail, Long id) throws Throwable;
     protected abstract D toDto(T entity);

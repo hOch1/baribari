@@ -3,6 +3,8 @@ package community.baribari.entity.board;
 import community.baribari.dto.board.AnswerDto;
 import community.baribari.entity.member.Member;
 import community.baribari.entity.star.AnswerStar;
+import community.baribari.exception.CustomException;
+import community.baribari.exception.ErrorCode;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
@@ -51,15 +53,23 @@ public class Answer{
                 .build();
     }
 
-    public void delete() {
+    public Answer delete() {
+        if (this.accepted)
+            throw new CustomException(ErrorCode.ANSWER_ACCEPTED);
+
         this.deleted = true;
+        return this;
     }
 
     public void accept() {
         this.accepted = true;
     }
 
-    public void update(AnswerDto answerDto) {
+    public Answer update(AnswerDto answerDto) {
+        if (this.accepted)
+            throw new CustomException(ErrorCode.ANSWER_ACCEPTED);
+
         this.content = answerDto.getContent();
+        return this;
     }
 }

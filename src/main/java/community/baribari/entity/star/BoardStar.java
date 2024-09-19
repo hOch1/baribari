@@ -26,4 +26,11 @@ public class BoardStar {
 
     @Builder.Default
     private LocalDateTime createdAt = LocalDateTime.now();
+
+    public static BoardStar toEntity(Member member, Board board){
+        return BoardStar.builder()
+                .member(member)
+                .board(board)
+                .build();
+    }
 }

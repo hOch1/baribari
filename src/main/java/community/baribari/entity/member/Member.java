@@ -43,22 +43,18 @@ public class Member {
         return this;
     }
 
-
-
     public Member updateNickname(String nickname){
         this.nickname = nickname;
         return this;
     }
 
     public Member updateAccountSetting(AccountSettingDto accountSettingDto){
-        AccountSetting accountSetting = AccountSetting.builder()
+        this.accountSetting = AccountSetting.builder()
                 .profileVisibility(accountSettingDto.isProfileVisibility())
                 .commentVisibility(accountSettingDto.isCommentVisibility())
                 .postVisibility(accountSettingDto.isPostVisibility())
                 .noteBlock(accountSettingDto.isNoteBlock())
                 .build();
-
-        this.accountSetting = accountSetting;
         return this;
     }
 

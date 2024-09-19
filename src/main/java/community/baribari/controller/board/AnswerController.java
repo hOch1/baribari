@@ -25,7 +25,7 @@ public class AnswerController {
     public String answerWrite(@PathVariable("questionId") Long questionId,
                               @Valid AnswerDto answerDto,
                               @AuthenticationPrincipal PrincipalDetail principalDetail){
-        answerService.writeAnswer(questionId, principalDetail, answerDto);
+        answerService.save(questionId, principalDetail, answerDto);
         return "redirect:/qna-board/detail/" + questionId;
     }
 

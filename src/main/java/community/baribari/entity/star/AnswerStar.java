@@ -28,4 +28,10 @@ public class AnswerStar {
     @Builder.Default
     private LocalDateTime createdAt = LocalDateTime.now();
 
+    public static AnswerStar toEntity(Member member, Answer answer){
+        return AnswerStar.builder()
+                .member(member)
+                .answer(answer)
+                .build();
+    }
 }

@@ -55,8 +55,8 @@ public class NoteService {
     @Transactional
     public void sendNote(PrincipalDetail principalDetail, Long receiveId, NoteDto noteDto) {
         Member send = principalDetail.getMember();
-        Member receive = memberRepository.findById(receiveId)
-                .orElseThrow(() -> new CustomException(ErrorCode.MEMBER_NOT_FOUND));
+        Member receive = memberRepository.findById(receiveId).orElseThrow(() ->
+                new CustomException(ErrorCode.MEMBER_NOT_FOUND));
 
         Note note = Note.toEntity(noteDto, send, receive);
         noteRepository.save(note);
@@ -68,8 +68,8 @@ public class NoteService {
     public NoteDto readNote(Long noteId) {
         Note note = noteRepository.findById(noteId)
                 .orElseThrow(() -> new CustomException(ErrorCode.NOTE_NOT_FOUND));
-        note.read();
-        noteRepository.save(note);
+
+        noteRepository.save(note.read());
         return NoteDto.toDto(note);
     }
 

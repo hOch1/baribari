@@ -57,7 +57,7 @@ public class QAnswer extends EntityPathBase<Answer> {
     public QAnswer(Class<? extends Answer> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
         this.member = inits.isInitialized("member") ? new community.baribari.entity.member.QMember(forProperty("member"), inits.get("member")) : null;
-        this.qnaBoard = inits.isInitialized("qnaBoard") ? new QQnABoard(forProperty("qnaBoard"), inits.get("qnaBoard")) : null;
+        this.qnaBoard = inits.isInitialized("qnaBoard") ? new QQnABoard(forProperty("qnaBoard")) : null;
     }
 
 }

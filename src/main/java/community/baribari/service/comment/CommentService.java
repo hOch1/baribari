@@ -30,24 +30,19 @@ public class CommentService {
     private final NotificationService notificationService;
 
     @Transactional
-    public void addComment(CommentDto commentDto, PrincipalDetail principalDetail, Long boardId){
-        try {
-            Board board = boardRepository.findById(boardId).orElseThrow(() -> new CustomException(ErrorCode.BOARD_NOT_FOUND));
+    public void save(CommentDto commentDto, PrincipalDetail principalDetail, Long boardId){
+        Board board = boardRepository.findById(boardId).orElseThrow(() ->
+                    new CustomException(ErrorCode.BOARD_NOT_FOUND));
 
-            Comment comment = Comment.toEntity(commentDto, principalDetail, board);
-            Comment save = commentRepository.save(comment);
+        Comment comment = Comment.toEntity(commentDto, principalDetail, board);
+        Comment save = commentRepository.save(comment);
 
-            log.info("{}님이 {}에 댓글을 등록했습니다. ID : {}", principalDetail.getMember().getNickname(), boardId, save.getId());
+        log.info("{}님이 {}에 댓글을 등록했습니다. ID : {}", principalDetail.getMember().getNickname(), boardId, save.getId());
 
-            Long boardOwnerId = board.getMember().getId();
+        Long boardOwnerId = board.getMember().getId();
 
-            if (!principalDetail.getMember().getId().equals(boardOwnerId))
-                notificationService.sendNotification(boardOwnerId, Notification.NEW_COMMENT.getMessage(), board.getCategory().getPath()+"/detail/"+boardId);
-
-        }catch (Exception e){
-            log.error("댓글 등록 중 오류 발생 : {}", e.getMessage());
-            throw new CustomException(ErrorCode.INTERNAL_SERVER_ERROR);
-        }
+        if (!principalDetail.getMember().getId().equals(boardOwnerId))
+            notificationService.sendNotification(boardOwnerId, Notification.NEW_COMMENT.getMessage(), board.getCategory().getPath()+"/detail/"+boardId);
     }
 
     public CommentDto detail(Long id){
@@ -63,30 +58,20 @@ public class CommentService {
 
     @Transactional
     public Comment delete(Long id){
-        try {
-            Comment comment = commentRepository.findById(id).orElseThrow(() -> new CustomException(ErrorCode.BOARD_NOT_FOUND));
-            comment.delete();
-            return commentRepository.save(comment);
-        }catch (Exception e){
-            log.error("댓글 삭제 중 오류 발생 : {}", e.getMessage());
-            throw new CustomException(ErrorCode.INTERNAL_SERVER_ERROR);
-        }
+        Comment comment = commentRepository.findById(id).orElseThrow(() ->
+                new CustomException(ErrorCode.BOARD_NOT_FOUND));
+        return commentRepository.save(comment.delete());
     }
 
     @Transactional
     public void addReply(CommentDto commentDto, Long commentId, PrincipalDetail principalDetail) {
-        try {
-            Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new CustomException(ErrorCode.BOARD_NOT_FOUND));
-            Comment reply = Comment.toEntity(commentDto, principalDetail, comment.getBoard(), comment);
-            commentRepository.save(reply);
+        Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new CustomException(ErrorCode.BOARD_NOT_FOUND));
+        Comment reply = Comment.toEntity(commentDto, principalDetail, comment.getBoard(), comment);
+        commentRepository.save(reply);
 
-            if (!principalDetail.getMember().getId().equals(reply.getMember().getId()))
-                notificationService.sendNotification(comment.getMember().getId(), Notification.NEW_REPLY.getMessage(), comment.getBoard().getCategory().getPath()+"/detail/"+comment.getBoard().getId());
+        if (!principalDetail.getMember().getId().equals(reply.getMember().getId()))
+            notificationService.sendNotification(comment.getMember().getId(), Notification.NEW_REPLY.getMessage(), comment.getBoard().getCategory().getPath()+"/detail/"+comment.getBoard().getId());
 
-        }catch (Exception e){
-            log.error("대댓글 등록 중 오류 발생 : {}", e.getMessage());
-            throw new CustomException(ErrorCode.INTERNAL_SERVER_ERROR);
-        }
     }
 
     public Page<CommentDto> search(String keyword, Pageable pageable) {

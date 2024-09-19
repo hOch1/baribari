@@ -53,7 +53,9 @@ public class MemberService {
         if (!principalDetail.getMember().getId().equals(id))
             throw new CustomException(ErrorCode.UNAUTHORIZED);
 
-        Member member = memberRepository.findById(id).orElseThrow(() -> new CustomException(ErrorCode.MEMBER_NOT_FOUND));
+        Member member = memberRepository.findById(id).orElseThrow(() ->
+                new CustomException(ErrorCode.MEMBER_NOT_FOUND));
+
         memberRepository.save(member.delete());
         log.info("{}님이 탈퇴하였습니다.", member.getNickname());
     }

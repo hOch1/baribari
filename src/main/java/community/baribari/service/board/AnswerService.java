@@ -28,8 +28,9 @@ public class AnswerService  {
     private final NotificationService notificationService;
 
     @Transactional
-    public void writeAnswer(Long questionId, PrincipalDetail principalDetail, AnswerDto answerDto) {
-        QnABoard qnABoard = boardRepository.findById(questionId).orElseThrow(() -> new CustomException(ErrorCode.BOARD_NOT_FOUND));
+    public void save(Long questionId, PrincipalDetail principalDetail, AnswerDto answerDto) {
+        QnABoard qnABoard = boardRepository.findById(questionId).orElseThrow(() ->
+                new CustomException(ErrorCode.BOARD_NOT_FOUND));
 
         Answer answer = Answer.toEntity(answerDto, principalDetail.getMember(), qnABoard);
 
@@ -43,12 +44,10 @@ public class AnswerService  {
 
     @Transactional
     public void delete(Long id) {
-        Answer answer = answerRepository.findById(id).orElseThrow(() -> new CustomException(ErrorCode.ANSWER_NOT_FOUND));
-        if (answer.isAccepted())
-            throw new CustomException(ErrorCode.ANSWER_ACCEPTED);
+        Answer answer = answerRepository.findById(id).orElseThrow(() ->
+                new CustomException(ErrorCode.ANSWER_NOT_FOUND));
 
-        answer.delete();
-        answerRepository.save(answer);
+        answerRepository.save(answer.delete());
         log.info("답변이 삭제되었습니다. ID : {}", id);
     }
 
@@ -73,11 +72,8 @@ public class AnswerService  {
 
         if (principalDetail.getMember().getId().equals(answer.getMember().getId()))
             throw new CustomException(ErrorCode.UNAUTHORIZED);
-        if (answer.isAccepted())
-            throw new CustomException(ErrorCode.ANSWER_ACCEPTED);
 
-        answer.update(answerDto);
-        answerRepository.save(answer);
+        answerRepository.save(answer.update(answerDto));
         log.info("답변이 수정되었습니다. ID : {}", id);
     }
 

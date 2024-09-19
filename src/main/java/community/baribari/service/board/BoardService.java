@@ -54,7 +54,8 @@ public abstract class BoardService<T extends Board, D extends BoardDto> {
     }
 
     public D detail(Long id) {
-        T board = boardRepository.findById(id).orElseThrow(() -> new CustomException(ErrorCode.BOARD_NOT_FOUND));
+        T board = boardRepository.findById(id).orElseThrow(() ->
+                new CustomException(ErrorCode.BOARD_NOT_FOUND));
 
         if (board.getDeleted())
             throw new CustomException(ErrorCode.DELETED_BOARD);

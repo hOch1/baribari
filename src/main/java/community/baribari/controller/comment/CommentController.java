@@ -2,8 +2,6 @@ package community.baribari.controller.comment;
 
 import community.baribari.config.PrincipalDetail;
 import community.baribari.dto.comment.CommentDto;
-import community.baribari.entity.comment.Comment;
-import community.baribari.exception.CustomException;
 import community.baribari.service.comment.CommentService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
@@ -28,7 +26,7 @@ public class CommentController {
                                @ModelAttribute @Valid CommentDto commentDto,
                                @AuthenticationPrincipal PrincipalDetail principalDetail,
                                HttpServletRequest request) {
-        commentService.addComment(commentDto, principalDetail, boardId);
+        commentService.save(commentDto, principalDetail, boardId);
         String referer = request.getHeader("Referer");
         return "redirect:"+referer;
     }

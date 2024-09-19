@@ -22,19 +22,16 @@ public class CommentStarService {
     private final CommentStarRepository commentStarRepository;
 
     @Transactional
-    public CommentStar starCountUp(Long id, PrincipalDetail principalDetail) {
-        Comment comment = commentRepository.findById(id).orElseThrow(() -> new CustomException(ErrorCode.COMMENT_NOT_FOUND));
+    public void starCountUp(Long id, PrincipalDetail principalDetail) {
+        Comment comment = commentRepository.findById(id).orElseThrow(() ->
+                new CustomException(ErrorCode.COMMENT_NOT_FOUND));
 
         if (commentStarRepository.existsByMemberIdAndCommentId(principalDetail.getMember().getId(), id))
             throw new CustomException(ErrorCode.ALREADY_STARRED_COMMENT);
 
-        CommentStar star = CommentStar.builder()
-                .comment(comment)
-                .member(principalDetail.getMember())
-                .build();
+        CommentStar star = CommentStar.toEntity(principalDetail.getMember(), comment);
+        CommentStar save = commentStarRepository.save(star);
 
-        return commentStarRepository.save(star);
+        log.info("{}님이 댓글 {}을 추천했습니다. ID : {}", principalDetail.getMember().getNickname(), comment.getId(), save.getId());
     }
-
-
 }

@@ -9,12 +9,9 @@ import community.baribari.exception.ErrorCode;
 import community.baribari.repository.board.BoardRepository;
 import community.baribari.repository.report.ReportRepository;
 import community.baribari.service.report.ReportService;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 @Service
-@Slf4j
 public class BoardReportService extends ReportService<BoardReport, BoardReportDto> {
 
     private final BoardRepository<Board> boardRepository;

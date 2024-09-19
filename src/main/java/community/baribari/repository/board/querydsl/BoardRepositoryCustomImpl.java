@@ -15,7 +15,7 @@ import java.util.List;
 
 @Repository
 @RequiredArgsConstructor
-public class BoardRepositoryCustomImpl<T extends Board> implements BoardRepositoryCustom {
+public class BoardRepositoryCustomImpl<T extends Board> implements BoardRepositoryCustom<T> {
 
     private final JPAQueryFactory queryFactory;
 

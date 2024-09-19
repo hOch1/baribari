@@ -26,4 +26,11 @@ public class CommentStar {
 
     @Builder.Default
     private LocalDateTime createdAt = LocalDateTime.now();
+
+    public static CommentStar toEntity(Member member, Comment comment){
+        return CommentStar.builder()
+                .member(member)
+                .comment(comment)
+                .build();
+    }
 }

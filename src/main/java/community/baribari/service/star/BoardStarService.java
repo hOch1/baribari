@@ -23,17 +23,15 @@ public class BoardStarService {
 
     @Transactional
     public void starCountUp(Long id, PrincipalDetail principalDetail) {
-        Board board = boardRepository.findById(id).orElseThrow(() -> new CustomException(ErrorCode.BOARD_NOT_FOUND));
+        Board board = boardRepository.findById(id).orElseThrow(() ->
+                new CustomException(ErrorCode.BOARD_NOT_FOUND));
 
         if (boardStarRepository.existsByMemberIdAndBoardId(principalDetail.getMember().getId(), id))
             throw new CustomException(ErrorCode.ALREADY_STARRED_BOARD);
 
-        BoardStar boardStar = BoardStar.builder()
-                .member(principalDetail.getMember())
-                .board(board)
-                .build();
-
+        BoardStar boardStar = BoardStar.toEntity(principalDetail.getMember(), board);
         BoardStar save = boardStarRepository.save(boardStar);
+
         log.info("{}님이 게시물 {}을 추천했습니다. ID : {}", principalDetail.getMember().getNickname(), board.getId(), save.getId());
     }
 }

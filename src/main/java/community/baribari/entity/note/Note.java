@@ -33,8 +33,9 @@ public class Note {
     @Builder.Default
     private boolean isRead = false;
 
-    public void read(){
+    public Note read(){
         this.isRead = true;
+        return this;
     }
 
     public static Note toEntity(NoteDto noteDto, Member send, Member receive){

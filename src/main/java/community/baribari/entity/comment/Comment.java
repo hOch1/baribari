@@ -65,7 +65,8 @@ public class Comment {
                 .build();
     }
 
-    public void delete(){
+    public Comment delete(){
         this.deleted = true;
+        return this;
     }
 }
