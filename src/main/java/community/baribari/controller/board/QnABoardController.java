@@ -31,7 +31,7 @@ public class QnABoardController {
     @GetMapping("/write")
     public String write(Model model){
         model.addAttribute("write", new QnABoardDto());
-        return "update";
+        return "board/qna/write";
     }
 
     @PostMapping("/write.do")
