@@ -13,6 +13,7 @@ import community.baribari.repository.member.MemberRepository;
 import community.baribari.repository.note.NoteRepository;
 import community.baribari.service.sse.NotificationService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -27,6 +28,7 @@ public class NoteService {
     private final MemberRepository memberRepository;
     private final NotificationService notificationService;
 
+    @Cacheable(value = "noteBox", key = "#principalDetail.member.id")
     public NoteBoxDto getNotes(PrincipalDetail principalDetail, Pageable pageable) {
         Long id = principalDetail.getMember().getId();
         Page<Note> allNotes = noteRepository.findByReceiveIdOrSendIdOrderByCreatedAtDesc(id, pageable);

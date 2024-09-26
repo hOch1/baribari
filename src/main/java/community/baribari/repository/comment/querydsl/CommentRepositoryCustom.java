@@ -8,12 +8,6 @@ import java.util.List;
 
 public interface CommentRepositoryCustom {
 
-    // 상위 댓글 조회
-    List<Comment> findByBoardIdAndParentIsNull(Long boardId);
-
     // 검색
     Page<Comment> findByDeletedFalseAndContentContainingOrderByCreatedAtDesc(String keyword, Pageable pageable);
-
-    // 작성한 댓글
-    Page<Comment> findByDeletedFalseAndMemberIdOrderByCreatedAtDesc(Long memberId, Pageable pageable);
 }

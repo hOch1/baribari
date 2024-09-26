@@ -34,5 +34,4 @@ public class AnswerStarService {
 
         log.info("{}님이 답변 {}을 추천했습니다. ID : {}", principalDetail.getMember().getNickname(), answer.getId(), save.getId());
     }
-
 }

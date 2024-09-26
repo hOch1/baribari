@@ -18,54 +18,6 @@ public class NoteRepositoryCustomImpl implements NoteRepositoryCustom{
     private final JPAQueryFactory jpaQueryFactory;
 
     @Override
-    public Page<Note> findByReceiveIdOrSendIdOrderByCreatedAtDesc(Long id, Pageable pageable) {
-        List<Note> fetch = jpaQueryFactory.selectFrom(QNote.note)
-                .where(QNote.note.receive.id.eq(id).or(QNote.note.send.id.eq(id)))
-                .orderBy(QNote.note.createdAt.desc())
-                .offset(pageable.getOffset())
-                .limit(pageable.getPageSize())
-                .fetch();
-
-        return new PageImpl<>(fetch, pageable, fetch.size());
-    }
-
-    @Override
-    public Page<Note> findByReceiveIdAndIsReadFalseOrderByCreatedAtDesc(Long id, Pageable pageable) {
-        List<Note> fetch = jpaQueryFactory.selectFrom(QNote.note)
-                .where(QNote.note.receive.id.eq(id).and(QNote.note.isRead.isFalse()))
-                .orderBy(QNote.note.createdAt.desc())
-                .offset(pageable.getOffset())
-                .limit(pageable.getPageSize())
-                .fetch();
-
-        return new PageImpl<>(fetch, pageable, fetch.size());
-    }
-
-    @Override
-    public Page<Note> findByReceiveIdOrderByCreatedAtDesc(Long id, Pageable pageable) {
-        List<Note> fetch = jpaQueryFactory.selectFrom(QNote.note)
-                .where(QNote.note.receive.id.eq(id))
-                .orderBy(QNote.note.createdAt.desc())
-                .offset(pageable.getOffset())
-                .limit(pageable.getPageSize())
-                .fetch();
-
-        return new PageImpl<>(fetch, pageable, fetch.size());
-    }
-
-    @Override
-    public Page<Note> findBySendIdOrderByCreatedAtDesc(Long id, Pageable pageable) {
-        List<Note> fetch = jpaQueryFactory.selectFrom(QNote.note)
-                .where(QNote.note.send.id.eq(id))
-                .orderBy(QNote.note.createdAt.desc())
-                .offset(pageable.getOffset())
-                .limit(pageable.getPageSize())
-                .fetch();
-
-        return new PageImpl<>(fetch, pageable, fetch.size());
-    }
-
-    @Override
     public Page<Note> findByReceiveIdOrSendIdAndTitleOrContentContainingOrderByCreatedAtDesc(Long id, String keyword, Pageable pageable) {
         List<Note> fetch = jpaQueryFactory.selectFrom(QNote.note)
                 .where(QNote.note.receive.id.eq(id).or(QNote.note.send.id.eq(id))

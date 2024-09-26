@@ -34,17 +34,17 @@ public abstract class BoardService<T extends Board, D extends BoardDto> {
     }
 
     public Page<D> list(Pageable pageable) {
-        Page<T> boards = boardRepository.listByCategory(getCategory() ,pageable);
+        Page<T> boards = boardRepository.findByCategoryAndDeletedFalse(getCategory() ,pageable);
         return boards.map(this::toDto);
     }
 
     public List<D> mainList() {
-        List<T> boards = boardRepository.mainList(getCategory());
+        List<T> boards = boardRepository.findTop3ByCategoryAndDeletedFalseOrderByCreateAtDesc(getCategory());
         return boards.stream().map(this::toDto).collect(Collectors.toList());
     }
 
-    public Page<D> myList(Long id, Pageable pageable){
-        Page<T> boards = boardRepository.writeBoardList(getCategory(), id, pageable);
+    public Page<D> myList(PrincipalDetail principalDetail, Pageable pageable){
+        Page<T> boards = boardRepository.findByMember(getCategory(), principalDetail.getMember(), pageable);
         return boards.map(this::toDto);
     }
 

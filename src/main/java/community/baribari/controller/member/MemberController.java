@@ -41,14 +41,15 @@ public class MemberController {
     }
 
     @GetMapping("/{id}/posts")
-    public String posts(@PathVariable("id") Long id, Model model,
-                        @RequestParam(defaultValue = "0", value = "page") int page){
+    public String posts(Model model,
+                        @RequestParam(defaultValue = "0", value = "page") int page,
+                        @AuthenticationPrincipal PrincipalDetail principalDetail){
 
-        model.addAttribute("bariRecruits", bariRecruitService.myList(id, PageRequest.of(page, 10)));
-        model.addAttribute("bariReviews", bariReviewService.myList(id, PageRequest.of(page, 10)));
-        model.addAttribute("freeBoards", freeBoardService.myList(id, PageRequest.of(page, 10)));
-        model.addAttribute("qnaBoards", qnABoardService.myList(id, PageRequest.of(page, 10)));
-        model.addAttribute("memberId", id);
+        model.addAttribute("bariRecruits", bariRecruitService.myList(principalDetail, PageRequest.of(page, 10)));
+        model.addAttribute("bariReviews", bariReviewService.myList(principalDetail, PageRequest.of(page, 10)));
+        model.addAttribute("freeBoards", freeBoardService.myList(principalDetail, PageRequest.of(page, 10)));
+        model.addAttribute("qnaBoards", qnABoardService.myList(principalDetail, PageRequest.of(page, 10)));
+        model.addAttribute("memberId", principalDetail.getMember().getId());
         return "member/posts";
     }
 
