@@ -7,7 +7,6 @@ import community.baribari.repository.board.querydsl.BoardRepositoryCustom;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
@@ -22,7 +21,4 @@ public interface BoardRepository<T extends Board> extends JpaRepository<T, Long>
     // 작성 글 리스트
     Page<T> findByMember(Category category, Member member, Pageable pageable);
 
-    // 검색
-    // QueryDsl
-    Page<T> boardSearch(Category category, String keyword, Pageable pageable);
 }

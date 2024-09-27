@@ -75,7 +75,7 @@ public class CommentService {
     }
 
     public Page<CommentDto> search(String keyword, Pageable pageable) {
-        return commentRepository.findByDeletedFalseAndContentContainingOrderByCreatedAtDesc(keyword, pageable)
+        return commentRepository.commentSearch(keyword, pageable)
                 .map(CommentDto::toDto);
     }
 

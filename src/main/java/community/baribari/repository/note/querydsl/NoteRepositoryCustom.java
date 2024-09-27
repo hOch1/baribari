@@ -6,5 +6,5 @@ import org.springframework.data.domain.Pageable;
 
 public interface NoteRepositoryCustom {
 
-    Page<Note> findByReceiveIdOrSendIdAndTitleOrContentContainingOrderByCreatedAtDesc(Long id, String keyword, Pageable pageable);
+    Page<Note> noteSearch(Long id, String keyword, Pageable pageable);
 }

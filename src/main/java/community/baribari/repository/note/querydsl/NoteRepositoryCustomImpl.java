@@ -18,7 +18,7 @@ public class NoteRepositoryCustomImpl implements NoteRepositoryCustom{
     private final JPAQueryFactory jpaQueryFactory;
 
     @Override
-    public Page<Note> findByReceiveIdOrSendIdAndTitleOrContentContainingOrderByCreatedAtDesc(Long id, String keyword, Pageable pageable) {
+    public Page<Note> noteSearch(Long id, String keyword, Pageable pageable) {
         List<Note> fetch = jpaQueryFactory.selectFrom(QNote.note)
                 .where(QNote.note.receive.id.eq(id).or(QNote.note.send.id.eq(id))
                         .and(QNote.note.title.contains(keyword).or(QNote.note.content.contains(keyword))))

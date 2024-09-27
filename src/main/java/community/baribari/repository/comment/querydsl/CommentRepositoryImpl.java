@@ -18,7 +18,7 @@ public class CommentRepositoryImpl implements CommentRepositoryCustom{
     private final JPAQueryFactory jpaQueryFactory;
 
     @Override
-    public Page<Comment> findByDeletedFalseAndContentContainingOrderByCreatedAtDesc(String keyword, Pageable pageable) {
+    public Page<Comment> commentSearch(String keyword, Pageable pageable) {
         List<Comment> fetch = jpaQueryFactory.selectFrom(QComment.comment)
                 .where(QComment.comment.deleted.isFalse().and(QComment.comment.content.contains(keyword)))
                 .orderBy(QComment.comment.createdAt.desc())

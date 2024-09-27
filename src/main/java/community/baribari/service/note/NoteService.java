@@ -76,8 +76,7 @@ public class NoteService {
     }
 
     public Page<NoteDto> searchNotes(PrincipalDetail principalDetail, String keyword, Pageable pageable) {
-        Long id = principalDetail.getMember().getId();
-        Page<Note> notes = noteRepository.findByReceiveIdOrSendIdAndTitleOrContentContainingOrderByCreatedAtDesc(id, keyword, pageable);
+        Page<Note> notes = noteRepository.noteSearch(principalDetail.getMember().getId(), keyword, pageable);
 
         return notes.map(NoteDto::toDto);
     }
