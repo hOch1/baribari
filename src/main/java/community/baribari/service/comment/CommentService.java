@@ -2,6 +2,7 @@ package community.baribari.service.comment;
 
 import community.baribari.config.PrincipalDetail;
 import community.baribari.dto.comment.CommentDto;
+import community.baribari.dto.search.SearchRequest;
 import community.baribari.dto.sse.Notification;
 import community.baribari.entity.board.Board;
 import community.baribari.entity.comment.Comment;
@@ -74,8 +75,8 @@ public class CommentService {
 
     }
 
-    public Page<CommentDto> search(String keyword, Pageable pageable) {
-        return commentRepository.commentSearch(keyword, pageable)
+    public Page<CommentDto> search(SearchRequest searchRequest, Pageable pageable) {
+        return commentRepository.commentSearch(searchRequest, pageable)
                 .map(CommentDto::toDto);
     }
 

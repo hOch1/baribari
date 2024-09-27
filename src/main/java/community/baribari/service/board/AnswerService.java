@@ -2,6 +2,7 @@ package community.baribari.service.board;
 
 import community.baribari.config.PrincipalDetail;
 import community.baribari.dto.board.AnswerDto;
+import community.baribari.dto.search.SearchRequest;
 import community.baribari.dto.sse.Notification;
 import community.baribari.entity.board.Answer;
 import community.baribari.entity.board.QnABoard;
@@ -77,8 +78,8 @@ public class AnswerService  {
         log.info("답변이 수정되었습니다. ID : {}", id);
     }
 
-    public Page<AnswerDto> search(String keyword, Pageable pageable) {
-        return answerRepository.searchAnswer(keyword, pageable)
+    public Page<AnswerDto> search(SearchRequest searchRequest, Pageable pageable) {
+        return answerRepository.searchAnswer(searchRequest, pageable)
                 .map(AnswerDto::toDto);
     }
 }

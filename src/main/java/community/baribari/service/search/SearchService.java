@@ -3,6 +3,7 @@ package community.baribari.service.search;
 import community.baribari.dto.board.*;
 import community.baribari.dto.comment.CommentDto;
 import community.baribari.dto.search.SearchDto;
+import community.baribari.dto.search.SearchRequest;
 import community.baribari.service.board.AnswerService;
 import community.baribari.service.board.extend.BariRecruitService;
 import community.baribari.service.board.extend.BariReviewService;
@@ -27,13 +28,13 @@ public class SearchService {
     private final AnswerService answerService;
     private final CommentService commentService;
 
-    public SearchDto searchAll(String keyword, Pageable pageable) {
-        Page<BariRecruitDto> bariRecruitDtos = bariRecruitService.search(keyword, pageable);
-        Page<BariReviewDto> bariReviewDtos = bariReviewService.search(keyword, pageable);
-        Page<FreeBoardDto> freeBoardDtos = freeBoardService.search(keyword, pageable);
-        Page<QnABoardDto> qnABoardDtos = qnABoardService.search(keyword, pageable);
-        Page<AnswerDto> answerDtos = answerService.search(keyword, pageable);
-        Page<CommentDto> commentDtos = commentService.search(keyword, pageable);
+    public SearchDto searchAll(SearchRequest searchRequest, Pageable pageable) {
+        Page<BariRecruitDto> bariRecruitDtos = bariRecruitService.search(searchRequest, pageable);
+        Page<BariReviewDto> bariReviewDtos = bariReviewService.search(searchRequest, pageable);
+        Page<FreeBoardDto> freeBoardDtos = freeBoardService.search(searchRequest, pageable);
+        Page<QnABoardDto> qnABoardDtos = qnABoardService.search(searchRequest, pageable);
+        Page<AnswerDto> answerDtos = answerService.search(searchRequest, pageable);
+        Page<CommentDto> commentDtos = commentService.search(searchRequest, pageable);
 
         return SearchDto.builder()
                 .freeBoards(freeBoardDtos)

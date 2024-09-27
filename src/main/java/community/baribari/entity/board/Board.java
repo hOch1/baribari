@@ -28,8 +28,6 @@ public abstract class Board {
 
     private String title;
 
-    @Lob
-    @Column(columnDefinition = "LONGTEXT")
     private String content;
 
     @Builder.Default

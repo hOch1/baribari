@@ -1,6 +1,9 @@
 package community.baribari.repository.comment.querydsl;
 
+import com.querydsl.core.BooleanBuilder;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import community.baribari.dto.search.SearchRequest;
+import community.baribari.dto.search.SearchType;
 import community.baribari.entity.comment.Comment;
 import community.baribari.entity.comment.QComment;
 import lombok.RequiredArgsConstructor;
@@ -18,10 +21,23 @@ public class CommentRepositoryImpl implements CommentRepositoryCustom{
     private final JPAQueryFactory jpaQueryFactory;
 
     @Override
-    public Page<Comment> commentSearch(String keyword, Pageable pageable) {
+    public Page<Comment> commentSearch(SearchRequest searchRequest, Pageable pageable) {
+        BooleanBuilder builder = new BooleanBuilder();
+        QComment comment = QComment.comment;
+        String keyword = searchRequest.getKeyword();
+
+        if (searchRequest.getSearchType().equals(SearchType.CONTENT))
+            builder.and(comment.content.containsIgnoreCase(keyword));
+        else if (searchRequest.getSearchType().equals(SearchType.NICKNAME))
+            builder.and(comment.member.nickname.containsIgnoreCase(keyword));
+        else
+            return Page.empty();
+
+
         List<Comment> fetch = jpaQueryFactory.selectFrom(QComment.comment)
-                .where(QComment.comment.deleted.isFalse().and(QComment.comment.content.contains(keyword)))
-                .orderBy(QComment.comment.createdAt.desc())
+                .where(comment.deleted.isFalse())
+                .where(builder)
+                .orderBy(comment.createdAt.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();

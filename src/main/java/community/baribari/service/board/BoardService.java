@@ -2,6 +2,7 @@ package community.baribari.service.board;
 
 import community.baribari.config.PrincipalDetail;
 import community.baribari.dto.board.BoardDto;
+import community.baribari.dto.search.SearchRequest;
 import community.baribari.entity.board.Board;
 import community.baribari.entity.board.Category;
 import community.baribari.exception.CustomException;
@@ -48,8 +49,8 @@ public abstract class BoardService<T extends Board, D extends BoardDto> {
         return boards.map(this::toDto);
     }
 
-    public Page<D> search(String keyword, Pageable pageable){
-        Page<T> boards = boardRepository.boardSearch(getCategory(), keyword, pageable);
+    public Page<D> search(SearchRequest searchRequest, Pageable pageable){
+        Page<T> boards = boardRepository.boardSearch(getCategory(), searchRequest, pageable);
         return boards.map(this::toDto);
     }
 

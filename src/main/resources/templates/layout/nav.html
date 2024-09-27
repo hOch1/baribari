@@ -26,6 +26,12 @@
                 </li>
             </ul>
             <form class="d-flex me-max" action="/search/all" method="get">
+                <select class="form-select form-select-sm me-2" name="searchType" aria-label="Search Type">
+                    <option value="TITLE" selected>제목</option>
+                    <option value="CONTENT">내용</option>
+                    <option value="NICKNAME">닉네임</option>
+                    <option value="TITLE_CONTENT">제목+내용</option>
+                </select>
                 <input class="form-control form-control-sm me-2" name="keyword" type="search" placeholder="검색" aria-label="Search">
                 <button class="btn btn-outline-success btn-sm search-button" type="submit">검색</button>
             </form>
