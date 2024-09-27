@@ -1,7 +1,6 @@
 package community.baribari.service.note;
 
 import community.baribari.config.PrincipalDetail;
-import community.baribari.dto.member.MemberDto;
 import community.baribari.dto.note.NoteBoxDto;
 import community.baribari.dto.note.NoteDto;
 import community.baribari.dto.sse.Notification;
@@ -148,13 +147,13 @@ class NoteServiceTest {
     void searchNotes() {
         Page<Note> emptyNotesPage = new PageImpl<>(Collections.emptyList(), pageable, 0);
 
-        when(noteRepository.findByReceiveIdOrSendIdAndTitleOrContentContainingOrderByCreatedAtDesc(anyLong(), eq("test"), eq(pageable))).thenReturn(emptyNotesPage);
+        when(noteRepository.noteSearch(anyLong(), eq("test"), eq(pageable))).thenReturn(emptyNotesPage);
 
         Page<NoteDto> result = noteService.searchNotes(principalDetail, "test", pageable);
 
         assertNotNull(result);
         assertEquals(0, result.getTotalElements());
 
-        verify(noteRepository).findByReceiveIdOrSendIdAndTitleOrContentContainingOrderByCreatedAtDesc(anyLong(), eq("test"), eq(pageable));
+        verify(noteRepository).noteSearch(anyLong(), eq("test"), eq(pageable));
     }
 }
