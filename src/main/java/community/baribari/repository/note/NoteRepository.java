@@ -5,9 +5,12 @@ import community.baribari.repository.note.querydsl.NoteRepositoryCustom;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 public interface NoteRepository extends JpaRepository<Note, Long>, NoteRepositoryCustom {
-    Page<Note> findByReceiveIdOrSendIdOrderByCreatedAtDesc(Long id, Pageable pageable);
+    @Query("SELECT n FROM Note n WHERE n.receive.id = :id OR n.send.id = :id ORDER BY n.createdAt DESC")
+    Page<Note> findByReceiveIdOrSendIdOrderByCreatedAtDesc(@Param("id") Long id, Pageable pageable);
 
     Page<Note> findByReceiveIdAndIsReadFalseOrderByCreatedAtDesc(Long id, Pageable pageable);
 
